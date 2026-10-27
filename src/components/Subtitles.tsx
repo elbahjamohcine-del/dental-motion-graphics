@@ -7,8 +7,8 @@ import {
   useVideoConfig,
 } from "remotion";
 import { FONTS, SAFE } from "../theme";
+import type { VoiceClip } from "../schema";
 import type { TimelineEntry } from "../timeline";
-import { frenchText } from "../typography";
 import { useColors } from "./ThemeContext";
 
 export type SubtitleCue = {
@@ -17,12 +17,14 @@ export type SubtitleCue = {
   to: number;
 };
 
-// Spreads each scene's subtitle lines over the time the scene is fully
-// visible, proportionally to their length (longer line = more time).
+// Subtitle timing. When every line of a scene has a voice clip, each line is
+// shown while it is spoken. Otherwise the lines are spread over the time the
+// scene is fully visible, proportionally to their length.
 export const buildCues = (
   timeline: TimelineEntry[],
   transition: number,
   totalDuration: number,
+  voiceClips: VoiceClip[] = [],
 ): SubtitleCue[] => {
   return timeline.flatMap((scene, i) => {
     const start = scene.from + (i === 0 ? 0 : Math.floor(transition / 2)) + 4;
@@ -31,6 +33,17 @@ export const buildCues = (
       ? next.from + Math.floor(transition / 2)
       : totalDuration - 2;
     const lines = scene.subtitles.filter((s) => s.trim().length > 0);
+
+    const clips = voiceClips.filter((c) => c.sceneIndex === i);
+    if (clips.length > 0 && clips.length === lines.length) {
+      return clips.map((clip, j) => ({
+        text: lines[j],
+        from: clip.from - 2,
+        // Stay on screen until the next line starts (or the scene ends).
+        to: j < clips.length - 1 ? clips[j + 1].from - 2 : end,
+      }));
+    }
+
     const totalChars = lines.reduce((sum, l) => sum + l.length, 0);
 
     let cursor = start;
@@ -62,7 +75,7 @@ export const Subtitles: React.FC<{ cues: SubtitleCue[] }> = ({ cues }) => {
     extrapolateRight: "clamp",
   });
 
-  const words = frenchText(cue.text).split(" ");
+  const words = cue.text.split(" ");
   // Words light up progressively over the first 80% of the cue.
   const spoken = interpolate(local, [0, duration * 0.8], [0, words.length], {
     extrapolateLeft: "clamp",

@@ -76,10 +76,34 @@ for (const composition of compositions) {
   }
 }
 
-// Expected length of the reference video (30 s Reel).
-const main = compositions.find((c) => c.id === "ExtractionTroisErreurs");
-if (main && main.durationInFrames !== 900) {
-  errors.push(new Error(`ExtractionTroisErreurs must be 900 frames, got ${main.durationInFrames}`));
+// Reels / TikTok target: about 30 s. Scenes can grow with the voice-over.
+for (const c of compositions.filter((c) => !isStill(c))) {
+  const seconds = c.durationInFrames / c.fps;
+  if (seconds > 35) {
+    errors.push(new Error(`${c.id} is ${seconds.toFixed(1)} s: shorten the narration (target 30 s)`));
+  }
+}
+
+// Voice-over: every clip in the manifest must exist; report missing lines.
+const manifestFile = path.join(root, "public/voiceover/manifest.json");
+const manifest = fs.existsSync(manifestFile)
+  ? JSON.parse(fs.readFileSync(manifestFile, "utf8"))
+  : {};
+for (const c of compositions.filter((c) => !isStill(c))) {
+  const entries = manifest[c.id] ?? {};
+  for (const [key, entry] of Object.entries(entries)) {
+    if (!fs.existsSync(path.join(root, "public", entry.file))) {
+      errors.push(new Error(`${c.id}: voice clip ${key} missing (${entry.file})`));
+    }
+  }
+  const clips = c.props.voiceClips?.length ?? 0;
+  const providers = [...new Set(Object.values(entries).map((e) => e.provider))];
+  console.log(
+    `• ${c.id}: ${(c.durationInFrames / c.fps).toFixed(1)} s, ` +
+      (clips > 0
+        ? `voice-over ${clips} clip(s) [${providers.join(", ")}]`
+        : "no voice-over (run npm run voiceover)"),
+  );
 }
 
 if (errors.length > 0) {

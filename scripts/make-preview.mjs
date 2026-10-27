@@ -5,7 +5,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { root } from "./shared.mjs";
 
-const input = path.join(root, process.argv[2] ?? "out/extraction-3-erreurs.mp4");
+const input = path.join(root, process.argv[2] ?? "out/extraction-darija.mp4");
 const docs = path.join(root, "docs");
 if (!fs.existsSync(input)) {
   console.error(`Missing ${input}. Run "npm run render" first.`);
@@ -33,7 +33,7 @@ ffmpeg(
   path.join(docs, "storyboard.jpg"),
 );
 // Cover thumbnail (from "npm run still"), if available.
-const cover = path.join(root, "out/extraction-3-erreurs-cover.png");
+const cover = path.join(root, "out/extraction-darija-cover.png");
 if (fs.existsSync(cover)) {
   ffmpeg("-i", cover, "-vf", "scale=540:-1", "-q:v", "3", path.join(docs, "cover.jpg"));
 }

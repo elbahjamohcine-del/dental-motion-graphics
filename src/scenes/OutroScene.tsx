@@ -13,7 +13,6 @@ import { useColors } from "../components/ThemeContext";
 import { AnimatedIcon } from "../icons/AnimatedIcon";
 import type { OutroContent } from "../schema";
 import { FONTS } from "../theme";
-import { frenchText } from "../typography";
 
 // Recap checklist, warning, call to action and medical disclaimer.
 export const OutroScene: React.FC<{
@@ -41,17 +40,17 @@ export const OutroScene: React.FC<{
   return (
     <AbsoluteFill>
       <Background variant="dark" />
-      <AbsoluteFill style={{ alignItems: "center", paddingTop: 240, gap: 30 }}>
-        <AnimatedTitle text={content.title} fontSize={90} color={c.white} />
-        <div style={{ display: "flex", flexDirection: "column", gap: 22, marginTop: 10 }}>
+      <AbsoluteFill style={{ alignItems: "center", paddingTop: 220, gap: 22 }}>
+        <AnimatedTitle text={content.title} fontSize={84} color={c.white} />
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {content.checklist.map((item, i) => (
             <InfoCard
               key={i}
               icon={item.icon}
               text={item.text}
               variant="dark"
-              from="right"
-              fontSize={38}
+              from="side"
+              fontSize={36}
               delay={listStart + i * listStagger}
             />
           ))}
@@ -62,7 +61,7 @@ export const OutroScene: React.FC<{
             display: "flex",
             alignItems: "center",
             gap: 24,
-            padding: "24px 32px",
+            padding: "20px 32px",
             borderRadius: 28,
             border: `3px solid ${c.turquoiseLight}`,
             background: "rgba(158,235,226,0.08)",
@@ -88,13 +87,12 @@ export const OutroScene: React.FC<{
               color: c.white,
             }}
           >
-            {frenchText(content.warning)}
+            {content.warning}
           </div>
         </div>
         <div
           style={{
-            marginTop: 10,
-            padding: "26px 50px",
+            padding: "20px 50px",
             borderRadius: 999,
             background: `linear-gradient(90deg, ${c.turquoise}, ${c.turquoiseLight})`,
             boxShadow: "0 20px 50px rgba(20,184,166,0.45)",
@@ -110,9 +108,11 @@ export const OutroScene: React.FC<{
               color: c.navyDeep,
             }}
           >
-            {frenchText(content.cta)}
+            {content.cta}
           </div>
+          {/* Handles are Latin: keep "@" at the start even in RTL. */}
           <div
+            dir="ltr"
             style={{
               fontFamily: FONTS.body,
               fontWeight: 600,
@@ -136,7 +136,7 @@ export const OutroScene: React.FC<{
             {brandName}
           </div>
           <div style={{ fontWeight: 400, fontSize: 26, opacity: 0.65, marginTop: 6 }}>
-            {frenchText(content.disclaimer)}
+            {content.disclaimer}
           </div>
         </div>
       </AbsoluteFill>

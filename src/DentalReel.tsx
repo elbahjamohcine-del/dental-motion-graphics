@@ -8,7 +8,7 @@ import { iris } from "@remotion/transitions/iris";
 import { slide } from "@remotion/transitions/slide";
 import { wipe } from "@remotion/transitions/wipe";
 import React, { useMemo } from "react";
-import { AbsoluteFill } from "remotion";
+import { AbsoluteFill, Html5Audio, Sequence, staticFile } from "remotion";
 import "./fonts";
 import { ProgressBar } from "./components/ProgressBar";
 import { buildCues, Subtitles } from "./components/Subtitles";
@@ -37,7 +37,11 @@ export const DentalReel: React.FC<VideoContent> = (content) => {
   const T = content.transitionDurationInFrames;
   const timeline = useMemo(() => buildTimeline(content), [content]);
   const total = getTotalDuration(content);
-  const cues = useMemo(() => buildCues(timeline, T, total), [timeline, T, total]);
+  const voiceClips = useMemo(() => content.voiceClips ?? [], [content.voiceClips]);
+  const cues = useMemo(
+    () => buildCues(timeline, T, total, voiceClips),
+    [timeline, T, total, voiceClips],
+  );
 
   const scenes: React.ReactNode[] = [
     <IntroScene key="intro" content={content.intro} />,
@@ -61,7 +65,7 @@ export const DentalReel: React.FC<VideoContent> = (content) => {
   };
 
   return (
-    <ThemeProvider colors={content.theme}>
+    <ThemeProvider colors={content.theme} direction={content.direction}>
       <AbsoluteFill style={{ backgroundColor: content.theme.navy }}>
         <TransitionSeries>
           {scenes.map((scene, i) => {
@@ -89,6 +93,16 @@ export const DentalReel: React.FC<VideoContent> = (content) => {
         </TransitionSeries>
         <ProgressBar timeline={timeline} totalDuration={total} />
         {content.showSubtitles ? <Subtitles cues={cues} /> : null}
+        {voiceClips.map((clip) => (
+          <Sequence
+            key={`${clip.sceneIndex}-${clip.lineIndex}`}
+            from={clip.from}
+            durationInFrames={clip.durationInFrames}
+            layout="none"
+          >
+            <Html5Audio src={staticFile(clip.src)} volume={content.voiceover.volume} />
+          </Sequence>
+        ))}
       </AbsoluteFill>
     </ThemeProvider>
   );

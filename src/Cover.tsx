@@ -12,7 +12,7 @@ const COVER_FRAME = 100;
 // A negative `from` shifts time forward (<Freeze> would be clamped to frame 0
 // inside a 1-frame <Still>).
 export const Cover: React.FC<VideoContent> = (content) => (
-  <ThemeProvider colors={content.theme}>
+  <ThemeProvider colors={content.theme} direction={content.direction}>
     <Sequence from={-COVER_FRAME}>
       <IntroScene content={content.intro} />
     </Sequence>

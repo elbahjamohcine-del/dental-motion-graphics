@@ -33,8 +33,8 @@ export const IntroScene: React.FC<{ content: IntroContent }> = ({ content }) => 
       <AbsoluteFill
         style={{
           alignItems: "center",
-          paddingTop: 260,
-          gap: 40,
+          paddingTop: 240,
+          gap: 30,
         }}
       >
         <Pill
@@ -44,12 +44,12 @@ export const IntroScene: React.FC<{ content: IntroContent }> = ({ content }) => 
           border={`2px solid ${c.turquoise}`}
           dotColor={c.turquoise}
         />
-        <IconBadge icon={content.icon} size={300} delay={4} variant="dark" />
+        <IconBadge icon={content.icon} size={270} delay={4} variant="dark" />
         <div
           style={{
             fontFamily: FONTS.title,
             fontWeight: 800,
-            fontSize: 300,
+            fontSize: 270,
             lineHeight: 0.85,
             marginTop: 10,
             background: `linear-gradient(180deg, ${c.turquoiseLight} 0%, ${c.turquoise} 100%)`,

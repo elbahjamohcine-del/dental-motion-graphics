@@ -1,8 +1,8 @@
 # Dental Motion Graphics 🦷
 
-A [Remotion](https://www.remotion.dev) template project for **educational dental videos** in vertical format, ready to post on Instagram Reels and TikTok.
+A [Remotion](https://www.remotion.dev) template project for **educational dental videos in Moroccan Darija**, vertical format, with an AI voice-over, ready to post on Instagram Reels and TikTok.
 
-The first video is **« 3 erreurs à éviter après une extraction dentaire »**, a 30-second video in French.
+The first video is **« 3 غلطات ما خاصكش تديرهم من بعد ما تقلع الضرسة »** (3 mistakes to avoid after a tooth extraction), about 30 seconds long.
 
 | Preview | Cover |
 | :---: | :---: |
@@ -15,9 +15,11 @@ The first video is **« 3 erreurs à éviter après une extraction dentaire »**
 | | |
 | --- | --- |
 | Format | 1080 × 1920 (9:16), 30 FPS |
-| Duration | 30 s (900 frames), computed automatically from the content |
-| Output | MP4 H.264, `yuv420p`, BT.709, CRF 18 (~10 MB). No audio track: add music in Instagram / TikTok |
-| Design | White, dark blue (`#0B2545`) and turquoise (`#14B8A6`); Montserrat + Inter fonts bundled locally |
+| Language | Moroccan Darija in Arabic script, right-to-left layout |
+| Voice-over | ElevenLabs AI voice, one clip per narration line, subtitles synced to the voice |
+| Duration | ~30 s, computed from the content. A scene gets longer automatically if its voice needs more time |
+| Output | MP4 H.264 + AAC audio, `yuv420p`, BT.709, CRF 18 |
+| Design | White, dark blue (`#0B2545`) and turquoise (`#14B8A6`); Cairo + Tajawal Arabic fonts bundled locally |
 | Animations | Word-by-word titles, self-drawing line icons, spring badges, slide / wipe / iris transitions, karaoke subtitles, story-style progress bar |
 | Safe zones | Text stays clear of the areas covered by the Instagram/TikTok UI (top 200 px, bottom 380 px) |
 
@@ -26,8 +28,9 @@ The first video is **« 3 erreurs à éviter après une extraction dentaire »**
 ```bash
 npm install
 npm run dev        # opens Remotion Studio at http://localhost:3000
-npm run render     # → out/extraction-3-erreurs.mp4
-npm run still      # → out/extraction-3-erreurs-cover.png (cover image)
+npm run voiceover  # generates the voice-over (needs an ElevenLabs key, see below)
+npm run render     # → out/extraction-darija.mp4
+npm run still      # → out/extraction-darija-cover.png (cover image)
 ```
 
 Requires Node.js 20 or later (22 recommended, see `.nvmrc`). On first render Remotion downloads a headless Chrome automatically.
@@ -37,39 +40,103 @@ Requires Node.js 20 or later (22 recommended, see `.nvmrc`). On first render Rem
 | Command | Description |
 | --- | --- |
 | `npm run dev` | Remotion Studio: live preview, timeline, and text editing in the props panel |
+| `npm run voiceover` | Generates the missing or changed voice-over clips with ElevenLabs |
+| `npm run voiceover -- --mock` | Placeholder tones instead of a voice, to test timings without spending credits |
+| `npm run voiceover -- --force` | Regenerates every clip, e.g. after changing the voice |
 | `npm run render` | Renders the main video to MP4 |
 | `npm run still` | Renders the cover image (PNG) |
 | `npm run render:all` | Renders **every** registered video plus its cover into `out/` |
-| `npm test` | TypeScript check, ESLint, then a smoke test that validates the content and renders 13 key frames |
+| `npm test` | TypeScript check, ESLint, then a smoke test that validates content, voice-over and duration and renders 13 key frames |
 | `npm run preview:docs` | Regenerates `docs/preview.gif`, `docs/storyboard.jpg` and `docs/cover.jpg` from the rendered MP4 |
+
+## Voice-over (ElevenLabs)
+
+Each narration line (`subtitles` in the content file) becomes one MP3 in `public/voiceover/<videoId>/`. The clips are listed in `public/voiceover/manifest.json`, which the video reads at render time. Each subtitle is shown exactly while its line is spoken.
+
+### 1. Choose a Darija voice
+
+ElevenLabs reads Arabic text, but the accent depends on the voice. Standard voices sound like Modern Standard Arabic or have a foreign accent. For a natural Moroccan accent:
+
+1. Open [ElevenLabs → Voices → Voice Library](https://elevenlabs.io/app/voice-library) and search for **"Moroccan"** or **"Darija"**. Listen to a few.
+2. Add the voice you like to *My Voices*, open it and copy its **Voice ID**.
+
+You can also clone your own voice or a team member's (*Voices → Add a new voice*). It's often the most authentic option for a clinic.
+
+### 2. Configure GitHub (cloud rendering)
+
+In the repository: **Settings → Secrets and variables → Actions**
+
+| Type | Name | Value |
+| --- | --- | --- |
+| Secret | `ELEVENLABS_API_KEY` | Your API key (ElevenLabs → *Developers → API keys*) |
+| Variable | `ELEVENLABS_VOICE_ID` | The voice ID from step 1 |
+| Variable (optional) | `ELEVENLABS_MODEL_ID` | Defaults to `eleven_v3`. `eleven_multilingual_v2` is the alternative |
+
+Then go to **Actions → Render video → Run workflow**. The workflow:
+1. generates only the clips that are missing or whose text changed;
+2. commits them to the repository (`Update voice-over`), so they are never paid for twice;
+3. renders the MP4 with the voice and uploads it as an artifact.
+
+Without the secret, the video is rendered with whatever clips are already in the repository. If there are none, it's silent, and the run shows a warning.
+
+### Locally
+
+```bash
+export ELEVENLABS_API_KEY=sk_...
+export ELEVENLABS_VOICE_ID=...        # or set voiceover.voiceId in the content file
+npm run voiceover
+npm run render
+```
+
+### Tuning the voice
+
+In the content file, under `voiceover`:
+
+| Setting | Effect |
+| --- | --- |
+| `voiceId`, `modelId` | Voice and model (env variables override them) |
+| `stability` | Lower = more expressive, higher = more consistent. `eleven_v3` only accepts `0`, `0.5` or `1` |
+| `similarityBoost`, `style` | Closeness to the original voice / amount of style |
+| `speed` | `0.7`–`1.2`. Use `1.1` if the video is too long |
+| `volume` | Voice volume in the video |
+| `gapInFrames` | Pause between two lines (30 = 1 s) |
+
+### Pronunciation tips for Darija
+
+- Write numbers **in words** in the narration (`تلاتة`, `نهار كامل`), so the voice doesn't read them in Standard Arabic. Digits are fine in titles and cards, which are not spoken.
+- If a word sounds wrong, try another spelling (e.g. `شاليمو` / `الشاليمو`), or add punctuation to force a pause.
+- To replace one line with **your own recording**, save it as `public/voiceover/<videoId>/recordings/<line>.mp3` (or `.wav` / `.m4a`) and run `npm run voiceover`. Recordings always take priority over the AI voice. Line names are `intro-0`, `intro-1`, `tip1-0`, `tip1-1`, `tip2-0`, … `outro-1`.
 
 ## Editing the text
 
-All texts are in a single file: [`src/videos/extraction-3-erreurs.ts`](src/videos/extraction-3-erreurs.ts).
+All texts are in a single file: [`src/videos/extraction-darija.ts`](src/videos/extraction-darija.ts).
 
 ```ts
 tips: [
   {
-    label: "Erreur n°1",
-    title: "Cracher ou rincer fort",
+    label: "الغلطة 1",
+    title: "تبزق ولا تمضمض بالجهد",
     icon: "rinse",
-    explanation: "Le caillot sanguin protège la plaie : il ne faut pas le déloger.",
-    goodPracticeLabel: "Le bon réflexe",
-    goodPractice: "Pas de bain de bouche les 24 premières heures",
-    subtitles: ["Première erreur : cracher ou se rincer énergiquement.", ...],
-    durationInFrames: 210, // 7 s
+    explanation: "الدم اللي كيتجمد فبلاصة الضرسة هو اللي كيحمي الجرح.",
+    goodPracticeLabel: "الصواب",
+    goodPractice: "ما تمضمضش حتى يدوز 24 ساعة",
+    subtitles: [                       // narration = voice-over + subtitles
+      "الغلطة الأولى: تبزق ولا تمضمض بالجهد.",
+      "الدم المتجمد هو اللي كيحمي الجرح.",
+    ],
+    durationInFrames: 210,             // 7 s minimum
   },
   ...
 ]
 ```
 
-- **Brand**: `brand.name` and `brand.handle` (shown in the final call to action). Replace the placeholders `Votre Cabinet Dentaire` / `@votrecabinetdentaire`.
-- **Subtitles**: each scene has a list of lines. They are spread over the scene in proportion to their length. Set `showSubtitles: false` to hide them.
-- **Durations**: in frames (30 = 1 second). The total is `sum of scenes − transitions`. For this video that is `135 + 3×210 + 195 − 4×15 = 900`.
+- **Brand**: `brand.name` and `brand.handle` (shown in the final call to action). Replace the placeholders.
+- **Narration / subtitles**: each scene has a list of lines. After changing one, run `npm run voiceover` (or push: the cloud workflow does it). Until then that line has no voice. Set `showSubtitles: false` to hide subtitles.
+- **Durations**: in frames (30 = 1 second). They are minimums: a scene gets longer if its voice needs more time. `npm test` fails if a video is longer than 35 s.
 - **Colors**: `theme` (defaults in [`src/theme.ts`](src/theme.ts)).
-- **French typography** is automatic: a non-breaking space is inserted before `? ! : ;`, so the punctuation mark never starts a line.
+- **Direction**: `direction: "rtl"` for Arabic. Use `"ltr"` for a future French or English video.
 
-You can also edit everything visually in **Remotion Studio** (`npm run dev`) → *Props* panel on the right, then click *Render*. This is handy for quick tests. Edits made there are temporary, so copy the final text back into the content file.
+You can also edit everything visually in **Remotion Studio** (`npm run dev`) → *Props* panel on the right. This is handy for quick tests. Edits made there are temporary, so copy the final text back into the content file.
 
 ### Available icons
 
@@ -79,17 +146,18 @@ To add one, add its SVG paths (200×200 grid) to [`src/icons/paths.ts`](src/icon
 
 ## Creating a new video
 
-1. Copy `src/videos/extraction-3-erreurs.ts` to e.g. `src/videos/brossage-5-conseils.ts` and change the texts. The number of `tips` is free: 1, 3, 5…
+1. Copy `src/videos/extraction-darija.ts` to e.g. `src/videos/brossage-darija.ts` and change the texts. The number of `tips` is free: 1, 3, 5…
 2. Register it in [`src/videos/index.ts`](src/videos/index.ts):
    ```ts
-   import { brossageCinqConseils } from "./brossage-5-conseils";
+   import { brossageDarija } from "./brossage-darija";
 
    export const videos = [
-     { id: "ExtractionTroisErreurs", content: extractionTroisErreurs },
-     { id: "BrossageCinqConseils", content: brossageCinqConseils },
+     { id: "ExtractionDarija", content: extractionDarija },
+     { id: "BrossageDarija", content: brossageDarija },
    ];
    ```
-3. Render: `npx remotion render BrossageCinqConseils out/brossage.mp4` (or `npm run render:all`).
+3. Generate the voice: `npm run voiceover` (or push and let GitHub Actions do it).
+4. Render: `npx remotion render BrossageDarija out/brossage.mp4` (or `npm run render:all`).
 
 Each video automatically gets a `<id>-Cover` image composition.
 
@@ -99,26 +167,28 @@ Each video automatically gets a `<id>-Cover` image composition.
 src/
 ├── index.ts                  Remotion entry point
 ├── Root.tsx                  Registers a video + cover per entry in videos/index.ts
-├── DentalReel.tsx            Generic engine: content → scenes, transitions, subtitles
+├── DentalReel.tsx            Generic engine: content → scenes, transitions, subtitles, voice
 ├── Cover.tsx                 Cover image (intro, frozen)
 ├── schema.ts                 Zod schema of the content (validation + Studio form)
+├── voiceover.ts              Narration lines, voice clip timing
+├── loadManifest.ts           Reads public/voiceover/manifest.json
 ├── theme.ts                  Colors, fonts, safe zones
 ├── timeline.ts               Scene start times / total duration
-├── typography.ts             French non-breaking spaces
-├── fonts.ts                  Montserrat + Inter, bundled from npm
+├── fonts.ts                  Cairo + Tajawal, bundled from npm
 ├── videos/                   ✏️  One content file per video
 ├── scenes/                   IntroScene, TipScene (reused per tip), OutroScene
 ├── components/               AnimatedTitle, IconBadge, InfoCard, Pill, Subtitles, ProgressBar, Background
 └── icons/                    Self-drawing line icons
-scripts/                      test, render-all, make-preview
-.github/workflows/render.yml  Cloud rendering with GitHub Actions
+public/voiceover/             Generated voice clips + manifest.json
+scripts/                      generate-voiceover, test, render-all, make-preview
+.github/workflows/render.yml  Voice-over + rendering in the cloud (GitHub Actions)
 ```
 
 ## Rendering in the cloud
 
 ### GitHub Actions (built in)
 
-The workflow [`.github/workflows/render.yml`](.github/workflows/render.yml) installs the project, runs the tests and renders the MP4 and cover image:
+The workflow [`.github/workflows/render.yml`](.github/workflows/render.yml) installs the project, generates the voice-over, runs the tests and renders the MP4 and cover image:
 
 - **automatically** on every push to `main` that changes `src/`, the dependencies or the config;
 - **manually**: *Actions* tab → *Render video* → *Run workflow*, then enter the composition id.
@@ -130,6 +200,7 @@ When the run finishes, download the video from the run's **Artifacts** section (
 ```bash
 npm ci
 npx remotion browser ensure   # downloads Chrome Headless Shell
+npm run voiceover             # with ELEVENLABS_API_KEY / ELEVENLABS_VOICE_ID set
 npm test
 npm run render
 ```
@@ -142,10 +213,10 @@ REMOTION_BROWSER_EXECUTABLE=/path/to/chrome-headless-shell npm run render
 
 `remotion.config.ts` already uses the `swangle` software renderer, so no GPU is required. Rendering 30 s takes about 3–4 minutes on 2 CPU cores. For faster renders at scale, see [Remotion Lambda](https://www.remotion.dev/docs/lambda).
 
-## Medical content
+## Medical content and language review
 
-The texts are general educational advice and do not replace a consultation. Every video ends with a disclaimer (`outro.disclaimer`). Have the content reviewed by the practitioner before publishing.
+The texts are general educational advice and do not replace a consultation. Every video ends with a disclaimer (`outro.disclaimer`). Have the content reviewed by the practitioner before publishing, and have a native Darija speaker check the wording and the voice's pronunciation.
 
 ## License
 
-Remotion is free for individuals and companies of up to 3 people. Larger companies need a [company license](https://www.remotion.dev/license).
+Remotion is free for individuals and companies of up to 3 people. Larger companies need a [company license](https://www.remotion.dev/license). Check the ElevenLabs plan terms for commercial use of generated voices.

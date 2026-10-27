@@ -8,7 +8,6 @@ import { Pill } from "../components/Pill";
 import { useColors } from "../components/ThemeContext";
 import type { TipContent } from "../schema";
 import { FONTS } from "../theme";
-import { frenchText } from "../typography";
 
 type Props = {
   content: TipContent;
@@ -37,7 +36,7 @@ export const TipScene: React.FC<Props> = ({ content, index }) => {
       <div
         style={{
           position: "absolute",
-          right: -40,
+          insetInlineEnd: -40,
           top: 150 - frame * 0.25,
           fontFamily: FONTS.title,
           fontWeight: 800,
@@ -96,7 +95,7 @@ export const TipScene: React.FC<Props> = ({ content, index }) => {
             textWrap: "balance",
           }}
         >
-          {frenchText(content.explanation)}
+          {content.explanation}
         </div>
         <InfoCard
           icon="check"

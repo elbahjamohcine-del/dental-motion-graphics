@@ -1,6 +1,7 @@
 import React from "react";
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { FONTS } from "../theme";
+import { useDirection } from "./ThemeContext";
 
 type Props = {
   text: string;
@@ -25,6 +26,8 @@ export const Pill: React.FC<Props> = ({
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const s = spring({ frame: frame - delay, fps, config: { damping: 200 } });
+  // Letter-spacing would break the joined Arabic letters.
+  const spacing = useDirection() === "rtl" ? 0 : fontSize * 0.14;
 
   return (
     <div
@@ -40,12 +43,12 @@ export const Pill: React.FC<Props> = ({
         fontFamily: FONTS.title,
         fontWeight: 700,
         fontSize,
-        letterSpacing: fontSize * 0.14,
+        letterSpacing: spacing,
         textTransform: "uppercase",
         opacity: s,
         transform: `translateY(${interpolate(s, [0, 1], [-30, 0])}px)`,
-        // Uppercase text with letter-spacing needs a right compensation.
-        paddingRight: fontSize * 1 - fontSize * 0.14,
+        // Letter-spacing adds space after the last letter: compensate.
+        paddingInlineEnd: fontSize - spacing,
       }}
     >
       {dotColor ? (

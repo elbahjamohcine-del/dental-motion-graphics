@@ -3,8 +3,7 @@ import { interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { AnimatedIcon } from "../icons/AnimatedIcon";
 import type { IconName } from "../schema";
 import { FONTS } from "../theme";
-import { frenchText } from "../typography";
-import { useColors } from "./ThemeContext";
+import { useColors, useDirection } from "./ThemeContext";
 
 type Props = {
   icon: IconName;
@@ -12,7 +11,8 @@ type Props = {
   text: string;
   delay?: number;
   variant?: "light" | "dark";
-  from?: "bottom" | "right";
+  /** "side" slides in from the end of the line (left in RTL, right in LTR). */
+  from?: "bottom" | "side";
   fontSize?: number;
   width?: number;
 };
@@ -32,6 +32,7 @@ export const InfoCard: React.FC<Props> = ({
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const c = useColors();
+  const rtl = useDirection() === "rtl";
   const s = spring({ frame: frame - delay, fps, config: { damping: 15, stiffness: 120 } });
   const draw = interpolate(frame - delay - 8, [0, 20], [0, 1], {
     extrapolateLeft: "clamp",
@@ -48,15 +49,17 @@ export const InfoCard: React.FC<Props> = ({
         display: "flex",
         alignItems: "center",
         gap: 30,
-        padding: "26px 34px",
+        padding: "22px 34px",
         borderRadius: 32,
         background: dark ? "rgba(255,255,255,0.07)" : c.white,
         border: dark ? "2px solid rgba(255,255,255,0.12)" : `2px solid ${c.turquoise}40`,
-        borderLeft: `10px solid ${c.turquoise}`,
+        borderInlineStart: `10px solid ${c.turquoise}`,
         boxShadow: dark ? "none" : "0 22px 50px rgba(11,37,69,0.12)",
         opacity: interpolate(s, [0, 0.5], [0, 1], { extrapolateRight: "clamp" }),
         transform:
-          from === "bottom" ? `translateY(${offset}px)` : `translateX(${offset}px)`,
+          from === "bottom"
+            ? `translateY(${offset}px)`
+            : `translateX(${rtl ? -offset : offset}px)`,
       }}
     >
       <div
@@ -86,7 +89,7 @@ export const InfoCard: React.FC<Props> = ({
               fontFamily: FONTS.title,
               fontWeight: 700,
               fontSize: fontSize * 0.68,
-              letterSpacing: 3,
+              letterSpacing: rtl ? 0 : 3,
               textTransform: "uppercase",
               color: c.turquoise,
             }}
@@ -103,7 +106,7 @@ export const InfoCard: React.FC<Props> = ({
             color: dark ? c.white : c.navy,
           }}
         >
-          {frenchText(text)}
+          {text}
         </div>
       </div>
     </div>

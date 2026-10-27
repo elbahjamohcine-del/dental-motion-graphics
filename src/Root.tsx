@@ -4,8 +4,10 @@ import { Cover } from "./Cover";
 import { DentalReel } from "./DentalReel";
 import { videoSchema } from "./schema";
 import { VIDEO } from "./theme";
+import { loadVoiceManifest } from "./loadManifest";
 import { getTotalDuration } from "./timeline";
 import { videos } from "./videos";
+import { applyVoiceover } from "./voiceover";
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -21,9 +23,15 @@ export const RemotionRoot: React.FC = () => (
           fps={VIDEO.fps}
           // Placeholder, replaced by calculateMetadata below.
           durationInFrames={1}
-          calculateMetadata={({ props }) => ({
-            durationInFrames: getTotalDuration(props),
-          })}
+          calculateMetadata={async ({ props }) => {
+            // Adds the voice-over clips and adapts scene durations to them.
+            const manifest = await loadVoiceManifest();
+            const resolved = applyVoiceover(props, manifest[id], VIDEO.fps);
+            return {
+              durationInFrames: getTotalDuration(resolved),
+              props: resolved,
+            };
+          }}
         />
         <Still
           id={`${id}-Cover`}

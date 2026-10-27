@@ -1,9 +1,10 @@
 import type { VideoContent } from "../schema";
-import { extractionTroisErreurs } from "./extraction-3-erreurs";
+import { extractionDarija } from "./extraction-darija";
 
 // Register every video here. Each entry creates a video composition
 // (`id`) and a cover image composition (`id-Cover`) in Remotion Studio.
-// Composition ids may only contain letters, numbers and dashes.
+// Composition ids may only contain letters, numbers and dashes. The id is
+// also the voice-over folder name: public/voiceover/<id>/.
 export const videos: { id: string; content: VideoContent }[] = [
-  { id: "ExtractionTroisErreurs", content: extractionTroisErreurs },
+  { id: "ExtractionDarija", content: extractionDarija },
 ];

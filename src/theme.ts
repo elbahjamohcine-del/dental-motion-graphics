@@ -18,9 +18,10 @@ export const defaultColors = {
 
 export type Colors = typeof defaultColors;
 
+// Cairo (titles) and Tajawal (body) cover Arabic and Latin characters.
 export const FONTS = {
-  title: "Montserrat, Inter, sans-serif",
-  body: "Inter, sans-serif",
+  title: "Cairo, sans-serif",
+  body: "Tajawal, Cairo, sans-serif",
 };
 
 // Instagram / TikTok overlay their UI on the top ~220px, the bottom ~380px and

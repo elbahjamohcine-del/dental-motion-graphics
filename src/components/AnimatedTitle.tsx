@@ -1,7 +1,7 @@
 import React from "react";
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { FONTS } from "../theme";
-import { frenchText } from "../typography";
+import { useDirection } from "./ThemeContext";
 
 type Props = {
   text: string;
@@ -30,7 +30,7 @@ export const AnimatedTitle: React.FC<Props> = ({
   color,
   fontWeight = 800,
   fontFamily = FONTS.title,
-  lineHeight = 1.1,
+  lineHeight,
   maxWidth = 900,
   highlight = [],
   highlightColor,
@@ -38,7 +38,8 @@ export const AnimatedTitle: React.FC<Props> = ({
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const words = frenchText(text).split(" ");
+  const words = text.split(" ");
+  const rtl = useDirection() === "rtl";
   const highlighted = highlight.map((w) => w.toLowerCase());
 
   return (
@@ -50,9 +51,10 @@ export const AnimatedTitle: React.FC<Props> = ({
         fontFamily,
         fontSize,
         fontWeight,
-        lineHeight,
+        // Arabic letters are taller and must never be letter-spaced.
+        lineHeight: lineHeight ?? (rtl ? 1.35 : 1.1),
         textAlign: "center",
-        letterSpacing: -0.5,
+        letterSpacing: rtl ? 0 : -0.5,
         ...style,
       }}
     >
