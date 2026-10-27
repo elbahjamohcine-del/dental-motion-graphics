@@ -3,12 +3,40 @@
 // Usage: npm test   (after typecheck + lint)
 import { getCompositions, renderStill } from "@remotion/renderer";
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { browserExecutable, bundleProject, isStill, root } from "./shared.mjs";
 
 const outDir = path.join(root, "out", "test");
 fs.mkdirSync(outDir, { recursive: true });
+
+// Average edge density of an image (0 = completely flat, nothing drawn).
+// Needs a system ffmpeg; the check is skipped if it is not installed.
+const hasFfmpeg = (() => {
+  try {
+    execFileSync("ffmpeg", ["-version"], { stdio: "ignore" });
+    return true;
+  } catch {
+    console.warn("⚠ ffmpeg not found: blank-frame detection skipped");
+    return false;
+  }
+})();
+
+const edgeDensity = (file) => {
+  const out = execFileSync(
+    "ffmpeg",
+    [
+      "-loglevel", "error", "-i", file,
+      "-vf",
+      "scale=270:-1,format=gray,edgedetect=low=0.1:high=0.3,signalstats," +
+        "metadata=print:key=lavfi.signalstats.YAVG:file=-",
+      "-f", "null", "-",
+    ],
+    { encoding: "utf8" },
+  );
+  return Number(/YAVG=([\d.]+)/.exec(out)?.[1] ?? 0);
+};
 
 const errors = [];
 const serveUrl = await bundleProject();
@@ -35,7 +63,11 @@ for (const composition of compositions) {
     for (const frame of frames) {
       const output = path.join(outDir, `${id}-${String(frame).padStart(4, "0")}.png`);
       await renderStill({ composition, serveUrl, frame, output, browserExecutable });
-      assert.ok(fs.statSync(output).size > 10_000, `${id}: frame ${frame} looks empty`);
+      // Frame 0 may legitimately be empty (animations start from nothing).
+      if (hasFfmpeg && (frame > 0 || isStill(composition))) {
+        const density = edgeDensity(output);
+        assert.ok(density > 1, `${id}: frame ${frame} looks blank (edge density ${density})`);
+      }
     }
     console.log(`  ✔ ${frames.length} frame(s) rendered`);
   } catch (err) {

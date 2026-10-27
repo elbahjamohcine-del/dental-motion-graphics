@@ -15,11 +15,11 @@ fs.mkdirSync(docs, { recursive: true });
 
 const ffmpeg = (...args) => execFileSync("ffmpeg", ["-loglevel", "error", "-y", ...args]);
 
-// Animated GIF (12 fps, 320 px wide, optimised palette).
+// Animated GIF (10 fps, 270 px wide, optimised palette, ~2 MB).
 ffmpeg(
   "-i", input,
   "-vf",
-  "fps=12,scale=320:-1:flags=lanczos,split[a][b];[a]palettegen=max_colors=96[p];[b][p]paletteuse=dither=bayer:bayer_scale=4",
+  "fps=10,scale=270:-1:flags=lanczos,split[a][b];[a]palettegen=max_colors=64:stats_mode=diff[p];[b][p]paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle",
   path.join(docs, "preview.gif"),
 );
 
