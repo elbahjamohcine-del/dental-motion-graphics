@@ -1,6 +1,7 @@
 import React from "react";
 import {
   AbsoluteFill,
+  Freeze,
   Img,
   interpolate,
   OffthreadVideo,
@@ -101,6 +102,19 @@ export const PresenterOutroScene: React.FC<Props> = ({
       >
         <div style={{ ...mediaStyle, transform: `scale(${zoom})`, transformOrigin: "50% 30%" }}>
           <Img src={staticFile(presenter.fullImage)} style={mediaStyle} />
+          {presenter.talkingVideo && videoSegments[0].from > 0 ? (
+            // Before the first line: the video's first frame (same framing
+            // as the video, so there is no jump when it starts).
+            <Sequence durationInFrames={videoSegments[0].from} layout="none">
+              <Freeze frame={0}>
+                <OffthreadVideo
+                  src={staticFile(presenter.talkingVideo)}
+                  muted
+                  style={{ ...mediaStyle, position: "absolute", inset: 0 }}
+                />
+              </Freeze>
+            </Sequence>
+          ) : null}
           {presenter.talkingVideo
             ? videoSegments.map((segment, i) => (
                 <Sequence

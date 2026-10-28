@@ -26,7 +26,7 @@ export const extractionDarija: VideoContent = {
     title: "طبيب الأسنان · القنيطرة",
     fullImage: "presenter/avatar-full.jpg",
     // Lip-synced video of the outro (see README → Talking avatar).
-    talkingVideo: "",
+    talkingVideo: "presenter/talking.mp4",
     // Where each outro line starts in the talking video (seconds).
     talkingVideoCuts: [0, 3.1],
     showInScenes: true,
