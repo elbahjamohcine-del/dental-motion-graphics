@@ -20,6 +20,7 @@ import { PresenterOutroScene } from "./scenes/PresenterOutroScene";
 import { TipScene } from "./scenes/TipScene";
 import { presenterOutroTiming } from "./sceneTiming";
 import type { VideoContent } from "./schema";
+import { musicVolumeAt } from "./music";
 import { buildSfxCues } from "./sfx";
 import { VIDEO } from "./theme";
 import { buildTimeline, getTotalDuration } from "./timeline";
@@ -138,6 +139,13 @@ export const DentalReel: React.FC<VideoContent> = (content) => {
         ) : null}
         <ProgressBar timeline={timeline} totalDuration={total} />
         {content.showSubtitles ? <Subtitles cues={cues} /> : null}
+        {content.music.src ? (
+          <Html5Audio
+            src={staticFile(content.music.src)}
+            loop
+            volume={(f) => musicVolumeAt(f, total, content.music, voiceClips)}
+          />
+        ) : null}
         {sfxCues.map((cue, i) => (
           <Sequence key={`sfx-${i}`} from={cue.from} durationInFrames={40} layout="none">
             <Html5Audio src={staticFile(`sfx/${cue.sound}.mp3`)} volume={cue.volume} />

@@ -1,6 +1,7 @@
 // Renders every registered video to out/<id>.mp4 and its cover to
 // out/<id>-cover.png. Usage: npm run render:all
 import { getCompositions, renderMedia, renderStill } from "@remotion/renderer";
+import { execFileSync } from "node:child_process";
 import path from "node:path";
 import { browserExecutable, bundleProject, isStill, root } from "./shared.mjs";
 
@@ -33,6 +34,9 @@ for (const composition of compositions) {
         console.log(`  ${composition.id}: ${pct}%`);
       }
     },
+  });
+  execFileSync("node", [path.join(root, "scripts/normalize-audio.mjs"), output], {
+    stdio: "inherit",
   });
   console.log(`✔ ${output}`);
 }

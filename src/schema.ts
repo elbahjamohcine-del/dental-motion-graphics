@@ -131,6 +131,13 @@ export const videoSchema = z.object({
   transitionDurationInFrames: z.number().int().min(0).max(30),
   showSubtitles: z.boolean(),
   voiceover: voiceoverSchema,
+  music: z.object({
+    src: z.string().describe("Background music in public/, e.g. music/track.mp3. Empty = none"),
+    volume: z.number().min(0).max(1).describe("Volume when nobody speaks"),
+    duckedVolume: z.number().min(0).max(1).describe("Volume under the voice-over"),
+    fadeInFrames: z.number().int().min(0),
+    fadeOutFrames: z.number().int().min(0),
+  }),
   sfx: z.object({
     enabled: z.boolean(),
     volume: z.number().min(0).max(1).describe("Sound effects volume (voice = 1)"),

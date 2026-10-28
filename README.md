@@ -21,6 +21,7 @@ The first video is **« 3 غلطات ما خاصكش تديرهم من بعد م
 | Output | MP4 H.264 + AAC audio, `yuv420p`, BT.709, CRF 18 |
 | Design | White, dark blue (`#0B2545`) and turquoise (`#14B8A6`); Cairo + Tajawal Arabic fonts bundled locally |
 | Presenter | Your photo + name in the intro and in the final call to action |
+| Music | Background track (ElevenLabs Music) that ducks automatically under the voice, with fades. Settings in `music`. The audio is normalized to -14 LUFS after rendering (`scripts/normalize-audio.mjs`) |
 | Sound effects | Whoosh on transitions, pop on titles, "wrong" sound on the ✕ stamp, ding on the good practice, clicks on the checklist, chime on the call to action, soft ticks on subtitles. Synthesized by `scripts/make-sfx.sh` (no licensing), settings in `sfx` |
 | Animations | Word-by-word titles, self-drawing line icons, spring badges, slide / wipe / iris transitions, karaoke subtitles, story-style progress bar |
 | Safe zones | Text stays clear of the areas covered by the Instagram/TikTok UI (top 200 px, bottom 380 px) |

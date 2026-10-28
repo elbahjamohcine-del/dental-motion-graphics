@@ -86,7 +86,9 @@ jobs:
         run: npm test
 
       - name: Render MP4
-        run: npx remotion render "$COMPOSITION" "out/$COMPOSITION.mp4"
+        run: |
+          npx remotion render "$COMPOSITION" "out/$COMPOSITION.mp4"
+          node scripts/normalize-audio.mjs "out/$COMPOSITION.mp4"
 
       - name: Render cover image
         run: npx remotion still "$COMPOSITION-Cover" "out/$COMPOSITION-cover.png"

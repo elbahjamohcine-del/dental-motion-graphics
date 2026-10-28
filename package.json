@@ -8,7 +8,7 @@
     "dev": "remotion studio",
     "studio": "remotion studio",
     "voiceover": "tsx scripts/generate-voiceover.ts",
-    "render": "remotion render ExtractionDarija out/extraction-darija.mp4",
+    "render": "remotion render ExtractionDarija out/extraction-darija.mp4 && node scripts/normalize-audio.mjs out/extraction-darija.mp4",
     "render:all": "node scripts/render-all.mjs",
     "still": "remotion still ExtractionDarija-Cover out/extraction-darija-cover.png",
     "preview:docs": "node scripts/make-preview.mjs",
