@@ -17,9 +17,10 @@
       "modelId": "eleven_v4"
     },
     "tip1-0": {
-      "file": "voiceover/ExtractionDarija/tip1-0-82cdf019e3.mp3",
+      "file": "voiceover/ExtractionDarija/tip1-0-6c7aed6a6a.mp3",
       "text": "الغلطة الأولى: تبزق ولا تمضمض بالجهد.",
-      "durationInSeconds": 3.709388,
+      "spoken": "الغلطة الأولى: تْبْزَقْ ولا تمضمض بالجهد.",
+      "durationInSeconds": 3.787755,
       "provider": "elevenlabs",
       "voiceId": "JyOZ8fOJkYGmajIlFsJ4",
       "modelId": "eleven_v4"

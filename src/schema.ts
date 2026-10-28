@@ -83,6 +83,11 @@ export const voiceoverSchema = z.object({
     .min(0.8)
     .max(1.25)
     .describe("Plays the voice faster (>1) or slower (<1), pitch preserved. Free way to fit 30 s"),
+  pronunciations: z
+    .record(z.string(), z.string())
+    .describe(
+      "Word → spelling the voice should read (e.g. with tashkeel). Subtitles keep the original word",
+    ),
   /** Frames of silence between two narration lines. */
   gapInFrames: z.number().int().min(0),
 });

@@ -10,6 +10,8 @@ export const MANIFEST_PATH = "voiceover/manifest.json";
 export type ManifestEntry = {
   file: string; // relative to public/
   text: string;
+  /** Text actually sent to the voice, when a pronunciation fix changed it. */
+  spoken?: string;
   durationInSeconds: number;
   provider: "elevenlabs" | "mock" | "recording";
   voiceId?: string;
@@ -23,8 +25,17 @@ export type VoiceLine = {
   key: string;
   sceneIndex: number;
   lineIndex: number;
-  text: string;
+  text: string; // shown in the subtitles
+  spoken: string; // read by the voice (text + pronunciation fixes)
 };
+
+// Replaces every word listed in voiceover.pronunciations by the spelling the
+// voice should read.
+export const applyPronunciations = (text: string, fixes: Record<string, string>) =>
+  Object.entries(fixes).reduce(
+    (result, [word, spoken]) => (word ? result.split(word).join(spoken) : result),
+    text,
+  );
 
 const sceneNames = (content: VideoContent) => [
   "intro",
@@ -47,6 +58,7 @@ export const getVoiceLines = (content: VideoContent): VoiceLine[] => {
         sceneIndex,
         lineIndex,
         text: text.trim(),
+        spoken: applyPronunciations(text.trim(), content.voiceover.pronunciations),
       }))
       .filter((line) => line.text.length > 0),
   );
@@ -98,7 +110,12 @@ export const applyVoiceover = (
     let hasClip = false;
     for (const line of lines.filter((l) => l.sceneIndex === sceneIndex)) {
       const entry = entries[line.key];
-      if (!entry || entry.text.trim() !== line.text) {
+      // Ignore clips made for an older text or pronunciation.
+      if (
+        !entry ||
+        entry.text.trim() !== line.text ||
+        (entry.spoken ?? entry.text).trim() !== line.spoken
+      ) {
         continue;
       }
       const durationInFrames = Math.ceil(

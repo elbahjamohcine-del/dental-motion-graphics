@@ -139,7 +139,7 @@ const main = async () => {
       const provider = mock ? "mock" : "elevenlabs";
       // The file name changes whenever the text, voice or settings change.
       const hash = createHash("sha1")
-        .update(JSON.stringify([provider, line.text, voiceId, modelId, settings.stability,
+        .update(JSON.stringify([provider, line.spoken, voiceId, modelId, settings.stability,
           settings.similarityBoost, settings.style, settings.speed]))
         .digest("hex")
         .slice(0, 10);
@@ -157,7 +157,7 @@ const main = async () => {
       if (imported && fs.existsSync(imported)) {
         fs.copyFileSync(imported, absFile);
       } else if (mock) {
-        mockAudio(line.text, absFile);
+        mockAudio(line.spoken, absFile);
       } else if (importDir && !apiKey) {
         console.log(`  …  ${line.key}  (no clip to import, skipped)`);
         continue;
@@ -174,12 +174,13 @@ const main = async () => {
               "content file or the ELEVENLABS_VOICE_ID variable (see README).",
           );
         }
-        fs.writeFileSync(absFile, await elevenLabs(line.text, voiceId, settings));
+        fs.writeFileSync(absFile, await elevenLabs(line.spoken, voiceId, settings));
       }
 
       next[line.key] = {
         file: relFile,
         text: line.text,
+        ...(line.spoken !== line.text ? { spoken: line.spoken } : {}),
         durationInSeconds: durationOf(absFile),
         provider,
         ...(mock ? {} : { voiceId, modelId }),

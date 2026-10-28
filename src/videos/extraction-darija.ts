@@ -120,6 +120,11 @@ export const extractionDarija: VideoContent = {
     volume: 1,
     playbackRate: 1.05,
     gapInFrames: 4,
+    // Spellings that help the voice pronounce Darija words. The subtitles
+    // keep the normal word.
+    pronunciations: {
+      "تبزق": "تْبْزَقْ",
+    },
   },
 
   sfx: {
