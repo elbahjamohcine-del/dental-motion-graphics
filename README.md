@@ -44,6 +44,7 @@ Requires Node.js 20 or later (22 recommended, see `.nvmrc`). On first render Rem
 | `npm run voiceover` | Generates the missing or changed voice-over clips with ElevenLabs |
 | `npm run voiceover -- --mock` | Placeholder tones instead of a voice, to test timings without spending credits |
 | `npm run voiceover -- --force` | Regenerates every clip, e.g. after changing the voice |
+| `npm run voiceover -- --import=<folder>` | Uses clips generated elsewhere (e.g. downloaded from the ElevenLabs website), named `<line>.mp3` (`intro-0.mp3`, `tip1-1.mp3`, …) |
 | `npm run render` | Renders the main video to MP4 |
 | `npm run still` | Renders the cover image (PNG) |
 | `npm run render:all` | Renders **every** registered video plus its cover into `out/` |

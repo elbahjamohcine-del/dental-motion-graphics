@@ -1,1 +1,36 @@
-{}
+{
+  "ExtractionDarija": {
+    "intro-0": {
+      "file": "voiceover/ExtractionDarija/intro-0-4a44f05999.mp3",
+      "text": "قلعتي شي ضرسة؟",
+      "durationInSeconds": 1.227755,
+      "provider": "elevenlabs",
+      "voiceId": "JyOZ8fOJkYGmajIlFsJ4",
+      "modelId": "eleven_v4"
+    },
+    "intro-1": {
+      "file": "voiceover/ExtractionDarija/intro-1-29b3457ab5.mp3",
+      "text": "رد البال من هاد الغلطات.",
+      "durationInSeconds": 1.802449,
+      "provider": "elevenlabs",
+      "voiceId": "JyOZ8fOJkYGmajIlFsJ4",
+      "modelId": "eleven_v4"
+    },
+    "tip1-0": {
+      "file": "voiceover/ExtractionDarija/tip1-0-82cdf019e3.mp3",
+      "text": "الغلطة الأولى: تبزق ولا تمضمض بالجهد.",
+      "durationInSeconds": 3.709388,
+      "provider": "elevenlabs",
+      "voiceId": "JyOZ8fOJkYGmajIlFsJ4",
+      "modelId": "eleven_v4"
+    },
+    "tip1-1": {
+      "file": "voiceover/ExtractionDarija/tip1-1-6e9a173c90.mp3",
+      "text": "الدم المتجمد هو اللي كيحمي الجرح.",
+      "durationInSeconds": 2.925714,
+      "provider": "elevenlabs",
+      "voiceId": "JyOZ8fOJkYGmajIlFsJ4",
+      "modelId": "eleven_v4"
+    }
+  }
+}

@@ -105,10 +105,10 @@ export const extractionDarija: VideoContent = {
 
   voiceover: {
     enabled: true,
-    // Pick a Moroccan / Darija voice in the ElevenLabs Voice Library and paste
-    // its id here (or set the ELEVENLABS_VOICE_ID secret). See README.
-    voiceId: "",
-    modelId: "eleven_v3",
+    // "Anas – Friendly and Energetic" (Moroccan Darija, ElevenLabs Voice
+    // Library). The ELEVENLABS_VOICE_ID variable overrides it. See README.
+    voiceId: "JyOZ8fOJkYGmajIlFsJ4",
+    modelId: "eleven_v4",
     stability: 0.5,
     similarityBoost: 0.75,
     style: 0.2,

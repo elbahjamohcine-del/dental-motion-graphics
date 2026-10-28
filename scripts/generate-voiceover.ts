@@ -4,6 +4,12 @@
 //   npm run voiceover               ElevenLabs (needs ELEVENLABS_API_KEY)
 //   npm run voiceover -- --mock     placeholder tones, to test timings for free
 //   npm run voiceover -- --force    regenerate every line
+//   npm run voiceover -- --import=<folder>
+//                                   use clips generated elsewhere (e.g. on the
+//                                   ElevenLabs website), named <line>.mp3
+//                                   (intro-0.mp3, tip1-1.mp3, …). Lines without
+//                                   a clip are generated if a key is set,
+//                                   otherwise skipped.
 //
 // Per line, the source is chosen in this order:
 //   1. your own recording: public/voiceover/<videoId>/recordings/<line>.(mp3|wav|m4a)
@@ -30,6 +36,7 @@ const args = process.argv.slice(2);
 const mock = args.includes("--mock");
 const force = args.includes("--force");
 const onlyVideo = args.find((a) => a.startsWith("--video="))?.split("=")[1];
+const importDir = args.find((a) => a.startsWith("--import="))?.split("=")[1];
 
 const apiKey = process.env.ELEVENLABS_API_KEY;
 
@@ -146,8 +153,14 @@ const main = async () => {
         continue;
       }
 
-      if (mock) {
+      const imported = importDir && path.resolve(importDir, `${line.key}.mp3`);
+      if (imported && fs.existsSync(imported)) {
+        fs.copyFileSync(imported, absFile);
+      } else if (mock) {
         mockAudio(line.text, absFile);
+      } else if (importDir && !apiKey) {
+        console.log(`  …  ${line.key}  (no clip to import, skipped)`);
+        continue;
       } else {
         if (!apiKey) {
           throw new Error(
