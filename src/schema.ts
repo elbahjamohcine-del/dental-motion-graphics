@@ -78,6 +78,11 @@ export const voiceoverSchema = z.object({
   style: z.number().min(0).max(1),
   speed: z.number().min(0.7).max(1.2),
   volume: z.number().min(0).max(1),
+  playbackRate: z
+    .number()
+    .min(0.8)
+    .max(1.25)
+    .describe("Plays the voice faster (>1) or slower (<1), pitch preserved. Free way to fit 30 s"),
   /** Frames of silence between two narration lines. */
   gapInFrames: z.number().int().min(0),
 });

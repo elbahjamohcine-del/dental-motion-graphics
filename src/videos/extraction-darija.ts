@@ -118,7 +118,8 @@ export const extractionDarija: VideoContent = {
     style: 0.2,
     speed: 1,
     volume: 1,
-    gapInFrames: 6,
+    playbackRate: 1.05,
+    gapInFrames: 4,
   },
 
   sfx: {

@@ -29,6 +29,8 @@ type Props = {
   timing: ReturnType<typeof presenterOutroTiming>;
   /** Frames (relative to the scene) where the voice-over is speaking. */
   speakingRanges: [number, number][];
+  /** Same speed as the voice-over, so the lips stay in sync. */
+  playbackRate: number;
 };
 
 // Outro where the presenter explains: the full portrait (or a lip-synced
@@ -40,6 +42,7 @@ export const PresenterOutroScene: React.FC<Props> = ({
   brandName,
   timing: t,
   speakingRanges,
+  playbackRate,
 }) => {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
@@ -89,6 +92,7 @@ export const PresenterOutroScene: React.FC<Props> = ({
               <OffthreadVideo
                 src={staticFile(presenter.talkingVideo)}
                 muted
+                playbackRate={playbackRate}
                 style={{ ...mediaStyle, position: "absolute", inset: 0 }}
               />
             </Sequence>

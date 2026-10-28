@@ -65,6 +65,7 @@ export const DentalReel: React.FC<VideoContent> = (content) => {
       speakingRanges={voiceClips
         .filter((c) => c.sceneIndex === outroIndex)
         .map((c) => [c.from - outro.from, c.from - outro.from + c.durationInFrames])}
+      playbackRate={content.voiceover.playbackRate}
     />
   ) : (
     <OutroScene
@@ -149,7 +150,11 @@ export const DentalReel: React.FC<VideoContent> = (content) => {
             durationInFrames={clip.durationInFrames}
             layout="none"
           >
-            <Html5Audio src={staticFile(clip.src)} volume={content.voiceover.volume} />
+            <Html5Audio
+              src={staticFile(clip.src)}
+              volume={content.voiceover.volume}
+              playbackRate={content.voiceover.playbackRate}
+            />
           </Sequence>
         ))}
       </AbsoluteFill>

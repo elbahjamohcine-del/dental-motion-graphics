@@ -59,7 +59,7 @@ const withSceneDurations = (content: VideoContent, durations: number[]): VideoCo
   outro: { ...content.outro, durationInFrames: durations[durations.length - 1] },
 });
 
-const TAIL = 12; // frames kept after the last line of a scene
+const TAIL = 6; // frames kept after the last line of a scene
 
 // Frames between the start of a scene and its first narration line.
 const leadIn = (sceneIndex: number, transition: number) =>
@@ -101,7 +101,9 @@ export const applyVoiceover = (
       if (!entry || entry.text.trim() !== line.text) {
         continue;
       }
-      const durationInFrames = Math.ceil(entry.durationInSeconds * fps);
+      const durationInFrames = Math.ceil(
+        (entry.durationInSeconds / content.voiceover.playbackRate) * fps,
+      );
       relative.push({
         sceneIndex,
         lineIndex: line.lineIndex,

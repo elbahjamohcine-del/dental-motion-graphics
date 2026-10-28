@@ -31,6 +31,54 @@
       "provider": "elevenlabs",
       "voiceId": "JyOZ8fOJkYGmajIlFsJ4",
       "modelId": "eleven_v4"
+    },
+    "tip2-0": {
+      "file": "voiceover/ExtractionDarija/tip2-0-e12eed6e56.mp3",
+      "text": "الغلطة الثانية: الكارو ولا لاپاي.",
+      "durationInSeconds": 3.239184,
+      "provider": "elevenlabs",
+      "voiceId": "JyOZ8fOJkYGmajIlFsJ4",
+      "modelId": "eleven_v4"
+    },
+    "tip2-1": {
+      "file": "voiceover/ExtractionDarija/tip2-1-4c9976b431.mp3",
+      "text": "الجبدة كتحيد الدم المتجمد.",
+      "durationInSeconds": 2.76898,
+      "provider": "elevenlabs",
+      "voiceId": "JyOZ8fOJkYGmajIlFsJ4",
+      "modelId": "eleven_v4"
+    },
+    "tip3-0": {
+      "file": "voiceover/ExtractionDarija/tip3-0-c93aa16d89.mp3",
+      "text": "الغلطة الثالثة: الماكلة السخونة ولا القاصحة.",
+      "durationInSeconds": 3.709388,
+      "provider": "elevenlabs",
+      "voiceId": "JyOZ8fOJkYGmajIlFsJ4",
+      "modelId": "eleven_v4"
+    },
+    "tip3-1": {
+      "file": "voiceover/ExtractionDarija/tip3-1-433f4c427a.mp3",
+      "text": "كول حاجة فاترة ورطبة.",
+      "durationInSeconds": 2.35102,
+      "provider": "elevenlabs",
+      "voiceId": "JyOZ8fOJkYGmajIlFsJ4",
+      "modelId": "eleven_v4"
+    },
+    "outro-0": {
+      "file": "voiceover/ExtractionDarija/outro-0-95744bb9cf.mp3",
+      "text": "كومبريس، ثلج، وشوية ديال الصبر.",
+      "durationInSeconds": 3.160816,
+      "provider": "elevenlabs",
+      "voiceId": "JyOZ8fOJkYGmajIlFsJ4",
+      "modelId": "eleven_v4"
+    },
+    "outro-1": {
+      "file": "voiceover/ExtractionDarija/outro-1-09e338261f.mp3",
+      "text": "وإلا كان الوجع قوي، تاصل بطبيبك.",
+      "durationInSeconds": 3.082449,
+      "provider": "elevenlabs",
+      "voiceId": "JyOZ8fOJkYGmajIlFsJ4",
+      "modelId": "eleven_v4"
     }
   }
 }
