@@ -1,84 +1,84 @@
 {
   "ExtractionDarija": {
     "intro-0": {
-      "file": "voiceover/ExtractionDarija/intro-0-4a44f05999.mp3",
+      "file": "voiceover/ExtractionDarija/intro-0-2e3f2df4d5.mp3",
       "text": "قلعتي شي ضرسة؟",
       "durationInSeconds": 1.227755,
       "provider": "elevenlabs",
-      "voiceId": "JyOZ8fOJkYGmajIlFsJ4",
+      "voiceId": "GYDWB17rHEmglJPt2JFA",
       "modelId": "eleven_v4"
     },
     "intro-1": {
-      "file": "voiceover/ExtractionDarija/intro-1-29b3457ab5.mp3",
+      "file": "voiceover/ExtractionDarija/intro-1-3cc5c44a1e.mp3",
       "text": "رد البال من هاد الغلطات.",
-      "durationInSeconds": 1.802449,
+      "durationInSeconds": 1.645714,
       "provider": "elevenlabs",
-      "voiceId": "JyOZ8fOJkYGmajIlFsJ4",
+      "voiceId": "GYDWB17rHEmglJPt2JFA",
       "modelId": "eleven_v4"
     },
     "tip1-0": {
-      "file": "voiceover/ExtractionDarija/tip1-0-6c7aed6a6a.mp3",
+      "file": "voiceover/ExtractionDarija/tip1-0-24b5a43f29.mp3",
       "text": "الغلطة الأولى: تبزق ولا تمضمض بالجهد.",
       "spoken": "الغلطة الأولى: تْبْزَقْ ولا تمضمض بالجهد.",
-      "durationInSeconds": 3.787755,
+      "durationInSeconds": 3.709388,
       "provider": "elevenlabs",
-      "voiceId": "JyOZ8fOJkYGmajIlFsJ4",
+      "voiceId": "GYDWB17rHEmglJPt2JFA",
       "modelId": "eleven_v4"
     },
     "tip1-1": {
-      "file": "voiceover/ExtractionDarija/tip1-1-6e9a173c90.mp3",
+      "file": "voiceover/ExtractionDarija/tip1-1-bf7e256af2.mp3",
       "text": "الدم المتجمد هو اللي كيحمي الجرح.",
       "durationInSeconds": 2.925714,
       "provider": "elevenlabs",
-      "voiceId": "JyOZ8fOJkYGmajIlFsJ4",
+      "voiceId": "GYDWB17rHEmglJPt2JFA",
       "modelId": "eleven_v4"
     },
     "tip2-0": {
-      "file": "voiceover/ExtractionDarija/tip2-0-e12eed6e56.mp3",
+      "file": "voiceover/ExtractionDarija/tip2-0-7910597a0f.mp3",
       "text": "الغلطة الثانية: الكارو ولا لاپاي.",
-      "durationInSeconds": 3.239184,
+      "durationInSeconds": 3.082449,
       "provider": "elevenlabs",
-      "voiceId": "JyOZ8fOJkYGmajIlFsJ4",
+      "voiceId": "GYDWB17rHEmglJPt2JFA",
       "modelId": "eleven_v4"
     },
     "tip2-1": {
-      "file": "voiceover/ExtractionDarija/tip2-1-4c9976b431.mp3",
+      "file": "voiceover/ExtractionDarija/tip2-1-5cd347a6e5.mp3",
       "text": "الجبدة كتحيد الدم المتجمد.",
       "durationInSeconds": 2.76898,
       "provider": "elevenlabs",
-      "voiceId": "JyOZ8fOJkYGmajIlFsJ4",
+      "voiceId": "GYDWB17rHEmglJPt2JFA",
       "modelId": "eleven_v4"
     },
     "tip3-0": {
-      "file": "voiceover/ExtractionDarija/tip3-0-c93aa16d89.mp3",
+      "file": "voiceover/ExtractionDarija/tip3-0-0252fd446e.mp3",
       "text": "الغلطة الثالثة: الماكلة السخونة ولا القاصحة.",
-      "durationInSeconds": 3.709388,
+      "durationInSeconds": 3.63102,
       "provider": "elevenlabs",
-      "voiceId": "JyOZ8fOJkYGmajIlFsJ4",
+      "voiceId": "GYDWB17rHEmglJPt2JFA",
       "modelId": "eleven_v4"
     },
     "tip3-1": {
-      "file": "voiceover/ExtractionDarija/tip3-1-433f4c427a.mp3",
+      "file": "voiceover/ExtractionDarija/tip3-1-7fbeb914ec.mp3",
       "text": "كول حاجة فاترة ورطبة.",
-      "durationInSeconds": 2.35102,
+      "durationInSeconds": 2.194286,
       "provider": "elevenlabs",
-      "voiceId": "JyOZ8fOJkYGmajIlFsJ4",
+      "voiceId": "GYDWB17rHEmglJPt2JFA",
       "modelId": "eleven_v4"
     },
     "outro-0": {
-      "file": "voiceover/ExtractionDarija/outro-0-95744bb9cf.mp3",
+      "file": "voiceover/ExtractionDarija/outro-0-c2fa06d7fe.mp3",
       "text": "كومبريس، ثلج، وشوية ديال الصبر.",
-      "durationInSeconds": 3.160816,
+      "durationInSeconds": 2.795102,
       "provider": "elevenlabs",
-      "voiceId": "JyOZ8fOJkYGmajIlFsJ4",
+      "voiceId": "GYDWB17rHEmglJPt2JFA",
       "modelId": "eleven_v4"
     },
     "outro-1": {
-      "file": "voiceover/ExtractionDarija/outro-1-09e338261f.mp3",
+      "file": "voiceover/ExtractionDarija/outro-1-90328af6ae.mp3",
       "text": "وإلا كان الوجع قوي، تاصل بطبيبك.",
-      "durationInSeconds": 3.082449,
+      "durationInSeconds": 2.45551,
       "provider": "elevenlabs",
-      "voiceId": "JyOZ8fOJkYGmajIlFsJ4",
+      "voiceId": "GYDWB17rHEmglJPt2JFA",
       "modelId": "eleven_v4"
     }
   }

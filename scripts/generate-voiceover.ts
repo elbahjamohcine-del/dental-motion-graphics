@@ -159,7 +159,13 @@ const main = async () => {
       } else if (mock) {
         mockAudio(line.spoken, absFile);
       } else if (importDir && !apiKey) {
-        console.log(`  …  ${line.key}  (no clip to import, skipped)`);
+        // Nothing to import for this line: keep its current clip, if any.
+        if (cached && fs.existsSync(path.join(publicDir, cached.file))) {
+          next[line.key] = cached;
+          console.log(`  ✓  ${line.key}  (kept, no clip to import)`);
+        } else {
+          console.log(`  …  ${line.key}  (no clip to import, skipped)`);
+        }
         continue;
       } else {
         if (!apiKey) {

@@ -27,6 +27,8 @@ export const extractionDarija: VideoContent = {
     fullImage: "presenter/avatar-full.jpg",
     // Lip-synced video of the outro (see README → Talking avatar).
     talkingVideo: "",
+    // Where each outro line starts in the talking video (seconds).
+    talkingVideoCuts: [0, 3.1],
     showInScenes: true,
   },
 
@@ -109,9 +111,9 @@ export const extractionDarija: VideoContent = {
 
   voiceover: {
     enabled: true,
-    // "Anas – Friendly and Energetic" (Moroccan Darija, ElevenLabs Voice
-    // Library). The ELEVENLABS_VOICE_ID variable overrides it. See README.
-    voiceId: "JyOZ8fOJkYGmajIlFsJ4",
+    // The presenter's own cloned voice ("my voice for dental education").
+    // The ELEVENLABS_VOICE_ID variable overrides it. See README.
+    voiceId: "GYDWB17rHEmglJPt2JFA",
     modelId: "eleven_v4",
     stability: 0.5,
     similarityBoost: 0.75,
@@ -130,8 +132,8 @@ export const extractionDarija: VideoContent = {
   // Background music (generated with ElevenLabs Music), quieter under the voice.
   music: {
     src: "music/calm-medical.mp3",
-    volume: 0.32,
-    duckedVolume: 0.1,
+    volume: 0.55,
+    duckedVolume: 0.2,
     fadeInFrames: 15,
     fadeOutFrames: 45,
   },

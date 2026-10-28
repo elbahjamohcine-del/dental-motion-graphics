@@ -117,6 +117,9 @@ export const videoSchema = z.object({
     talkingVideo: z
       .string()
       .describe("Lip-synced video of the presenter saying the outro lines (muted, the voice-over plays). Empty = animated still image"),
+    talkingVideoCuts: z
+      .array(z.number())
+      .describe("Second in the talking video where each outro line starts (for exact lip sync)"),
     showInScenes: z
       .boolean()
       .describe("Small round portrait in the corner during the tip scenes"),

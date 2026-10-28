@@ -63,6 +63,20 @@ export const PresenterOutroScene: React.FC<Props> = ({
   });
   const chipIn = spring({ frame: frame - 6, fps, config: { damping: 15 } });
 
+  // Talking video: one segment per outro line, each starting at the moment
+  // of the video where that line is said, so the lips match the voice even
+  // if the pauses between lines differ. Without cuts, one continuous segment.
+  const cuts = presenter.talkingVideoCuts;
+  const starts = speakingRanges.map(([from]) => from);
+  const videoSegments =
+    cuts.length > 0 && cuts.length === starts.length
+      ? starts.map((from, i) => ({
+          from,
+          duration: (starts[i + 1] ?? durationInFrames) - from,
+          trimBefore: Math.round(cuts[i] * fps),
+        }))
+      : [{ from: t.talkStart, duration: durationInFrames - t.talkStart, trimBefore: 0 }];
+
   const mediaStyle: React.CSSProperties = {
     width: "100%",
     height: "100%",
@@ -87,16 +101,24 @@ export const PresenterOutroScene: React.FC<Props> = ({
       >
         <div style={{ ...mediaStyle, transform: `scale(${zoom})`, transformOrigin: "50% 30%" }}>
           <Img src={staticFile(presenter.fullImage)} style={mediaStyle} />
-          {presenter.talkingVideo ? (
-            <Sequence from={t.talkStart} layout="none">
-              <OffthreadVideo
-                src={staticFile(presenter.talkingVideo)}
-                muted
-                playbackRate={playbackRate}
-                style={{ ...mediaStyle, position: "absolute", inset: 0 }}
-              />
-            </Sequence>
-          ) : null}
+          {presenter.talkingVideo
+            ? videoSegments.map((segment, i) => (
+                <Sequence
+                  key={i}
+                  from={segment.from}
+                  durationInFrames={segment.duration}
+                  layout="none"
+                >
+                  <OffthreadVideo
+                    src={staticFile(presenter.talkingVideo)}
+                    muted
+                    trimBefore={segment.trimBefore}
+                    playbackRate={playbackRate}
+                    style={{ ...mediaStyle, position: "absolute", inset: 0 }}
+                  />
+                </Sequence>
+              ))
+            : null}
         </div>
         {/* Fades: darker top for the progress bar, navy at the bottom for the text. */}
         <div
