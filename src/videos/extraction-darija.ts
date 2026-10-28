@@ -57,13 +57,13 @@ export const extractionDarija: VideoContent = {
     },
     {
       label: "الغلطة 2",
-      title: "تكمي ولا تشرب بالشاليمو",
+      title: "تكمي ولا تشرب بلاپاي",
       icon: "cigarette",
       explanation: "الجبدة كتقدر تحيد الدم المتجمد وتجيب التهاب كيضر بزاف.",
       goodPracticeLabel: "الصواب",
-      goodPractice: "لا كارو لا شاليمو، على الأقل 3 أيام",
+      goodPractice: "لا كارو لا لاپاي، على الأقل 3 أيام",
       subtitles: [
-        "الغلطة الثانية: الكارو ولا الشاليمو.",
+        "الغلطة الثانية: الكارو ولا لاپاي.",
         "الجبدة كتحيد الدم المتجمد.",
       ],
       durationInFrames: 210,

@@ -105,7 +105,7 @@ In the content file, under `voiceover`:
 ### Pronunciation tips for Darija
 
 - Write numbers **in words** in the narration (`تلاتة`, `نهار كامل`), so the voice doesn't read them in Standard Arabic. Digits are fine in titles and cards, which are not spoken.
-- If a word sounds wrong, try another spelling (e.g. `شاليمو` / `الشاليمو`), or add punctuation to force a pause.
+- If a word sounds wrong, try another spelling (e.g. `كارو` / `الكارو`), or add punctuation to force a pause.
 - To replace one line with **your own recording**, save it as `public/voiceover/<videoId>/recordings/<line>.mp3` (or `.wav` / `.m4a`) and run `npm run voiceover`. Recordings always take priority over the AI voice. Line names are `intro-0`, `intro-1`, `tip1-0`, `tip1-1`, `tip2-0`, … `outro-1`.
 
 ## Editing the text
