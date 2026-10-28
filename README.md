@@ -26,6 +26,10 @@ The first video is **« 3 غلطات ما خاصكش تديرهم من بعد م
 | Animations | Word-by-word titles, self-drawing line icons, spring badges, slide / wipe / iris transitions, karaoke subtitles, story-style progress bar |
 | Safe zones | Text stays clear of the areas covered by the Instagram/TikTok UI (top 200 px, bottom 380 px) |
 
+## Instagram carousels
+
+4 educational carousels (caries, gums, wisdom teeth, sensitivity), 5 slides each, 1080 × 1350. Texts, captions, hashtags and production notes: [`carousels/README.md`](carousels/README.md). Render with `npm run carousels`.
+
 ## Quick start
 
 ```bash
