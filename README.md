@@ -20,6 +20,7 @@ The first video is **« 3 غلطات ما خاصكش تديرهم من بعد م
 | Duration | ~30 s, computed from the content. A scene gets longer automatically if its voice needs more time |
 | Output | MP4 H.264 + AAC audio, `yuv420p`, BT.709, CRF 18 |
 | Design | White, dark blue (`#0B2545`) and turquoise (`#14B8A6`); Cairo + Tajawal Arabic fonts bundled locally |
+| Presenter | Your photo + name in the intro and in the final call to action |
 | Animations | Word-by-word titles, self-drawing line icons, spring badges, slide / wipe / iris transitions, karaoke subtitles, story-style progress bar |
 | Safe zones | Text stays clear of the areas covered by the Instagram/TikTok UI (top 200 px, bottom 380 px) |
 
@@ -130,7 +131,8 @@ tips: [
 ]
 ```
 
-- **Brand**: `brand.name` and `brand.handle` (shown in the final call to action). Replace the placeholders.
+- **Presenter photo**: `presenter.photo` (a square image in `public/`, e.g. `presenter/avatar.jpg`), `presenter.name` and `presenter.title`. The photo appears in the intro with a name plate and in the final call to action. Use `photo: ""` to show the tooth icon instead. Crop the image square with the face centered.
+- **Brand**: `brand.name` and `brand.handle` (shown in the final call to action).
 - **Narration / subtitles**: each scene has a list of lines. After changing one, run `npm run voiceover` (or push: the cloud workflow does it). Until then that line has no voice. Set `showSubtitles: false` to hide subtitles.
 - **Durations**: in frames (30 = 1 second). They are minimums: a scene gets longer if its voice needs more time. `npm test` fails if a video is longer than 35 s.
 - **Colors**: `theme` (defaults in [`src/theme.ts`](src/theme.ts)).

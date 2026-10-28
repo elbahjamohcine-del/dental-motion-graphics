@@ -10,15 +10,20 @@ import { AnimatedTitle } from "../components/AnimatedTitle";
 import { Background } from "../components/Background";
 import { IconBadge } from "../components/IconBadge";
 import { Pill } from "../components/Pill";
+import { PresenterBadge } from "../components/PresenterBadge";
 import { useColors } from "../components/ThemeContext";
-import type { IntroContent } from "../schema";
+import type { IntroContent, Presenter } from "../schema";
 import { FONTS } from "../theme";
 
 // Hook scene: kicker, icon, big number and the video title.
-export const IntroScene: React.FC<{ content: IntroContent }> = ({ content }) => {
+export const IntroScene: React.FC<{
+  content: IntroContent;
+  presenter: Presenter;
+}> = ({ content, presenter }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const c = useColors();
+  const hasPhoto = presenter.photo.trim().length > 0;
 
   const numberIn = spring({
     frame: frame - 18,
@@ -44,12 +49,19 @@ export const IntroScene: React.FC<{ content: IntroContent }> = ({ content }) => 
           border={`2px solid ${c.turquoise}`}
           dotColor={c.turquoise}
         />
-        <IconBadge icon={content.icon} size={270} delay={4} variant="dark" />
+        {hasPhoto ? (
+          // The name plate overlaps the bottom of the photo: leave room for it.
+          <div style={{ marginBottom: 56 }}>
+            <PresenterBadge presenter={presenter} size={270} delay={4} showNamePlate />
+          </div>
+        ) : (
+          <IconBadge icon={content.icon} size={270} delay={4} variant="dark" />
+        )}
         <div
           style={{
             fontFamily: FONTS.title,
             fontWeight: 800,
-            fontSize: 270,
+            fontSize: hasPhoto ? 210 : 270,
             lineHeight: 0.85,
             marginTop: 10,
             background: `linear-gradient(180deg, ${c.turquoiseLight} 0%, ${c.turquoise} 100%)`,

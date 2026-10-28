@@ -14,7 +14,7 @@ const COVER_FRAME = 100;
 export const Cover: React.FC<VideoContent> = (content) => (
   <ThemeProvider colors={content.theme} direction={content.direction}>
     <Sequence from={-COVER_FRAME}>
-      <IntroScene content={content.intro} />
+      <IntroScene content={content.intro} presenter={content.presenter} />
     </Sequence>
   </ThemeProvider>
 );

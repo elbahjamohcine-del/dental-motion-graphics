@@ -44,11 +44,12 @@ export const DentalReel: React.FC<VideoContent> = (content) => {
   );
 
   const scenes: React.ReactNode[] = [
-    <IntroScene key="intro" content={content.intro} />,
+    <IntroScene key="intro" content={content.intro} presenter={content.presenter} />,
     ...content.tips.map((tip, i) => <TipScene key={`tip-${i}`} content={tip} index={i} />),
     <OutroScene
       key="outro"
       content={content.outro}
+      presenter={content.presenter}
       handle={content.brand.handle}
       brandName={content.brand.name}
     />,

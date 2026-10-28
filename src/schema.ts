@@ -95,6 +95,13 @@ export const videoSchema = z.object({
   direction: z
     .enum(["rtl", "ltr"])
     .describe("rtl for Arabic / Darija, ltr for French or English"),
+  presenter: z.object({
+    photo: z
+      .string()
+      .describe("Square photo in public/, e.g. presenter/avatar.jpg. Empty = no photo"),
+    name: z.string(),
+    title: z.string(),
+  }),
   brand: z.object({
     name: z.string().describe("Clinic / doctor name"),
     handle: z.string().describe("Social handle shown in the CTA"),
@@ -118,3 +125,4 @@ export type TipContent = z.infer<typeof tipSchema>;
 export type OutroContent = z.infer<typeof outroSchema>;
 export type VoiceoverSettings = z.infer<typeof voiceoverSchema>;
 export type VoiceClip = z.infer<typeof voiceClipSchema>;
+export type Presenter = z.infer<typeof videoSchema>["presenter"];

@@ -18,8 +18,16 @@ import { defaultColors } from "../theme";
 export const extractionDarija: VideoContent = {
   direction: "rtl",
 
+  // Photo shown in the intro (with a name plate) and in the final call to
+  // action. Set photo to "" to show the tooth icon instead.
+  presenter: {
+    photo: "presenter/avatar.jpg",
+    name: "Cabinet Dentaire ELBAHJA",
+    title: "طبيب الأسنان · القنيطرة",
+  },
+
   brand: {
-    name: "عيادة طب الأسنان ديالك",
+    name: "Cabinet Dentaire ELBAHJA · Kénitra",
     handle: "@votrecabinetdentaire",
   },
 

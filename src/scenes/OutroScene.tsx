@@ -9,20 +9,23 @@ import {
 import { AnimatedTitle } from "../components/AnimatedTitle";
 import { Background } from "../components/Background";
 import { InfoCard } from "../components/InfoCard";
+import { PresenterBadge } from "../components/PresenterBadge";
 import { useColors } from "../components/ThemeContext";
 import { AnimatedIcon } from "../icons/AnimatedIcon";
-import type { OutroContent } from "../schema";
+import type { OutroContent, Presenter } from "../schema";
 import { FONTS } from "../theme";
 
 // Recap checklist, warning, call to action and medical disclaimer.
 export const OutroScene: React.FC<{
   content: OutroContent;
+  presenter: Presenter;
   handle: string;
   brandName: string;
-}> = ({ content, handle, brandName }) => {
+}> = ({ content, presenter, handle, brandName }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const c = useColors();
+  const hasPhoto = presenter.photo.trim().length > 0;
 
   const listStart = 14;
   const listStagger = 10;
@@ -92,36 +95,44 @@ export const OutroScene: React.FC<{
         </div>
         <div
           style={{
-            padding: "20px 50px",
+            display: "flex",
+            alignItems: "center",
+            gap: 26,
+            paddingBlock: hasPhoto ? 14 : 20,
+            paddingInlineStart: hasPhoto ? 14 : 50,
+            paddingInlineEnd: hasPhoto ? 44 : 50,
             borderRadius: 999,
             background: `linear-gradient(90deg, ${c.turquoise}, ${c.turquoiseLight})`,
             boxShadow: "0 20px 50px rgba(20,184,166,0.45)",
-            textAlign: "center",
             transform: `scale(${ctaIn * pulse})`,
           }}
         >
-          <div
-            style={{
-              fontFamily: FONTS.title,
-              fontWeight: 800,
-              fontSize: 42,
-              color: c.navyDeep,
-            }}
-          >
-            {content.cta}
-          </div>
-          {/* Handles are Latin: keep "@" at the start even in RTL. */}
-          <div
-            dir="ltr"
-            style={{
-              fontFamily: FONTS.body,
-              fontWeight: 600,
-              fontSize: 34,
-              color: c.navy,
-              marginTop: 4,
-            }}
-          >
-            {handle}
+          {hasPhoto ? (
+            <PresenterBadge presenter={presenter} size={116} delay={ctaDelay} />
+          ) : null}
+          <div style={{ textAlign: hasPhoto ? "start" : "center" }}>
+            <div
+              style={{
+                fontFamily: FONTS.title,
+                fontWeight: 800,
+                fontSize: 42,
+                color: c.navyDeep,
+              }}
+            >
+              {content.cta}
+            </div>
+            <div
+              style={{
+                fontFamily: FONTS.body,
+                fontWeight: 600,
+                fontSize: 34,
+                color: c.navy,
+                marginTop: 4,
+              }}
+            >
+              {/* Handles are Latin: keep "@" at the start even in RTL. */}
+              <span dir="ltr">{handle}</span>
+            </div>
           </div>
         </div>
         <div
