@@ -21,6 +21,7 @@ The first video is **« 3 غلطات ما خاصكش تديرهم من بعد م
 | Output | MP4 H.264 + AAC audio, `yuv420p`, BT.709, CRF 18 |
 | Design | White, dark blue (`#0B2545`) and turquoise (`#14B8A6`); Cairo + Tajawal Arabic fonts bundled locally |
 | Presenter | Your photo + name in the intro and in the final call to action |
+| Sound effects | Whoosh on transitions, pop on titles, "wrong" sound on the ✕ stamp, ding on the good practice, clicks on the checklist, chime on the call to action, soft ticks on subtitles. Synthesized by `scripts/make-sfx.sh` (no licensing), settings in `sfx` |
 | Animations | Word-by-word titles, self-drawing line icons, spring badges, slide / wipe / iris transitions, karaoke subtitles, story-style progress bar |
 | Safe zones | Text stays clear of the areas covered by the Instagram/TikTok UI (top 200 px, bottom 380 px) |
 
@@ -109,6 +110,19 @@ In the content file, under `voiceover`:
 - If a word sounds wrong, try another spelling (e.g. `كارو` / `الكارو`), or add punctuation to force a pause.
 - To replace one line with **your own recording**, save it as `public/voiceover/<videoId>/recordings/<line>.mp3` (or `.wav` / `.m4a`) and run `npm run voiceover`. Recordings always take priority over the AI voice. Line names are `intro-0`, `intro-1`, `tip1-0`, `tip1-1`, `tip2-0`, … `outro-1`.
 
+## Talking avatar (outro)
+
+The outro can show the presenter actually speaking: an AI animates `presenter.fullImage` so the lips follow the outro narration. It needs a **paid ElevenLabs plan** (video generation is not available on the free plan).
+
+1. Generate the voice-over first (`npm run voiceover`), so the outro clips exist.
+2. Join the outro clips into one track with the same pause as in the video:
+   ```bash
+   ffmpeg -i public/voiceover/<videoId>/outro-0-*.mp3 -i public/voiceover/<videoId>/outro-1-*.mp3 \
+     -filter_complex "[0]apad=pad_dur=0.2[a];[a][1]concat=n=2:v=0:a=1" out/outro-voice.mp3
+   ```
+3. In ElevenLabs (Flows / Studio), create an **OmniHuman 1.5** avatar video from the portrait + `out/outro-voice.mp3`.
+4. Save the result as `public/presenter/talking.mp4` and set `presenter.talkingVideo: "presenter/talking.mp4"`. The video is played muted (the voice-over clips carry the sound) and starts with the first outro line.
+
 ## Editing the text
 
 All texts are in a single file: [`src/videos/extraction-darija.ts`](src/videos/extraction-darija.ts).
@@ -133,6 +147,8 @@ tips: [
 ```
 
 - **Presenter photo**: `presenter.photo` (a square image in `public/`, e.g. `presenter/avatar.jpg`), `presenter.name` and `presenter.title`. The photo appears in the intro with a name plate and in the final call to action. Use `photo: ""` to show the tooth icon instead. Crop the image square with the face centered.
+- **Presenter in every scene**: `presenter.showInScenes` shows the round portrait in the corner of the tip scenes, with bars that move while the voice speaks.
+- **Presenter outro**: `presenter.fullImage` (head + torso portrait) fills the top of the outro, with the checklist then the call to action below. `presenter.talkingVideo` can point to a lip-synced video of that portrait saying the outro lines (see *Talking avatar*). Leave `fullImage` empty for the classic outro.
 - **Brand**: `brand.name` and `brand.handle` (shown in the final call to action).
 - **Narration / subtitles**: each scene has a list of lines. After changing one, run `npm run voiceover` (or push: the cloud workflow does it). Until then that line has no voice. Set `showSubtitles: false` to hide subtitles.
 - **Durations**: in frames (30 = 1 second). They are minimums: a scene gets longer if its voice needs more time. `npm test` fails if a video is longer than 35 s.

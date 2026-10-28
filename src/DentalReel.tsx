@@ -10,13 +10,17 @@ import { wipe } from "@remotion/transitions/wipe";
 import React, { useMemo } from "react";
 import { AbsoluteFill, Html5Audio, Sequence, staticFile } from "remotion";
 import "./fonts";
+import { CornerPresenter } from "./components/CornerPresenter";
 import { ProgressBar } from "./components/ProgressBar";
 import { buildCues, Subtitles } from "./components/Subtitles";
 import { ThemeProvider } from "./components/ThemeContext";
 import { IntroScene } from "./scenes/IntroScene";
 import { OutroScene } from "./scenes/OutroScene";
+import { PresenterOutroScene } from "./scenes/PresenterOutroScene";
 import { TipScene } from "./scenes/TipScene";
+import { presenterOutroTiming } from "./sceneTiming";
 import type { VideoContent } from "./schema";
+import { buildSfxCues } from "./sfx";
 import { VIDEO } from "./theme";
 import { buildTimeline, getTotalDuration } from "./timeline";
 
@@ -43,16 +47,46 @@ export const DentalReel: React.FC<VideoContent> = (content) => {
     [timeline, T, total, voiceClips],
   );
 
-  const scenes: React.ReactNode[] = [
-    <IntroScene key="intro" content={content.intro} presenter={content.presenter} />,
-    ...content.tips.map((tip, i) => <TipScene key={`tip-${i}`} content={tip} index={i} />),
+  const sfxCues = useMemo(
+    () => buildSfxCues(content, timeline, cues, voiceClips),
+    [content, timeline, cues, voiceClips],
+  );
+
+  const outro = timeline[timeline.length - 1];
+  const outroIndex = timeline.length - 1;
+  const outroScene = content.presenter.fullImage ? (
+    <PresenterOutroScene
+      key="outro"
+      content={content.outro}
+      presenter={content.presenter}
+      handle={content.brand.handle}
+      brandName={content.brand.name}
+      timing={presenterOutroTiming(content, outro.from, outro.durationInFrames, voiceClips)}
+      speakingRanges={voiceClips
+        .filter((c) => c.sceneIndex === outroIndex)
+        .map((c) => [c.from - outro.from, c.from - outro.from + c.durationInFrames])}
+    />
+  ) : (
     <OutroScene
       key="outro"
       content={content.outro}
       presenter={content.presenter}
       handle={content.brand.handle}
       brandName={content.brand.name}
-    />,
+    />
+  );
+
+  // Corner portrait: from the middle of the first transition into the tips
+  // until the middle of the transition into the outro.
+  const cornerFrom = timeline[1].from + Math.floor(T / 2);
+  const cornerTo = outro.from + Math.floor(T / 2);
+  const showCorner =
+    content.presenter.showInScenes && content.presenter.photo && content.tips.length > 0;
+
+  const scenes: React.ReactNode[] = [
+    <IntroScene key="intro" content={content.intro} presenter={content.presenter} />,
+    ...content.tips.map((tip, i) => <TipScene key={`tip-${i}`} content={tip} index={i} />),
+    outroScene,
   ];
 
   const transitionFor = (i: number, isLast: boolean) => {
@@ -92,8 +126,22 @@ export const DentalReel: React.FC<VideoContent> = (content) => {
             return elements;
           })}
         </TransitionSeries>
+        {showCorner ? (
+          <Sequence from={cornerFrom} durationInFrames={cornerTo - cornerFrom} layout="none">
+            <CornerPresenter
+              presenter={content.presenter}
+              voiceClips={voiceClips}
+              offset={cornerFrom}
+            />
+          </Sequence>
+        ) : null}
         <ProgressBar timeline={timeline} totalDuration={total} />
         {content.showSubtitles ? <Subtitles cues={cues} /> : null}
+        {sfxCues.map((cue, i) => (
+          <Sequence key={`sfx-${i}`} from={cue.from} durationInFrames={40} layout="none">
+            <Html5Audio src={staticFile(`sfx/${cue.sound}.mp3`)} volume={cue.volume} />
+          </Sequence>
+        ))}
         {voiceClips.map((clip) => (
           <Sequence
             key={`${clip.sceneIndex}-${clip.lineIndex}`}

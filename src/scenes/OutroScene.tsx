@@ -13,6 +13,7 @@ import { PresenterBadge } from "../components/PresenterBadge";
 import { useColors } from "../components/ThemeContext";
 import { AnimatedIcon } from "../icons/AnimatedIcon";
 import type { OutroContent, Presenter } from "../schema";
+import { classicOutroTiming } from "../sceneTiming";
 import { FONTS } from "../theme";
 
 // Recap checklist, warning, call to action and medical disclaimer.
@@ -27,10 +28,12 @@ export const OutroScene: React.FC<{
   const c = useColors();
   const hasPhoto = presenter.photo.trim().length > 0;
 
-  const listStart = 14;
-  const listStagger = 10;
-  const warningDelay = listStart + content.checklist.length * listStagger + 8;
-  const ctaDelay = warningDelay + 22;
+  const {
+    listStart,
+    listStagger,
+    warning: warningDelay,
+    cta: ctaDelay,
+  } = classicOutroTiming(content.checklist.length);
 
   const warningIn = spring({ frame: frame - warningDelay, fps, config: { damping: 200 } });
   const ctaIn = spring({ frame: frame - ctaDelay, fps, config: { damping: 11 } });

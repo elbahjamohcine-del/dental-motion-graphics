@@ -24,6 +24,10 @@ export const extractionDarija: VideoContent = {
     photo: "presenter/avatar.jpg",
     name: "Cabinet Dentaire ELBAHJA",
     title: "طبيب الأسنان · القنيطرة",
+    fullImage: "presenter/avatar-full.jpg",
+    // Lip-synced video of the outro (see README → Talking avatar).
+    talkingVideo: "",
+    showInScenes: true,
   },
 
   brand: {
@@ -115,6 +119,12 @@ export const extractionDarija: VideoContent = {
     speed: 1,
     volume: 1,
     gapInFrames: 6,
+  },
+
+  sfx: {
+    enabled: true,
+    volume: 0.45,
+    subtitleTicks: true,
   },
 
   theme: defaultColors,

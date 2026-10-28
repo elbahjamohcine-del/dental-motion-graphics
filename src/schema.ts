@@ -101,6 +101,15 @@ export const videoSchema = z.object({
       .describe("Square photo in public/, e.g. presenter/avatar.jpg. Empty = no photo"),
     name: z.string(),
     title: z.string(),
+    fullImage: z
+      .string()
+      .describe("Full portrait (head + torso) in public/ for the outro. Empty = classic outro"),
+    talkingVideo: z
+      .string()
+      .describe("Lip-synced video of the presenter saying the outro lines (muted, the voice-over plays). Empty = animated still image"),
+    showInScenes: z
+      .boolean()
+      .describe("Small round portrait in the corner during the tip scenes"),
   }),
   brand: z.object({
     name: z.string().describe("Clinic / doctor name"),
@@ -112,6 +121,11 @@ export const videoSchema = z.object({
   transitionDurationInFrames: z.number().int().min(0).max(30),
   showSubtitles: z.boolean(),
   voiceover: voiceoverSchema,
+  sfx: z.object({
+    enabled: z.boolean(),
+    volume: z.number().min(0).max(1).describe("Sound effects volume (voice = 1)"),
+    subtitleTicks: z.boolean().describe("Soft tick when each subtitle line appears"),
+  }),
   theme: themeSchema,
   voiceClips: z
     .array(voiceClipSchema)

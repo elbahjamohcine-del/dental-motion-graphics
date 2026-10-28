@@ -7,6 +7,7 @@ import { InfoCard } from "../components/InfoCard";
 import { Pill } from "../components/Pill";
 import { useColors } from "../components/ThemeContext";
 import type { TipContent } from "../schema";
+import { tipTiming } from "../sceneTiming";
 import { FONTS } from "../theme";
 
 type Props = {
@@ -22,8 +23,8 @@ export const TipScene: React.FC<Props> = ({ content, index }) => {
   const c = useColors();
 
   // Timings scale with the scene duration, so longer scenes stay balanced.
-  const cardDelay = Math.round(durationInFrames * 0.36);
-  const explanationIn = interpolate(frame, [34, 50], [0, 1], {
+  const t = tipTiming(durationInFrames);
+  const explanationIn = interpolate(frame, [t.explanation, t.explanation + 16], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -61,20 +62,20 @@ export const TipScene: React.FC<Props> = ({ content, index }) => {
           color={c.white}
           background={c.navy}
           dotColor={c.alert}
-          delay={2}
+          delay={t.label}
         />
         <div style={{ marginTop: 18 }}>
           <IconBadge
             icon={content.icon}
             size={370}
-            delay={6}
+            delay={t.icon}
             stamp="error"
-            stampDelay={34}
+            stampDelay={t.stamp - t.icon}
           />
         </div>
         <AnimatedTitle
           text={content.title}
-          delay={14}
+          delay={t.title}
           fontSize={84}
           color={c.navy}
           maxWidth={880}
@@ -101,7 +102,7 @@ export const TipScene: React.FC<Props> = ({ content, index }) => {
           icon="check"
           label={content.goodPracticeLabel}
           text={content.goodPractice}
-          delay={cardDelay}
+          delay={t.card}
           fontSize={38}
         />
       </AbsoluteFill>

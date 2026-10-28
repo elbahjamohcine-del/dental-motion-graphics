@@ -13,6 +13,7 @@ import { Pill } from "../components/Pill";
 import { PresenterBadge } from "../components/PresenterBadge";
 import { useColors } from "../components/ThemeContext";
 import type { IntroContent, Presenter } from "../schema";
+import { INTRO_TIMING as T } from "../sceneTiming";
 import { FONTS } from "../theme";
 
 // Hook scene: kicker, icon, big number and the video title.
@@ -26,11 +27,11 @@ export const IntroScene: React.FC<{
   const hasPhoto = presenter.photo.trim().length > 0;
 
   const numberIn = spring({
-    frame: frame - 18,
+    frame: frame - T.number,
     fps,
     config: { damping: 10, stiffness: 120, mass: 0.9 },
   });
-  const underline = spring({ frame: frame - 48, fps, config: { damping: 200 } });
+  const underline = spring({ frame: frame - T.underline, fps, config: { damping: 200 } });
 
   return (
     <AbsoluteFill>
@@ -52,10 +53,10 @@ export const IntroScene: React.FC<{
         {hasPhoto ? (
           // The name plate overlaps the bottom of the photo: leave room for it.
           <div style={{ marginBottom: 56 }}>
-            <PresenterBadge presenter={presenter} size={270} delay={4} showNamePlate />
+            <PresenterBadge presenter={presenter} size={270} delay={T.badge} showNamePlate />
           </div>
         ) : (
-          <IconBadge icon={content.icon} size={270} delay={4} variant="dark" />
+          <IconBadge icon={content.icon} size={270} delay={T.badge} variant="dark" />
         )}
         <div
           style={{
@@ -76,7 +77,7 @@ export const IntroScene: React.FC<{
         </div>
         <AnimatedTitle
           text={content.title}
-          delay={28}
+          delay={T.title}
           fontSize={96}
           color={c.white}
         />
@@ -91,7 +92,7 @@ export const IntroScene: React.FC<{
         >
           <AnimatedTitle
             text={content.subtitle}
-            delay={40}
+            delay={T.subtitle}
             stagger={2}
             fontSize={54}
             fontWeight={600}
