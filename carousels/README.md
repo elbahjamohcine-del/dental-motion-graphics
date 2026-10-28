@@ -119,7 +119,7 @@ In the text, `[[mot]]` keeps a French word left-to-right, and `**mot**` puts a w
 | 2 | **علاش كتعمل المشاكل؟**<br>هي آخر ضرسة كتطلع، غالبا بين **17 و 25 عام**. ملي ما كتلقاش البلاصة، كتبقى معوجة ولا مدفونة فالعظم (incluse).<br>*Normale*: طالعة مزيان · *Mésio-angulée*: معوجة · *Incluse*: مدفونة فالعظم<br>✓ ماشي كاع ضروس العقل خاصهم يتقلعو. | 3 "technical drawing" panels with dashed borders: the 47 and 48 teeth with the bone line. 48 is first upright, then tilted towards 47, then lying flat inside the bone. |
 | 3 | **علامات كتحتاج فحص**<br>• وجع فاللور ديال الفك<br>• اللثة فوق الضرسة منفوخة ولا كتوجع<br>• صعوبة فحلان الفم ولا فالمضغ<br>• مذاق خايب ولا ريحة من اللور<br>⚠ **نفخة فالوجه، سخانة ولا صعوبة فالبلع؟** سير لطبيب الأسنان بلا تعطال. وما تاخدش antibiotiques بلا وصفة. | White rows with thin borders over the grid. The alert card has a coral border. A short turquoise rule under the title, in the blueprint style. |
 | 4 | **إمتى كتقلع؟**<br>الطبيب كيقرر من بعد الفحص والراديو (panoramique)، إلا كان:<br>1. التهاب كيتعاود فاللثة اللي داير بيها<br>2. تسوس فيها ما كيتعالجش، ولا فالضرسة اللي حداها<br>3. كتضغط على الضرسة اللي حداها وكتضرها<br>4. كيس (kyste) ولا مشكل فالعظم<br>📅 إلا ما كان حتى مشكل، ممكن تبقى غير تحت المراقبة. | 4 numbered cards (icons: infection, tooth, neighbouring tooth, cyst). A turquoise box: "monitoring is also an option". |
-| 5 | **كتحس بشي حاجة / فاللور؟**<br>دير فحص، والطبيب يقول ليك واش خاصها تتقلع ولا لا.<br>[CTA block] | Common CTA on the grid paper. |
+| 5 | **كتحس بشي حاجة / فاللور ديال الفك؟**<br>دير فحص، والطبيب يقول ليك واش خاصها تتقلع ولا لا.<br>[CTA block] | Common CTA on the grid paper. |
 
 **Caption**
 
