@@ -32,7 +32,7 @@ export const extractionDarija: VideoContent = {
 
   brand: {
     name: "Cabinet Dentaire ELBAHJA · Kénitra",
-    handle: "@votrecabinetdentaire",
+    handle: "@Cabinet.dentaire.elbahja",
   },
 
   intro: {
