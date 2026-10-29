@@ -8,7 +8,7 @@
 // Read the lines in order with a clear pause (about 1–2 s) between them.
 // Each clip is cleaned: low rumble filtered, silences trimmed, level evened.
 // Needs ffmpeg.
-import { execFileSync, spawnSync } from "node:child_process";
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { videos } from "../src/videos";
@@ -30,21 +30,44 @@ if (!input || !fs.existsSync(input)) {
 const video = videos.find((v) => v.id === videoId) ?? fail(`Unknown video id ${videoId}`);
 const lines = getVoiceLines(video.content);
 
-// All pauses of at least 0.2 s, with the start/end of speech in the file.
+// Pauses, measured on the average loudness of 50 ms windows (more robust than
+// peak-based silence detection with phone recordings and room noise). The
+// threshold adapts to the recording: between the room noise and the voice.
 const analyse = () => {
-  const out = spawnSync(
+  const rate = 8000;
+  const pcm = execFileSync(
     "ffmpeg",
-    ["-hide_banner", "-i", input!, "-af", "highpass=f=80,silencedetect=noise=-35dB:d=0.2", "-f", "null", "-"],
-    { encoding: "utf8" },
-  ).stderr;
-  const [h, m, sec] = (/Duration: (\d+):(\d+):([\d.]+)/.exec(out) ?? []).slice(1).map(Number);
-  const duration = h * 3600 + m * 60 + sec;
-  const starts = [...out.matchAll(/silence_start: ([\d.]+)/g)].map((x) => Number(x[1]));
-  const ends = [...out.matchAll(/silence_end: ([\d.]+)/g)].map((x) => Number(x[1]));
-  const pauses = starts.map((start, i) => ({ start, end: ends[i] ?? duration }));
-  // Silence at the very beginning / end of the file is not a pause between lines.
+    ["-loglevel", "error", "-i", input!, "-af", "highpass=f=80", "-ac", "1", "-ar", String(rate), "-f", "s16le", "-"],
+    { maxBuffer: 1024 * 1024 * 1024 },
+  );
+  const samples = new Int16Array(pcm.buffer, pcm.byteOffset, Math.floor(pcm.length / 2));
+  const win = rate * 0.05;
+  const levels: number[] = [];
+  for (let i = 0; i + win <= samples.length; i += win) {
+    let sum = 0;
+    for (let j = i; j < i + win; j++) sum += (samples[j] / 32768) ** 2;
+    levels.push(20 * Math.log10(Math.sqrt(sum / win) + 1e-9));
+  }
+  const sorted = [...levels].sort((a, b) => a - b);
+  const noise = sorted[Math.floor(sorted.length * 0.1)];
+  const voice = sorted[Math.floor(sorted.length * 0.9)];
+  const threshold = noise + (voice - noise) * 0.3;
+
+  const pauses: { start: number; end: number }[] = [];
+  for (let i = 0; i < levels.length; ) {
+    if (levels[i] >= threshold) {
+      i++;
+      continue;
+    }
+    let j = i;
+    while (j < levels.length && levels[j] < threshold) j++;
+    pauses.push({ start: i * 0.05, end: j * 0.05 });
+    i = j;
+  }
+  const duration = levels.length * 0.05;
   const speechStart = pauses[0]?.start === 0 ? pauses[0].end : 0;
-  const speechEnd = pauses.at(-1) && pauses.at(-1)!.end >= duration - 0.01 ? pauses.at(-1)!.start : duration;
+  const last = pauses.at(-1);
+  const speechEnd = last && last.end >= duration - 0.05 ? last.start : duration;
   const inner = pauses.filter((p) => p.start > speechStart && p.end < speechEnd);
   return { speechStart, speechEnd, inner };
 };
