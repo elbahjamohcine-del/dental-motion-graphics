@@ -129,6 +129,8 @@ const main = async () => {
         next[line.key] = {
           file: path.relative(publicDir, recording).split(path.sep).join("/"),
           text: line.text,
+          // A human recording is valid whatever the pronunciation fixes say.
+          spoken: line.spoken,
           durationInSeconds: durationOf(recording),
           provider: "recording",
         };

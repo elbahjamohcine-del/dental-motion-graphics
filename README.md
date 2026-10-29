@@ -92,6 +92,17 @@ npm run voiceover
 npm run render
 ```
 
+### Your own voice-over (real recording)
+
+1. Record the narration lines **in order, in one file** (phone voice memo is fine), with a clear **1–2 s pause between lines**.
+2. Put the file in the project (e.g. upload it to GitHub, or copy it locally), then:
+   ```bash
+   npm run voiceover:split -- path/to/recording.m4a   # cuts it at the pauses, one clip per line
+   npm run voiceover                                  # recordings replace the AI voice
+   npm run render
+   ```
+The split keeps the 9 longest pauses as boundaries between the 10 lines, trims silences, filters low rumble and evens out the level of each line. Clips land in `public/voiceover/<videoId>/recordings/`; delete them to go back to the AI voice. If a line was said differently from the script, update its `subtitles` text so the subtitles match.
+
 ### Tuning the voice
 
 In the content file, under `voiceover`:
