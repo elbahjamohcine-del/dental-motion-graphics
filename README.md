@@ -181,7 +181,7 @@ To add one, add its SVG paths (200×200 grid) to [`src/icons/paths.ts`](src/icon
 | Id | Topic | Style |
 | --- | --- | --- |
 | `ExtractionDarija` | 3 غلطات ما خاصكش تديرهم من بعد ما تقلع الضرسة | mistakes (✕) |
-| `DentManquanteDarija` | 3 حلول باش تعوض سنة ناقصة (implant, bridge, removable denture) | options (✓) |
+| `DentManquanteDarija` | 3 حلول باش تعوض سنة ناقصة (bridge, removable denture, implant) | options (✓) |
 
 Render any of them with `npm run render:video -- <Id>` → `out/<Id>.mp4` + `out/<Id>-cover.png`.
 
