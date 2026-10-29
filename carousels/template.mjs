@@ -105,7 +105,8 @@ const cta = (s, t, brand) => `
   </div>
   <div class="id-card" dir="ltr">
     <div class="id-name">Cabinet Dentaire <b>Elbahja</b></div>
-    <div class="id-meta"><span>${brand.role}</span><span class="sep"></span><span class="ic">${icon("pin", 30, 3.4)}</span><span>${brand.city}</span><span class="sep"></span><span class="ic">${icon("insta", 30, 3.4)}</span><span>${brand.handle}</span></div>
+    <div class="id-meta"><span>${brand.role}</span><span class="sep"></span><span class="ic">${icon("insta", 30, 3.4)}</span><span>${brand.handle}</span></div>
+    <div class="id-meta id-address"><span class="ic">${icon("pin", 30, 3.4)}</span><span>${esc(brand.address)}</span></div>
   </div>
   <p class="disclaimer">${rich(brand.disclaimer)}</p>
 </main>`;
@@ -228,21 +229,22 @@ h2{font-size:72px;line-height:1.25;font-weight:800;letter-spacing:-.3px}
 
 /* cta */
 .cta{align-items:center;text-align:center;justify-content:center;gap:0}
-.cta-logo{margin-bottom:26px}
-.cta-logo svg{width:112px;height:112px}
+.cta-logo{margin-bottom:18px}
+.cta-logo svg{width:96px;height:96px}
 .cta h2{font-size:84px;line-height:1.22;font-weight:800}
 .cta h2 span{display:block}
 .cta .sub{margin-top:18px;font-size:38px;line-height:1.5;color:var(--muted);font-weight:500;max-width:860px}
 .call{margin-top:44px;width:100%;background:var(--ctaBg,${NAVY});color:#fff;border-radius:40px;padding:34px 40px 40px}
 .call-label{display:flex;gap:16px;align-items:center;justify-content:center;font-size:32px;font-weight:700;color:var(--ctaAccent,#5EEAD4)}
 .call-number{margin-top:8px;font-family:Cairo;font-weight:800;font-size:104px;letter-spacing:4px;line-height:1.15}
-.id-card{margin-top:36px}
+.id-card{margin-top:30px}
 .id-name{font-family:Cairo;font-size:44px;font-weight:600}
 .id-name b{font-weight:800}
 .id-meta{margin-top:12px;display:flex;gap:12px;align-items:center;justify-content:center;font-family:Cairo;font-size:27px;font-weight:600;color:var(--muted)}
 .id-meta .ic{color:var(--accent)}
+.id-address{margin-top:8px;color:var(--text)}
 .id-meta .sep{width:7px;height:7px;border-radius:50%;background:var(--accent);margin:0 8px}
-.disclaimer{margin-top:40px;font-size:25px;color:var(--muted);opacity:.85}
+.disclaimer{margin-top:28px;font-size:25px;color:var(--muted);opacity:.85}
 
 /* ── theme accents ── */
 .theme-clinical.slide-cta{background:linear-gradient(180deg,#FFFFFF 0%,#EAF8F6 100%)}

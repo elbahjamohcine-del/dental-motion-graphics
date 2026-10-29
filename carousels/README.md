@@ -11,7 +11,7 @@
 | 3 | Wisdom teeth · ضرسة العقل | **Blueprint**: light grid paper, technical line drawings, FDI tooth numbers (38 / 48) | [`export/03-dents-de-sagesse/`](export/03-dents-de-sagesse/) |
 | 4 | Sensitivity · حساسية السنان | **Thermal**: turquoise "ice" gradient cover, frosty top band on the inside slides | [`export/04-sensibilite/`](export/04-sensibilite/) |
 
-**What every post shares:** the same header (tooth logo + *Cabinet Dentaire Elbahja* + slide counter), the same type system (Cairo ExtraBold for titles, Tajawal for body text), one grid with 84 px margins, rounded 30 px cards, the same footer (progress bar + «كمّل ←») and the same call-to-action slide (phone number in a large block, *Chirurgien-Dentiste · Kénitra · @Cabinet.dentaire.elbahja*, short disclaimer).
+**What every post shares:** the same header (tooth logo + *Cabinet Dentaire Elbahja* + slide counter), the same type system (Cairo ExtraBold for titles, Tajawal for body text), one grid with 84 px margins, rounded 30 px cards, the same footer (progress bar + «كمّل ←») and the same call-to-action slide (phone number in a large block, *Chirurgien-Dentiste · @Cabinet.dentaire.elbahja*, the full address, short disclaimer).
 
 **Why these 4 topics:** they are among the most common reasons patients ask a dentist questions, and each one targets a different audience. Caries is for parents and families, with the sugary *atay* habit as the hook. Gums are for adults who think a little bleeding is normal. Wisdom teeth are for young adults aged 17 to 25. Sensitivity is for everyone, and it also gets people to come in for a check-up.
 
@@ -57,7 +57,8 @@ In the text, `[[mot]]` keeps a French word left-to-right, and `**mot**` puts a w
 >
 > Une carie débutante ne fait pas mal : un contrôle régulier permet de la traiter tôt et simplement.
 >
-> 📞 06 21 40 66 21 · 📍 Kénitra
+> 📞 06 21 40 66 21
+> 📍 Groupe Azzohor, 7 Rue Massira, Saknia, Kénitra
 > Cabinet Dentaire Elbahja · Chirurgien-Dentiste
 >
 > ℹ️ هاد المعلومات للتوعية، وما كتعوضش الفحص عند طبيب الأسنان.
@@ -96,7 +97,8 @@ In the text, `[[mot]]` keeps a French word left-to-right, and `**mot**` puts a w
 >
 > Saignement des gencives = signal d'alerte. Un bilan parodontal permet d'agir tôt.
 >
-> 📞 06 21 40 66 21 · 📍 Kénitra
+> 📞 06 21 40 66 21
+> 📍 Groupe Azzohor, 7 Rue Massira, Saknia, Kénitra
 > Cabinet Dentaire Elbahja · Chirurgien-Dentiste
 >
 > ℹ️ هاد المعلومات للتوعية، وما كتعوضش الفحص عند طبيب الأسنان.
@@ -111,7 +113,7 @@ In the text, `[[mot]]` keeps a French word left-to-right, and `**mot**` puts a w
 
 ## Post 3 · ضرسة العقل (Wisdom teeth)
 
-**Marketing objective:** reassure young adults (no automatic extraction) and position the practice as the place to assess the case (exam plus X-ray). Target: 17 to 30 year olds, students, and parents of teenagers.
+**Marketing objective:** reassure young adults (no automatic extraction) and position the practice as the place to assess the case (exam plus panoramic X-ray, done at the practice). Target: 17 to 30 year olds, students, and parents of teenagers.
 
 | # | Slide text (Darija) | Visual description |
 | --- | --- | --- |
@@ -119,25 +121,26 @@ In the text, `[[mot]]` keeps a French word left-to-right, and `**mot**` puts a w
 | 2 | **علاش كتعمل المشاكل؟**<br>هي آخر ضرسة كتطلع، غالبا بين **17 و 25 عام**. ملي ما كتلقاش البلاصة، كتبقى معوجة ولا مدفونة فالعظم (incluse).<br>*Normale*: طالعة مزيان · *Mésio-angulée*: معوجة · *Incluse*: مدفونة فالعظم<br>✓ ماشي كاع ضروس العقل خاصهم يتقلعو. | 3 "technical drawing" panels with dashed borders: the 47 and 48 teeth with the bone line. 48 is first upright, then tilted towards 47, then lying flat inside the bone. |
 | 3 | **علامات كتحتاج فحص**<br>• وجع فاللور ديال الفك<br>• اللثة فوق الضرسة منفوخة ولا كتوجع<br>• صعوبة فحلان الفم ولا فالمضغ<br>• مذاق خايب ولا ريحة من اللور<br>⚠ **نفخة فالوجه، سخانة ولا صعوبة فالبلع؟** سير لطبيب الأسنان بلا تعطال. وما تاخدش antibiotiques بلا وصفة. | White rows with thin borders over the grid. The alert card has a coral border. A short turquoise rule under the title, in the blueprint style. |
 | 4 | **إمتى كتقلع؟**<br>الطبيب كيقرر من بعد الفحص والراديو (panoramique)، إلا كان:<br>1. التهاب كيتعاود فاللثة اللي داير بيها<br>2. تسوس فيها ما كيتعالجش، ولا فالضرسة اللي حداها<br>3. كتضغط على الضرسة اللي حداها وكتضرها<br>4. كيس (kyste) ولا مشكل فالعظم<br>📅 إلا ما كان حتى مشكل، ممكن تبقى غير تحت المراقبة. | 4 numbered cards (icons: infection, tooth, neighbouring tooth, cyst). A turquoise box: "monitoring is also an option". |
-| 5 | **كتحس بشي حاجة / فاللور ديال الفك؟**<br>دير فحص، والطبيب يقول ليك واش خاصها تتقلع ولا لا.<br>[CTA block] | Common CTA on the grid paper. |
+| 5 | **كتحس بشي حاجة / فاللور ديال الفك؟**<br>الفحص والراديو (panoramique) كاينين فالعيادة. الطبيب يقول ليك واش خاصها تتقلع ولا لا.<br>[CTA block] | Common CTA on the grid paper. |
 
 **Caption**
 
 > ضرسة العقل: نقلعوها ولا لا؟ 🤔
 > الجواب ماشي ديما "قلعها". كاين اللي طالعة مزيان وما دايراش حتى مشكل، وكاين اللي معوجة ولا مدفونة وكتسبب التهاب ولا كتضر الضرسة اللي حداها.
 >
-> 🔎 القرار كيكون من بعد الفحص والراديو.
+> 🔎 القرار كيكون من بعد الفحص والراديو panoramique، وهو كاين فالعيادة.
 > ⚠️ نفخة فالوجه، سخانة، ولا صعوبة فالبلع ولا فحلان الفم: سير للطبيب بلا تعطال.
 > ❌ ما تاخدش antibiotiques بلا وصفة، وما تحطش الأسبرين على اللثة.
 >
 > Dents de sagesse : l'extraction n'est pas systématique. Seul un examen clinique et radiologique permet de décider.
 >
-> 📞 06 21 40 66 21 · 📍 Kénitra
+> 📞 06 21 40 66 21
+> 📍 Groupe Azzohor, 7 Rue Massira, Saknia, Kénitra
 > Cabinet Dentaire Elbahja · Chirurgien-Dentiste
 >
 > ℹ️ هاد المعلومات للتوعية، وما كتعوضش الفحص عند طبيب الأسنان.
 
-**Short CTA:** وجع فاللور ولا اللثة منفوخة؟ عيط على 06 21 40 66 21 باش تدير فحص لضرسة العقل.
+**Short CTA:** وجع فاللور ولا اللثة منفوخة؟ عيط على 06 21 40 66 21 باش تدير فحص وراديو panoramique لضرسة العقل.
 
 **Hashtags:** `#ضرسة_العقل #ضرس_العقل #طبيب_الأسنان #القنيطرة #Kenitra #DentDeSagesse #DentsDeSagesse #DentisteKenitra #ChirurgieDentaire #DentisteMaroc #SanteBuccoDentaire #Maroc #CabinetDentaireElbahja`
 
@@ -170,7 +173,8 @@ In the text, `[[mot]]` keeps a French word left-to-right, and `**mot**` puts a w
 >
 > Sensibilité dentaire : un dentifrice adapté peut soulager, mais seul un examen permet d'en trouver la cause.
 >
-> 📞 06 21 40 66 21 · 📍 Kénitra
+> 📞 06 21 40 66 21
+> 📍 Groupe Azzohor, 7 Rue Massira, Saknia, Kénitra
 > Cabinet Dentaire Elbahja · Chirurgien-Dentiste
 >
 > ℹ️ هاد المعلومات للتوعية، وما كتعوضش الفحص عند طبيب الأسنان.
@@ -188,7 +192,7 @@ In the text, `[[mot]]` keeps a French word left-to-right, and `**mot**` puts a w
 - Logo: rounded square with a turquoise tooth outline.
 - Title in 2 lines, specific to the post (second line in turquoise).
 - Phone block, full width: «عيط ولا صيفط ميساج باش تاخد موعد» above **06 21 40 66 21** in large type (Cairo ExtraBold, 104 px, easy to read on a phone).
-- **Cabinet Dentaire Elbahja**, then *Chirurgien-Dentiste · 📍 Kénitra · @Cabinet.dentaire.elbahja*.
+- **Cabinet Dentaire Elbahja**, then *Chirurgien-Dentiste · @Cabinet.dentaire.elbahja*, then 📍 *Groupe Azzohor, 7 Rue Massira, Saknia, Kénitra*.
 - Disclaimer: «هاد المعلومات للتوعية، وما كتعوضش الفحص عند طبيب الأسنان.»
 - Footer: «سجّل البوست وشاركو مع العائلة» (save and share are the 2 signals Instagram values most).
 
@@ -229,4 +233,4 @@ Use these as an art-direction base. **Always add the Arabic text in Canva or Fig
 - No promised results: sensitivity toothpaste "needs a few weeks", and the decision to extract is made "after the exam and the X-ray".
 - No self-diagnosis: every post sends people to an exam, and red flags (swelling, fever, spontaneous night pain) mean "see the dentist without delay".
 - Evidence-based advice: fluoride toothpaste twice a day, *spit, don't rinse*, sugar frequency matters, interdental cleaning, keep brushing gums that bleed, smoking hides gum bleeding, wait before brushing after acidic food or drink.
-- The practice must check before posting: whether the panoramic X-ray is taken at the practice or prescribed elsewhere (post 3 does not say), and the full street address if you want to add it to the CTA.
+- Confirmed by the practice: the Instagram handle, the panoramic X-ray done at the practice, and the address (Groupe Azzohor, 7 Rue Massira, Saknia, Kénitra).

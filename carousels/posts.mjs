@@ -12,6 +12,7 @@ export const brand = {
   name: "Cabinet Dentaire Elbahja",
   role: "Chirurgien-Dentiste",
   city: "Kénitra",
+  address: "Groupe Azzohor, 7 Rue Massira, Saknia, Kénitra",
   phone: "06 21 40 66 21",
   phoneHref: "+212621406621",
   handle: "@Cabinet.dentaire.elbahja",
@@ -176,7 +177,7 @@ export const posts = [
       {
         type: "cta",
         title: ["كتحس بشي حاجة", "**فاللور ديال الفك؟**"],
-        sub: "دير فحص، والطبيب يقول ليك واش خاصها تتقلع ولا لا.",
+        sub: "الفحص والراديو [[(panoramique)]] كاينين فالعيادة. الطبيب يقول ليك واش خاصها تتقلع ولا لا.",
       },
     ],
   },
