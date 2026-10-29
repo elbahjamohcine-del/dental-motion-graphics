@@ -5,6 +5,7 @@ import { Background } from "../components/Background";
 import { IconBadge } from "../components/IconBadge";
 import { InfoCard } from "../components/InfoCard";
 import { Pill } from "../components/Pill";
+import { TipImage } from "../components/TipImage";
 import { useColors } from "../components/ThemeContext";
 import type { TipContent } from "../schema";
 import { tipTiming } from "../sceneTiming";
@@ -66,14 +67,25 @@ export const TipScene: React.FC<Props> = ({ content, index, variant }) => {
           dotColor={variant === "mistake" ? c.alert : c.turquoise}
           delay={t.label}
         />
-        <div style={{ marginTop: 18 }}>
-          <IconBadge
-            icon={content.icon}
-            size={370}
-            delay={t.icon}
-            stamp={variant === "mistake" ? "error" : "check"}
-            stampDelay={t.stamp - t.icon}
-          />
+        {/* Images sit a bit lower so they clear the corner portrait. */}
+        <div style={{ marginTop: content.image ? 58 : 18 }}>
+          {content.image ? (
+            <TipImage
+              src={content.image}
+              width={800}
+              delay={t.icon}
+              stamp={variant === "mistake" ? "error" : "check"}
+              stampDelay={t.stamp - t.icon}
+            />
+          ) : (
+            <IconBadge
+              icon={content.icon}
+              size={370}
+              delay={t.icon}
+              stamp={variant === "mistake" ? "error" : "check"}
+              stampDelay={t.stamp - t.icon}
+            />
+          )}
         </div>
         <AnimatedTitle
           text={content.title}

@@ -170,6 +170,10 @@ tips: [
 
 You can also edit everything visually in **Remotion Studio** (`npm run dev`) → *Props* panel on the right. This is handy for quick tests. Edits made there are temporary, so copy the final text back into the content file.
 
+### Realistic images
+
+A tip can show a realistic image instead of its icon: put a **16:9** image in `public/images/` and set `image: "images/<file>.jpg"` on the tip. It appears in a rounded card with a slow zoom and the ✕ / ✓ stamp. The images of the missing-tooth video were generated with ElevenLabs (Seedream 5 Pro, about 820 credits each).
+
 ### Available icons
 
 `tooth`, `rinse`, `cigarette`, `straw`, `hotFood`, `ice`, `gauze`, `toothbrush`, `pill`, `phone`, `check`

@@ -42,6 +42,10 @@ export const introSchema = z.object({
 
 export const tipSchema = z.object({
   label: z.string().describe("e.g. Erreur n°1"),
+  image: z
+    .string()
+    .optional()
+    .describe("Realistic image in public/ (e.g. images/bridge.jpg), shown instead of the icon"),
   title: z.string(),
   icon: iconSchema,
   explanation: z.string().describe("Short line under the title"),

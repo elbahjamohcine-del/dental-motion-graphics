@@ -29,6 +29,7 @@ export const dentManquanteDarija: VideoContent = {
     {
       label: "الحل 1",
       title: "الجسر الثابت",
+      image: "images/bridge.jpg",
       icon: "bridge",
       explanation: "سنة جديدة كتشد فالسنان اللي حداها.",
       goodPracticeLabel: "معلومة",
@@ -39,6 +40,7 @@ export const dentManquanteDarija: VideoContent = {
     {
       label: "الحل 2",
       title: "الطقم المتحرك",
+      image: "images/denture.jpg",
       icon: "denture",
       explanation: "سنان صناعية كتركبها وكتحيدها بوحدك.",
       goodPracticeLabel: "معلومة",
@@ -49,6 +51,7 @@ export const dentManquanteDarija: VideoContent = {
     {
       label: "الحل 3",
       title: "الزرعة",
+      image: "images/implant.jpg",
       icon: "implant",
       explanation: "جدر صناعي كيتحط فالعظم، ومن فوقو سنة جديدة.",
       goodPracticeLabel: "المزايا",
