@@ -1,4 +1,5 @@
 import type { VideoContent } from "../schema";
+import { dentManquanteDarija } from "./dent-manquante-darija";
 import { extractionDarija } from "./extraction-darija";
 
 // Register every video here. Each entry creates a video composition
@@ -7,4 +8,5 @@ import { extractionDarija } from "./extraction-darija";
 // also the voice-over folder name: public/voiceover/<id>/.
 export const videos: { id: string; content: VideoContent }[] = [
   { id: "ExtractionDarija", content: extractionDarija },
+  { id: "DentManquanteDarija", content: dentManquanteDarija },
 ];

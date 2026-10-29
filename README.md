@@ -176,9 +176,20 @@ You can also edit everything visually in **Remotion Studio** (`npm run dev`) →
 
 To add one, add its SVG paths (200×200 grid) to [`src/icons/paths.ts`](src/icons/paths.ts) and its name to `iconNames` in [`src/schema.ts`](src/schema.ts).
 
+## Videos in this project
+
+| Id | Topic | Style |
+| --- | --- | --- |
+| `ExtractionDarija` | 3 غلطات ما خاصكش تديرهم من بعد ما تقلع الضرسة | mistakes (✕) |
+| `DentManquanteDarija` | 3 حلول باش تعوض سنة ناقصة (implant, bridge, removable denture) | options (✓) |
+
+Render any of them with `npm run render:video -- <Id>` → `out/<Id>.mp4` + `out/<Id>-cover.png`.
+
+Shared settings (presenter, brand, voice, music, sound effects, colors) live in [`src/videos/clinic.ts`](src/videos/clinic.ts); a video file only contains its texts. `tipStyle: "mistake"` shows a red ✕ on each tip, `"option"` a turquoise ✓.
+
 ## Creating a new video
 
-1. Copy `src/videos/extraction-darija.ts` to e.g. `src/videos/brossage-darija.ts` and change the texts. The number of `tips` is free: 1, 3, 5…
+1. Copy `src/videos/dent-manquante-darija.ts` to e.g. `src/videos/brossage-darija.ts` and change the texts (and `tipStyle`). The number of `tips` is free: 1, 3, 5…
 2. Register it in [`src/videos/index.ts`](src/videos/index.ts):
    ```ts
    import { brossageDarija } from "./brossage-darija";

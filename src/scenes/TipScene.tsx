@@ -14,10 +14,12 @@ type Props = {
   content: TipContent;
   /** Position in the list (0-based), used for the big background number. */
   index: number;
+  /** "mistake" = red ✕ badge, "option" = turquoise ✓ badge. */
+  variant: "mistake" | "option";
 };
 
 // Reusable scene for one tip / mistake. Used once per entry in `tips`.
-export const TipScene: React.FC<Props> = ({ content, index }) => {
+export const TipScene: React.FC<Props> = ({ content, index, variant }) => {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
   const c = useColors();
@@ -61,7 +63,7 @@ export const TipScene: React.FC<Props> = ({ content, index }) => {
           text={content.label}
           color={c.white}
           background={c.navy}
-          dotColor={c.alert}
+          dotColor={variant === "mistake" ? c.alert : c.turquoise}
           delay={t.label}
         />
         <div style={{ marginTop: 18 }}>
@@ -69,7 +71,7 @@ export const TipScene: React.FC<Props> = ({ content, index }) => {
             icon={content.icon}
             size={370}
             delay={t.icon}
-            stamp="error"
+            stamp={variant === "mistake" ? "error" : "check"}
             stampDelay={t.stamp - t.icon}
           />
         </div>

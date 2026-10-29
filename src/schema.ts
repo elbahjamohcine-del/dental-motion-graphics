@@ -13,6 +13,12 @@ export const iconNames = [
   "pill",
   "phone",
   "check",
+  "implant",
+  "bridge",
+  "denture",
+  "missingTooth",
+  "shift",
+  "bone",
 ] as const;
 
 export const iconSchema = z.enum(iconNames);
@@ -128,6 +134,9 @@ export const videoSchema = z.object({
     name: z.string().describe("Clinic / doctor name"),
     handle: z.string().describe("Social handle shown in the CTA"),
   }),
+  tipStyle: z
+    .enum(["mistake", "option"])
+    .describe("mistake = red ✕ on each tip; option = turquoise ✓ (solutions, choices)"),
   intro: introSchema,
   tips: z.array(tipSchema).min(1),
   outro: outroSchema,

@@ -13,29 +13,13 @@
 //    (see README → Voice-over). Until then that line plays without voice.
 // ─────────────────────────────────────────────────────────────────────────────
 import type { VideoContent } from "../schema";
-import { defaultColors } from "../theme";
+import { clinic } from "./clinic";
 
 export const extractionDarija: VideoContent = {
-  direction: "rtl",
+  ...clinic,
 
-  // Photo shown in the intro (with a name plate) and in the final call to
-  // action. Set photo to "" to show the tooth icon instead.
-  presenter: {
-    photo: "presenter/avatar.jpg",
-    name: "Cabinet Dentaire ELBAHJA",
-    title: "طبيب الأسنان · القنيطرة",
-    fullImage: "presenter/avatar-full.jpg",
-    // Lip-synced video of the outro (see README → Talking avatar).
-    talkingVideo: "",
-    // Where each outro line starts in the talking video (seconds).
-    talkingVideoCuts: [],
-    showInScenes: true,
-  },
-
-  brand: {
-    name: "Cabinet Dentaire ELBAHJA · Kénitra",
-    handle: "@Cabinet.dentaire.elbahja",
-  },
+  // "mistake": red ✕ on each tip. "option": turquoise ✓ (solutions, choices).
+  tipStyle: "mistake",
 
   intro: {
     kicker: "نصيحة من طبيب الأسنان",
@@ -105,44 +89,4 @@ export const extractionDarija: VideoContent = {
     ],
     durationInFrames: 195,
   },
-
-  transitionDurationInFrames: 15,
-  showSubtitles: true,
-
-  voiceover: {
-    enabled: true,
-    // The presenter's own cloned voice ("my voice for dental education").
-    // The ELEVENLABS_VOICE_ID variable overrides it. See README.
-    voiceId: "GYDWB17rHEmglJPt2JFA",
-    modelId: "eleven_v4",
-    stability: 0.5,
-    similarityBoost: 0.75,
-    style: 0.2,
-    speed: 1,
-    volume: 1,
-    playbackRate: 1,
-    gapInFrames: 4,
-    // Spellings that help the voice pronounce Darija words. The subtitles
-    // keep the normal word.
-    pronunciations: {
-      "تبزق": "تْبْزَقْ",
-    },
-  },
-
-  // Background music (generated with ElevenLabs Music), quieter under the voice.
-  music: {
-    src: "music/calm-medical.mp3",
-    volume: 0.55,
-    duckedVolume: 0.2,
-    fadeInFrames: 15,
-    fadeOutFrames: 45,
-  },
-
-  sfx: {
-    enabled: true,
-    volume: 0.45,
-    subtitleTicks: true,
-  },
-
-  theme: defaultColors,
 };

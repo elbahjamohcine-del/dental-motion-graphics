@@ -59,7 +59,7 @@ export const buildSfxCues = (
       const t = tipTiming(scene.durationInFrames);
       add(scene.from + t.label, "click");
       add(scene.from + t.icon, "pop");
-      add(scene.from + t.stamp, "error");
+      add(scene.from + t.stamp, content.tipStyle === "mistake" ? "error" : "pop");
       add(scene.from + t.card, "ding");
     });
 
