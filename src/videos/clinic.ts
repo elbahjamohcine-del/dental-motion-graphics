@@ -56,15 +56,15 @@ export const clinic = {
   // Background music (generated with ElevenLabs Music), quieter under the voice.
   music: {
     src: "music/calm-medical.mp3",
-    volume: 0.55,
-    duckedVolume: 0.2,
+    volume: 0.3,
+    duckedVolume: 0.1,
     fadeInFrames: 15,
     fadeOutFrames: 45,
   },
 
   sfx: {
     enabled: true,
-    volume: 0.45,
+    volume: 0.25,
     subtitleTicks: true,
   },
 
