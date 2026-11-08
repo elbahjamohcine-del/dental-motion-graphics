@@ -11,13 +11,12 @@
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
-import { videos } from "../src/videos";
-import { getVoiceLines } from "../src/voiceover";
+import { narrations } from "../src/narrations";
 
 const root = path.resolve(import.meta.dirname, "..");
 const args = process.argv.slice(2);
 const input = args.find((a) => !a.startsWith("--"));
-const videoId = args.find((a) => a.startsWith("--video="))?.split("=")[1] ?? videos[0].id;
+const videoId = args.find((a) => a.startsWith("--video="))?.split("=")[1] ?? narrations[0].id;
 
 const fail = (message: string): never => {
   console.error(`✘ ${message}`);
@@ -27,8 +26,8 @@ const fail = (message: string): never => {
 if (!input || !fs.existsSync(input)) {
   fail("Usage: npm run voiceover:split -- <recording file> [--video=<id>]");
 }
-const video = videos.find((v) => v.id === videoId) ?? fail(`Unknown video id ${videoId}`);
-const lines = getVoiceLines(video.content);
+const video = narrations.find((v) => v.id === videoId) ?? fail(`Unknown video id ${videoId}`);
+const lines = video.lines;
 
 // Pauses, measured on the average loudness of 50 ms windows (more robust than
 // peak-based silence detection with phone recordings and room noise). The

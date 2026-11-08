@@ -1,4 +1,6 @@
 import type { VideoContent } from "../schema";
+import type { StoryContent } from "../story/schema";
+import { carieDarija } from "./carie-darija";
 import { dentManquanteDarija } from "./dent-manquante-darija";
 import { extractionDarija } from "./extraction-darija";
 
@@ -9,4 +11,10 @@ import { extractionDarija } from "./extraction-darija";
 export const videos: { id: string; content: VideoContent }[] = [
   { id: "ExtractionDarija", content: extractionDarija },
   { id: "DentManquanteDarija", content: dentManquanteDarija },
+];
+
+// Story reels (full-screen scenes, voice in one language, subtitles in
+// another). Same id rules as above.
+export const stories: { id: string; content: StoryContent }[] = [
+  { id: "CarieDarija", content: carieDarija },
 ];

@@ -114,29 +114,45 @@ export const voiceClipSchema = z.object({
   durationInFrames: z.number().int(),
 });
 
+export const presenterSchema = z.object({
+  photo: z
+    .string()
+    .describe("Square photo in public/, e.g. presenter/avatar.jpg. Empty = no photo"),
+  name: z.string(),
+  title: z.string(),
+  fullImage: z
+    .string()
+    .describe("Full portrait (head + torso) in public/ for the outro. Empty = classic outro"),
+  talkingVideo: z
+    .string()
+    .describe("Lip-synced video of the presenter saying the outro lines (muted, the voice-over plays). Empty = animated still image"),
+  talkingVideoCuts: z
+    .array(z.number())
+    .describe("Second in the talking video where each outro line starts (for exact lip sync)"),
+  showInScenes: z
+    .boolean()
+    .describe("Small round portrait in the corner during the tip scenes"),
+});
+
+export const musicSchema = z.object({
+  src: z.string().describe("Background music in public/, e.g. music/track.mp3. Empty = none"),
+  volume: z.number().min(0).max(1).describe("Volume when nobody speaks"),
+  duckedVolume: z.number().min(0).max(1).describe("Volume under the voice-over"),
+  fadeInFrames: z.number().int().min(0),
+  fadeOutFrames: z.number().int().min(0),
+});
+
+export const sfxSchema = z.object({
+  enabled: z.boolean(),
+  volume: z.number().min(0).max(1).describe("Sound effects volume (voice = 1)"),
+  subtitleTicks: z.boolean().describe("Soft tick when each subtitle line appears"),
+});
+
 export const videoSchema = z.object({
   direction: z
     .enum(["rtl", "ltr"])
     .describe("rtl for Arabic / Darija, ltr for French or English"),
-  presenter: z.object({
-    photo: z
-      .string()
-      .describe("Square photo in public/, e.g. presenter/avatar.jpg. Empty = no photo"),
-    name: z.string(),
-    title: z.string(),
-    fullImage: z
-      .string()
-      .describe("Full portrait (head + torso) in public/ for the outro. Empty = classic outro"),
-    talkingVideo: z
-      .string()
-      .describe("Lip-synced video of the presenter saying the outro lines (muted, the voice-over plays). Empty = animated still image"),
-    talkingVideoCuts: z
-      .array(z.number())
-      .describe("Second in the talking video where each outro line starts (for exact lip sync)"),
-    showInScenes: z
-      .boolean()
-      .describe("Small round portrait in the corner during the tip scenes"),
-  }),
+  presenter: presenterSchema,
   brand: z.object({
     name: z.string().describe("Clinic / doctor name"),
     handle: z.string().describe("Social handle shown in the CTA"),
@@ -150,18 +166,8 @@ export const videoSchema = z.object({
   transitionDurationInFrames: z.number().int().min(0).max(30),
   showSubtitles: z.boolean(),
   voiceover: voiceoverSchema,
-  music: z.object({
-    src: z.string().describe("Background music in public/, e.g. music/track.mp3. Empty = none"),
-    volume: z.number().min(0).max(1).describe("Volume when nobody speaks"),
-    duckedVolume: z.number().min(0).max(1).describe("Volume under the voice-over"),
-    fadeInFrames: z.number().int().min(0),
-    fadeOutFrames: z.number().int().min(0),
-  }),
-  sfx: z.object({
-    enabled: z.boolean(),
-    volume: z.number().min(0).max(1).describe("Sound effects volume (voice = 1)"),
-    subtitleTicks: z.boolean().describe("Soft tick when each subtitle line appears"),
-  }),
+  music: musicSchema,
+  sfx: sfxSchema,
   theme: themeSchema,
   voiceClips: z
     .array(voiceClipSchema)

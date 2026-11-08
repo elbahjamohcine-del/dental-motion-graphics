@@ -19,9 +19,8 @@ import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { videos } from "../src/videos";
+import { narrations } from "../src/narrations";
 import {
-  getVoiceLines,
   MANIFEST_PATH,
   type ManifestEntry,
   type VoiceManifest,
@@ -57,7 +56,7 @@ const durationOf = (file: string): number => {
 const elevenLabs = async (
   text: string,
   voiceId: string,
-  settings: (typeof videos)[number]["content"]["voiceover"],
+  settings: (typeof narrations)[number]["voiceover"],
 ): Promise<Buffer> => {
   const res = await fetch(
     `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?output_format=mp3_44100_128`,
@@ -111,9 +110,9 @@ const main = async () => {
     ? JSON.parse(fs.readFileSync(manifestFile, "utf8"))
     : {};
 
-  for (const { id, content } of videos) {
+  for (const { id, voiceover, lines } of narrations) {
     if (onlyVideo && id !== onlyVideo) continue;
-    const settings = content.voiceover;
+    const settings = voiceover;
     const voiceId = process.env.ELEVENLABS_VOICE_ID || settings.voiceId;
     const modelId = process.env.ELEVENLABS_MODEL_ID || settings.modelId;
     const outDir = path.join(publicDir, "voiceover", id);
@@ -123,7 +122,7 @@ const main = async () => {
     const next: Record<string, ManifestEntry> = {};
     console.log(`\n${id}`);
 
-    for (const line of getVoiceLines(content)) {
+    for (const line of lines) {
       const recording = findRecording(id, line.key);
       if (recording) {
         next[line.key] = {

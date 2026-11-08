@@ -77,36 +77,27 @@ const TAIL = 6; // frames kept after the last line of a scene
 const leadIn = (sceneIndex: number, transition: number) =>
   sceneIndex === 0 ? 8 : Math.ceil(transition / 2) + 4;
 
+type VoiceSettings = VideoContent["voiceover"];
+
 /**
- * Places the voice clips on the timeline. A clip is used only if the manifest
+ * Places the voice clips of each scene. A clip is used only if the manifest
  * text matches the current narration line (edited text = clip ignored until
  * it is regenerated). Scenes get longer if their narration needs more time.
+ * Shared by the classic videos and the story reels.
+ * Returns the new scene durations and the clips with their offset in their
+ * scene (frames from the scene start).
  */
-export const applyVoiceover = (
-  content: VideoContent,
-  entries: Record<string, ManifestEntry> | undefined,
+export const layoutVoice = (
+  lines: VoiceLine[],
+  configured: number[],
+  transition: number,
+  voice: VoiceSettings,
+  entries: Record<string, ManifestEntry>,
   fps: number,
-): VideoContent => {
-  if (!content.voiceover.enabled || !entries) {
-    return { ...content, voiceClips: [] };
-  }
-
-  const T = content.transitionDurationInFrames;
-  const gap = content.voiceover.gapInFrames;
-  const lines = getVoiceLines(content);
-  const sceneCount = content.tips.length + 2;
-
-  const relative: Omit<VoiceClip, "from">[] = [];
-  const relativeFrom: number[] = [];
-  const durations = sceneSubtitles(content).map((_, sceneIndex) => {
-    const configured =
-      sceneIndex === 0
-        ? content.intro.durationInFrames
-        : sceneIndex === sceneCount - 1
-          ? content.outro.durationInFrames
-          : content.tips[sceneIndex - 1].durationInFrames;
-
-    let cursor = leadIn(sceneIndex, T);
+) => {
+  const clips: (Omit<VoiceClip, "from"> & { offset: number })[] = [];
+  const durations = configured.map((duration, sceneIndex) => {
+    let cursor = leadIn(sceneIndex, transition);
     let hasClip = false;
     for (const line of lines.filter((l) => l.sceneIndex === sceneIndex)) {
       const entry = entries[line.key];
@@ -118,32 +109,54 @@ export const applyVoiceover = (
       ) {
         continue;
       }
-      const durationInFrames = Math.ceil(
-        (entry.durationInSeconds / content.voiceover.playbackRate) * fps,
-      );
-      relative.push({
+      const durationInFrames = Math.ceil((entry.durationInSeconds / voice.playbackRate) * fps);
+      clips.push({
         sceneIndex,
         lineIndex: line.lineIndex,
         src: entry.file,
         durationInFrames,
+        offset: cursor,
       });
-      relativeFrom.push(cursor);
-      cursor += durationInFrames + gap;
+      cursor += durationInFrames + voice.gapInFrames;
       hasClip = true;
     }
     if (!hasClip) {
-      return configured;
+      return duration;
     }
-    const needed =
-      cursor - gap + TAIL + (sceneIndex < sceneCount - 1 ? Math.ceil(T / 2) : 0);
-    return Math.max(configured, needed);
+    const isLast = sceneIndex === configured.length - 1;
+    const needed = cursor - voice.gapInFrames + TAIL + (isLast ? 0 : Math.ceil(transition / 2));
+    return Math.max(duration, needed);
   });
+  return { durations, clips };
+};
 
+/** Classic videos (intro, tips, outro): see layoutVoice. */
+export const applyVoiceover = (
+  content: VideoContent,
+  entries: Record<string, ManifestEntry> | undefined,
+  fps: number,
+): VideoContent => {
+  if (!content.voiceover.enabled || !entries) {
+    return { ...content, voiceClips: [] };
+  }
+  const configured = [
+    content.intro.durationInFrames,
+    ...content.tips.map((t) => t.durationInFrames),
+    content.outro.durationInFrames,
+  ];
+  const { durations, clips } = layoutVoice(
+    getVoiceLines(content),
+    configured,
+    content.transitionDurationInFrames,
+    content.voiceover,
+    entries,
+    fps,
+  );
   const adjusted = withSceneDurations(content, durations);
   const timeline = buildTimeline(adjusted);
-  const voiceClips = relative.map((clip, i) => ({
+  const voiceClips = clips.map(({ offset, ...clip }) => ({
     ...clip,
-    from: timeline[clip.sceneIndex].from + relativeFrom[i],
+    from: timeline[clip.sceneIndex].from + offset,
   }));
   return { ...adjusted, voiceClips };
 };
