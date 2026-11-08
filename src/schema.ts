@@ -19,6 +19,9 @@ export const iconNames = [
   "missingTooth",
   "shift",
   "bone",
+  "pillow",
+  "thermometer",
+  "warning",
 ] as const;
 
 export const iconSchema = z.enum(iconNames);

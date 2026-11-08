@@ -1,6 +1,7 @@
 import type { VideoContent } from "../schema";
 import { dentManquanteDarija } from "./dent-manquante-darija";
 import { extractionDarija } from "./extraction-darija";
+import { toothacheNightDarija } from "./toothache-night-darija";
 
 // Register every video here. Each entry creates a video composition
 // (`id`) and a cover image composition (`id-Cover`) in Remotion Studio.
@@ -9,4 +10,5 @@ import { extractionDarija } from "./extraction-darija";
 export const videos: { id: string; content: VideoContent }[] = [
   { id: "ExtractionDarija", content: extractionDarija },
   { id: "DentManquanteDarija", content: dentManquanteDarija },
+  { id: "ToothacheNightDarija", content: toothacheNightDarija },
 ];
