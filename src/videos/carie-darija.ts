@@ -6,7 +6,8 @@
 //  • `voice`: the lines to record (one file, in order, 1–2 s pauses), then
 //    npm run voiceover:split -- <file> --video=CarieDarija
 //  • `captions`: the French subtitle shown while each line is spoken.
-//  • Label positions (x, y) are in % of the 9:16 frame; `at` in seconds.
+//  • Label positions (x, y) are in % of the 9:16 image; keep x between 35 and 65
+//    so the dot is not hidden under its pill. `at` in seconds.
 // ─────────────────────────────────────────────────────────────────────────────
 import type { StoryContent } from "../story/schema";
 import { clinic } from "./clinic";
@@ -50,10 +51,10 @@ export const carieDarija: StoryContent = {
         { src: img("1-enamel"), at: 2.4 },
       ],
       labels: [
-        { text: "Émail", x: 40, y: 22, side: "left", at: 0.3 },
-        { text: "Dentine", x: 58, y: 30, side: "right", at: 0.8 },
-        { text: "Pulpe", x: 50, y: 38, side: "left", at: 1.3 },
-        { text: "Nerfs et vaisseaux", x: 47, y: 52, side: "right", at: 1.8 },
+        { text: "Émail", x: 60, y: 20, side: "right", at: 0.3 },
+        { text: "Dentine", x: 41, y: 29, side: "left", at: 0.8 },
+        { text: "Pulpe", x: 55, y: 34, side: "right", at: 1.3 },
+        { text: "Nerfs et vaisseaux", x: 62, y: 55, side: "right", at: 1.8 },
       ],
       camera: { from: { scale: 1, x: 50, y: 35 }, to: { scale: 1.12, x: 50, y: 25 } },
       voice: ["فالأول، التسوس كيبدا فطبقة المينا،"],
@@ -64,7 +65,7 @@ export const carieDarija: StoryContent = {
       kind: "image",
       chip: "Stade 2 · Dentine",
       images: [{ src: img("2-dentin"), at: 0 }],
-      labels: [{ text: "Carie", x: 46, y: 24, side: "left", at: 0.8 }],
+      labels: [{ text: "Carie", x: 50, y: 25, side: "left", at: 0.8 }],
       camera: { from: { scale: 1.12, x: 50, y: 25 }, to: { scale: 1.25, x: 50, y: 28 } },
       voice: ["ومن بعد كيقدر يدخل للعاج ويتعمق أكثر."],
       captions: ["puis elle peut pénétrer dans la dentine et s'approfondir."],
@@ -75,8 +76,8 @@ export const carieDarija: StoryContent = {
       chip: "Stade 3 · Pulpe",
       images: [{ src: img("3-pulp"), at: 0 }],
       labels: [
-        { text: "Pulpe", x: 50, y: 38, side: "left", at: 0.6 },
-        { text: "Inflammation", x: 52, y: 46, side: "right", at: 2.2 },
+        { text: "Pulpe", x: 44, y: 36, side: "left", at: 0.6 },
+        { text: "Inflammation", x: 58, y: 34, side: "right", at: 2.2 },
       ],
       camera: { from: { scale: 1.25, x: 50, y: 30 }, to: { scale: 1.1, x: 50, y: 38 } },
       voice: [
@@ -94,8 +95,8 @@ export const carieDarija: StoryContent = {
       chip: "Traitement · Dévitalisation",
       images: [{ src: img("4-root-canal"), at: 0 }],
       labels: [
-        { text: "Canaux traités", x: 50, y: 50, side: "right", at: 0.8 },
-        { text: "Dent conservée", x: 50, y: 22, side: "left", at: 1.8 },
+        { text: "Canaux traités", x: 62, y: 55, side: "right", at: 0.8 },
+        { text: "Dent conservée", x: 58, y: 22, side: "right", at: 1.8 },
       ],
       camera: { from: { scale: 1.1, x: 50, y: 40 }, to: { scale: 1, x: 50, y: 35 } },
       voice: ["فهاد الحالة، ممكن تحتاج علاج العصب باش نحافظو على السن."],
