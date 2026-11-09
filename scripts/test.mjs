@@ -76,11 +76,13 @@ for (const composition of compositions) {
   }
 }
 
-// Reels / TikTok target: about 30 s. Scenes can grow with the voice-over.
+// Reels / TikTok: 30 s target (story reels can run to 45 s). Scenes can grow
+// with the voice-over.
 for (const c of compositions.filter((c) => !isStill(c))) {
   const seconds = c.durationInFrames / c.fps;
-  if (seconds > 35) {
-    errors.push(new Error(`${c.id} is ${seconds.toFixed(1)} s: shorten the narration (target 30 s)`));
+  const max = c.id === "CarieDarija" ? 50 : 35;
+  if (seconds > max) {
+    errors.push(new Error(`${c.id} is ${seconds.toFixed(1)} s: shorten the narration (max ${max} s)`));
   }
 }
 

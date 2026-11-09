@@ -22,5 +22,16 @@ export const ThemeProvider: React.FC<{
   </ColorsContext.Provider>
 );
 
+// Switches the text direction for one part of a scene (e.g. a French name
+// inside a Darija video), without changing the layout around it.
+export const DirectionOverride: React.FC<{ direction: Direction; children: React.ReactNode }> = ({
+  direction,
+  children,
+}) => (
+  <DirectionContext.Provider value={direction}>
+    <div dir={direction}>{children}</div>
+  </DirectionContext.Provider>
+);
+
 export const useColors = () => useContext(ColorsContext);
 export const useDirection = () => useContext(DirectionContext);

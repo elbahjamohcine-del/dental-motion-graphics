@@ -1,21 +1,28 @@
 // ─────────────────────────────────────────────────────────────────────────────
-//  STORY REEL: « La carie : de l'émail au nerf »
-//  Darija voice-over (recorded by the presenter), French subtitles, realistic
-//  3D cross-sections of the same molar at each stage.
+//  STORY REEL: « التسوس: من المينا حتى للعصب »  (≈45 s)
+//  Darija voice-over (recorded by the presenter) and Darija subtitles;
+//  anatomy labels stay in French. Realistic 3D cross-sections of the same
+//  molar at each stage.
 //
 //  • `voice`: the lines to record (one file, in order, 1–2 s pauses), then
 //    npm run voiceover:split -- <file> --video=CarieDarija
-//  • `captions`: the French subtitle shown while each line is spoken.
+//  • `captions`: the subtitle shown while each line is spoken.
 //  • Label positions (x, y) are in % of the 9:16 image; keep x between 35 and 65
-//    so the dot is not hidden under its pill. `at` in seconds.
+//    so the dot is not hidden under its pill, and keep right-side labels below
+//    y ≈ 24 (the presenter's portrait is in the top-right corner). `at` in s.
 // ─────────────────────────────────────────────────────────────────────────────
 import type { StoryContent } from "../story/schema";
 import { clinic } from "./clinic";
 
 const img = (name: string) => `images/carie/${name}.jpg`;
+// Keeps a French word in the right place inside an Arabic line.
+const fr = (word: string) => `⁨${word}⁩`;
+
+// Subtitles show exactly what is said.
+const lines = (...text: string[]) => ({ voice: text, captions: text });
 
 export const carieDarija: StoryContent = {
-  direction: "ltr", // on-screen texts are in French
+  direction: "rtl",
   presenter: clinic.presenter,
   brand: clinic.brand,
   voiceover: clinic.voiceover,
@@ -25,92 +32,118 @@ export const carieDarija: StoryContent = {
   transitionDurationInFrames: 15,
   showSubtitles: true,
 
-  kicker: "Conseil dentaire",
-  title: "La carie : de l'émail au nerf",
+  kicker: "نصيحة من طبيب الأسنان",
+  title: "التسوس: من المينا حتى للعصب",
   endCard: {
     title: "Cabinet Dentaire Elbahja",
-    tagline: "Prenez soin de votre sourire.",
+    tagline: "تهلا فضحكتك",
     phone: "06 21 40 66 21",
   },
 
   scenes: [
+    // 1. Hook: extreme close-up on the small black spot… then the inflamed pulp.
+    {
+      kind: "image",
+      headline: { text: "نقطة صغيرة… ولا ألم كبير؟", highlight: "ألم كبير", at: 0.15 },
+      images: [
+        { src: img("1-enamel"), at: 0 },
+        { src: img("3-pulp"), at: 2.2 },
+      ],
+      labels: [],
+      camera: { from: { scale: 2.1, x: 50, y: 22 }, to: { scale: 1.25, x: 50, y: 32 } },
+      ...lines("شفتي شي نقطة كحلة فسنتك؟ ما تستهلش بيها!"),
+      durationInFrames: 135,
+    },
+    // 2. Title
     {
       kind: "intro",
       images: [],
       labels: [],
       camera: { from: { scale: 1, x: 50, y: 50 }, to: { scale: 1, x: 50, y: 50 } },
-      voice: ["واش عارف أن تسوس صغير يقدر يوصل حتى للعصب ديال السن؟"],
-      captions: ["Saviez-vous qu'une petite carie peut atteindre le nerf de la dent ?"],
+      ...lines("واش عارف أن تسوس صغير يقدر يوصل حتى للعصب ديال السن؟"),
       durationInFrames: 120,
     },
+    // 3. Anatomy of a healthy tooth
     {
       kind: "image",
-      chip: "Stade 1 · Émail",
-      images: [
-        { src: img("0-healthy"), at: 0 },
-        { src: img("1-enamel"), at: 2.4 },
-      ],
+      chip: "السنة من الداخل",
+      images: [{ src: img("0-healthy"), at: 0 }],
       labels: [
-        { text: "Émail", x: 60, y: 20, side: "right", at: 0.3 },
-        { text: "Dentine", x: 41, y: 29, side: "left", at: 0.8 },
-        { text: "Pulpe", x: 55, y: 34, side: "right", at: 1.3 },
-        { text: "Nerfs et vaisseaux", x: 62, y: 55, side: "right", at: 1.8 },
+        { text: "Émail", x: 40, y: 19, side: "left", at: 1.6 },
+        { text: "Dentine", x: 41, y: 29, side: "left", at: 2.4 },
+        { text: "Pulpe", x: 55, y: 34, side: "right", at: 3.2 },
+        { text: "Nerfs et vaisseaux", x: 62, y: 55, side: "right", at: 4.2 },
       ],
-      camera: { from: { scale: 1, x: 50, y: 35 }, to: { scale: 1.12, x: 50, y: 25 } },
-      voice: ["فالأول، التسوس كيبدا فطبقة المينا،"],
-      captions: ["Au début, la carie commence dans l'émail,"],
-      durationInFrames: 165,
-    },
-    {
-      kind: "image",
-      chip: "Stade 2 · Dentine",
-      images: [{ src: img("2-dentin"), at: 0 }],
-      labels: [{ text: "Carie", x: 50, y: 25, side: "left", at: 0.8 }],
-      camera: { from: { scale: 1.12, x: 50, y: 25 }, to: { scale: 1.25, x: 50, y: 28 } },
-      voice: ["ومن بعد كيقدر يدخل للعاج ويتعمق أكثر."],
-      captions: ["puis elle peut pénétrer dans la dentine et s'approfondir."],
-      durationInFrames: 150,
-    },
-    {
-      kind: "image",
-      chip: "Stade 3 · Pulpe",
-      images: [{ src: img("3-pulp"), at: 0 }],
-      labels: [
-        { text: "Pulpe", x: 44, y: 36, side: "left", at: 0.6 },
-        { text: "Inflammation", x: 58, y: 34, side: "right", at: 2.2 },
-      ],
-      camera: { from: { scale: 1.25, x: 50, y: 30 }, to: { scale: 1.1, x: 50, y: 38 } },
-      voice: [
-        "إلا وصل للب ديال السن، فين كاين العصب والأوعية الدموية،",
-        "يقدر يسبب التهاب وألم قوي.",
-      ],
-      captions: [
-        "Si elle atteint la pulpe, où se trouvent le nerf et les vaisseaux sanguins,",
-        "elle peut provoquer une inflammation et une douleur intense.",
-      ],
+      camera: { from: { scale: 1, x: 50, y: 40 }, to: { scale: 1.08, x: 50, y: 35 } },
+      ...lines("السنة فيها تلاتة د الطبقات:", "المينا، العاج، واللب فين كاين العصب والأوعية الدموية."),
       durationInFrames: 195,
     },
+    // 4. Stage 1: enamel
     {
       kind: "image",
-      chip: "Traitement · Dévitalisation",
+      chip: `المرحلة 1 · ${fr("Émail")}`,
+      images: [
+        { src: img("0-healthy"), at: 0 },
+        { src: img("1-enamel"), at: 0.8 },
+      ],
+      labels: [
+        { text: "Émail", x: 40, y: 19, side: "left", at: 0.4 },
+        { text: "Carie", x: 50, y: 24.5, side: "left", at: 1.6 },
+      ],
+      camera: { from: { scale: 1.08, x: 50, y: 35 }, to: { scale: 1.2, x: 50, y: 25 } },
+      ...lines("فالأول، التسوس كيبدا فالمينا، وغالبا ما كيوجعش."),
+      durationInFrames: 165,
+    },
+    // 5. Stage 2: dentin
+    {
+      kind: "image",
+      chip: `المرحلة 2 · ${fr("Dentine")}`,
+      images: [{ src: img("2-dentin"), at: 0 }],
+      labels: [
+        { text: "Carie", x: 50, y: 25, side: "left", at: 0.6 },
+        { text: "Dentine", x: 60, y: 30, side: "right", at: 1.4 },
+      ],
+      camera: { from: { scale: 1.2, x: 50, y: 25 }, to: { scale: 1.28, x: 50, y: 28 } },
+      ...lines("ومن بعد كيدخل للعاج،", "وكتبدا تحس بالحساسية للبارد والحلو."),
+      durationInFrames: 195,
+    },
+    // 6. Stage 3: pulp
+    {
+      kind: "image",
+      chip: `المرحلة 3 · ${fr("Pulpe")}`,
+      images: [{ src: img("3-pulp"), at: 0 }],
+      labels: [
+        { text: "Pulpe", x: 44, y: 36, side: "left", at: 0.8 },
+        { text: "Inflammation", x: 58, y: 34, side: "right", at: 3.2 },
+      ],
+      camera: { from: { scale: 1.28, x: 50, y: 30 }, to: { scale: 1.1, x: 50, y: 38 } },
+      ...lines(
+        "إلا وصل للب ديال السن، فين كاين العصب والأوعية الدموية،",
+        "يقدر يسبب التهاب وألم قوي.",
+      ),
+      durationInFrames: 225,
+    },
+    // 7. Treatment: root canal
+    {
+      kind: "image",
+      chip: "العلاج · علاج العصب",
       images: [{ src: img("4-root-canal"), at: 0 }],
       labels: [
-        { text: "Canaux traités", x: 62, y: 55, side: "right", at: 0.8 },
-        { text: "Dent conservée", x: 58, y: 22, side: "right", at: 1.8 },
+        { text: "Canaux traités", x: 62, y: 55, side: "right", at: 1.0 },
+        { text: "Dent conservée", x: 42, y: 26, side: "left", at: 2.4 },
       ],
       camera: { from: { scale: 1.1, x: 50, y: 40 }, to: { scale: 1, x: 50, y: 35 } },
-      voice: ["فهاد الحالة، ممكن تحتاج علاج العصب باش نحافظو على السن."],
-      captions: ["Dans ce cas, un traitement du nerf peut être nécessaire pour conserver la dent."],
-      durationInFrames: 150,
+      ...lines("فهاد الحالة، ممكن تحتاج علاج العصب باش نحافظو على السن."),
+      durationInFrames: 195,
     },
+    // 8. Advice + end card
     {
       kind: "end",
       images: [],
       labels: [],
       camera: { from: { scale: 1, x: 50, y: 50 }, to: { scale: 1, x: 50, y: 50 } },
-      voice: ["النصيحة ديالي: ما تستناش حتى يوجعك سنك،", "الكشف المبكر كيقدر ينقذ ليك سنانك!"],
-      captions: ["Mon conseil : n'attendez pas d'avoir mal,", "le dépistage précoce peut sauver vos dents !"],
-      durationInFrames: 195,
+      ...lines("النصيحة ديالي: ما تستناش حتى يوجعك سنك،", "الكشف المبكر كيقدر ينقذ ليك سنانك!"),
+      durationInFrames: 225,
     },
   ],
 };

@@ -17,6 +17,10 @@ export const storyLabelSchema = z.object({
 export const storySceneSchema = z.object({
   kind: z.enum(["intro", "image", "end"]),
   chip: z.string().optional().describe("Small title at the top, e.g. « Stade 1 · Émail »"),
+  // Big punchy text over the image (used for the hook).
+  headline: z
+    .object({ text: z.string(), highlight: z.string().optional(), at: z.number().min(0) })
+    .optional(),
   // Full-screen 9:16 images; each one fades in over the previous one at `at`.
   images: z.array(z.object({ src: z.string(), at: z.number().min(0) })),
   labels: z.array(storyLabelSchema),

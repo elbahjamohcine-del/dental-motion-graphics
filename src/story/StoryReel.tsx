@@ -22,7 +22,7 @@ import { Pill } from "../components/Pill";
 import { PresenterBadge } from "../components/PresenterBadge";
 import { ProgressBar } from "../components/ProgressBar";
 import { buildCues, Subtitles } from "../components/Subtitles";
-import { ThemeProvider, useColors } from "../components/ThemeContext";
+import { DirectionOverride, ThemeProvider, useColors } from "../components/ThemeContext";
 import { musicVolumeAt } from "../music";
 import { FONTS, VIDEO } from "../theme";
 import type { StoryContent, StoryScene } from "./schema";
@@ -164,12 +164,53 @@ const ImageScene: React.FC<{ scene: StoryScene }> = ({ scene }) => {
       {scene.labels.map((label, i) => (
         <Label key={i} label={label} camera={camera} />
       ))}
+      {scene.headline ? <Headline headline={scene.headline} /> : null}
       {scene.chip ? (
         <div style={{ position: "absolute", top: 205, left: 0, right: 0, display: "flex", justifyContent: "center" }}>
           <Pill text={scene.chip} color={c.white} background={c.navy} dotColor={c.turquoise} delay={4} fontSize={36} />
         </div>
       ) : null}
     </AbsoluteFill>
+  );
+};
+
+// Big headline popping in at the top of the image (hook).
+const Headline: React.FC<{ headline: NonNullable<StoryScene["headline"]> }> = ({ headline }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const c = useColors();
+  const pop = spring({ frame: frame - Math.round(headline.at * fps), fps, config: { damping: 10, stiffness: 160 } });
+  const { text, highlight } = headline;
+  const cut = highlight ? text.indexOf(highlight) : -1;
+  return (
+    <div style={{ position: "absolute", top: 230, left: 60, right: 60, display: "flex", justifyContent: "center" }}>
+      <div
+        style={{
+          padding: "26px 44px",
+          borderRadius: 40,
+          background: c.navy,
+          boxShadow: "0 24px 60px rgba(11,37,69,0.35)",
+          fontFamily: FONTS.title,
+          fontWeight: 800,
+          fontSize: 64,
+          lineHeight: 1.3,
+          color: c.white,
+          textAlign: "center",
+          opacity: Math.min(1, pop * 1.5),
+          transform: `scale(${interpolate(pop, [0, 1], [0.6, 1])})`,
+        }}
+      >
+        {cut < 0 ? (
+          text
+        ) : (
+          <>
+            {text.slice(0, cut)}
+            <span style={{ color: c.turquoiseLight }}>{highlight}</span>
+            {text.slice(cut + highlight!.length)}
+          </>
+        )}
+      </div>
+    </div>
   );
 };
 
@@ -208,6 +249,8 @@ export const IntroScene: React.FC<{ story: StoryContent }> = ({ story }) => {
   );
 };
 
+const isLatin = (text: string) => !/[\u0590-\u08FF]/.test(text); // no Hebrew/Arabic letters
+
 // End card: clinic name, tagline, phone and handle.
 const EndScene: React.FC<{ story: StoryContent }> = ({ story }) => {
   const frame = useCurrentFrame();
@@ -220,13 +263,16 @@ const EndScene: React.FC<{ story: StoryContent }> = ({ story }) => {
       <Background variant="dark" />
       <AbsoluteFill style={{ alignItems: "center", paddingTop: 300, gap: 36 }}>
         <PresenterBadge presenter={story.presenter} size={300} delay={2} />
-        <AnimatedTitle text={story.endCard.title} delay={16} fontSize={78} color={c.white} maxWidth={940} />
+        {/* A Latin name keeps its word order in a right-to-left video. */}
+        <DirectionOverride direction={isLatin(story.endCard.title) ? "ltr" : story.direction}>
+          <AnimatedTitle text={story.endCard.title} delay={16} fontSize={78} color={c.white} maxWidth={940} />
+        </DirectionOverride>
         <div
           style={{
             fontFamily: FONTS.title,
             fontWeight: 600,
             fontSize: 50,
-            fontStyle: "italic",
+            fontStyle: story.direction === "ltr" ? "italic" : "normal",
             color: c.turquoiseLight,
             opacity: taglineIn,
             transform: `translateY(${(1 - taglineIn) * 20}px)`,
@@ -235,6 +281,7 @@ const EndScene: React.FC<{ story: StoryContent }> = ({ story }) => {
           {story.endCard.tagline}
         </div>
         <div
+          dir="ltr"
           style={{
             marginTop: 10,
             padding: "18px 46px",
@@ -280,11 +327,20 @@ export const StoryReel: React.FC<StoryContent> = (story) => {
     return list.map((s) => ({ ...s, volume: s.volume * story.sfx.volume }));
   }, [story, timeline]);
 
-  // Corner portrait during the image scenes.
-  const imageScenes = timeline.filter((_, i) => story.scenes[i].kind === "image");
-  const cornerFrom = imageScenes.length ? imageScenes[0].from + Math.floor(T / 2) : 0;
-  const lastImage = imageScenes.at(-1);
-  const cornerTo = lastImage ? lastImage.from + lastImage.durationInFrames - Math.floor(T / 2) : 0;
+  // Corner portrait during each run of image scenes (not over a headline).
+  const cornerRuns = useMemo(() => {
+    const runs: { from: number; to: number }[] = [];
+    story.scenes.forEach((scene, i) => {
+      const t = timeline[i];
+      if (scene.kind !== "image" || scene.headline) return;
+      const from = t.from + Math.floor(T / 2);
+      const to = t.from + t.durationInFrames - Math.floor(T / 2);
+      const last = runs.at(-1);
+      if (last && story.scenes[i - 1]?.kind === "image" && !story.scenes[i - 1].headline) last.to = to;
+      else runs.push({ from, to });
+    });
+    return runs;
+  }, [story.scenes, timeline, T]);
 
   const transitionFor = (from: StoryScene, to: StoryScene): AnyPresentation => {
     if (to.kind === "end") return iris({ width: W, height: H });
@@ -320,11 +376,13 @@ export const StoryReel: React.FC<StoryContent> = (story) => {
             return elements;
           })}
         </TransitionSeries>
-        {story.presenter.showInScenes && cornerTo > cornerFrom ? (
-          <Sequence from={cornerFrom} durationInFrames={cornerTo - cornerFrom} layout="none">
-            <CornerPresenter presenter={story.presenter} voiceClips={voiceClips} offset={cornerFrom} />
-          </Sequence>
-        ) : null}
+        {story.presenter.showInScenes
+          ? cornerRuns.map((run) => (
+              <Sequence key={run.from} from={run.from} durationInFrames={run.to - run.from} layout="none">
+                <CornerPresenter presenter={story.presenter} voiceClips={voiceClips} offset={run.from} />
+              </Sequence>
+            ))
+          : null}
         <ProgressBar timeline={timeline} totalDuration={total} />
         {story.showSubtitles ? <Subtitles cues={cues} /> : null}
         {story.music.src ? (
