@@ -315,7 +315,18 @@ export const StoryReel: React.FC<StoryContent> = (story) => {
   // Sounds: whoosh on scene changes, pop on each label, chime on the end card.
   const sfx = useMemo(() => {
     if (!story.sfx.enabled) return [];
-    const list: { from: number; sound: string; volume: number }[] = [];
+    const list: { from: number; sound: string; volume: number; length?: number }[] = [];
+    // Scene sounds (e.g. the hook's stinger) keep their own volume.
+    story.scenes.forEach((scene, i) => {
+      if (scene.sound) {
+        list.push({
+          from: timeline[i].from + Math.round(scene.sound.at * VIDEO.fps),
+          sound: scene.sound.name,
+          volume: scene.sound.volume / story.sfx.volume,
+          length: 120,
+        });
+      }
+    });
     timeline.slice(1).forEach((s) => list.push({ from: s.from, sound: "whoosh", volume: 0.7 }));
     story.scenes.forEach((scene, i) =>
       scene.labels.forEach((l) =>
@@ -393,7 +404,7 @@ export const StoryReel: React.FC<StoryContent> = (story) => {
           />
         ) : null}
         {sfx.map((cue, i) => (
-          <Sequence key={`sfx-${i}`} from={cue.from} durationInFrames={40} layout="none">
+          <Sequence key={`sfx-${i}`} from={cue.from} durationInFrames={cue.length ?? 40} layout="none">
             <Html5Audio src={staticFile(`sfx/${cue.sound}.mp3`)} volume={cue.volume} />
           </Sequence>
         ))}

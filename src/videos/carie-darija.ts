@@ -44,14 +44,15 @@ export const carieDarija: StoryContent = {
     // 1. Hook: extreme close-up on the small black spot… then the inflamed pulp.
     {
       kind: "image",
-      headline: { text: "نقطة صغيرة… ولا ألم كبير؟", highlight: "ألم كبير", at: 0.15 },
+      headline: { text: "خد منفوخ… من نقطة صغيرة!", highlight: "خد منفوخ", at: 0.15 },
+      sound: { name: "hook-stinger", at: 0, volume: 0.9 },
       images: [
         { src: img("1-enamel"), at: 0 },
         { src: img("3-pulp"), at: 2.2 },
       ],
       labels: [],
       camera: { from: { scale: 2.1, x: 50, y: 22 }, to: { scale: 1.25, x: 50, y: 32 } },
-      ...lines("شفتي شي نقطة كحلة فسنتك؟ ما تستهلش بيها!"),
+      ...lines("وجه منفوخ وألم ما كيتحملش… وكلشي بدا بنقطة كحلة صغيرة فالسنة!"),
       durationInFrames: 135,
     },
     // 2. Title

@@ -21,6 +21,8 @@ export const storySceneSchema = z.object({
   headline: z
     .object({ text: z.string(), highlight: z.string().optional(), at: z.number().min(0) })
     .optional(),
+  // A sound effect played at `at` seconds (file in public/sfx/, without .mp3).
+  sound: z.object({ name: z.string(), at: z.number().min(0), volume: z.number().min(0).max(1) }).optional(),
   // Full-screen 9:16 images; each one fades in over the previous one at `at`.
   images: z.array(z.object({ src: z.string(), at: z.number().min(0) })),
   labels: z.array(storyLabelSchema),
