@@ -120,14 +120,14 @@ export const carieDarija: StoryContent = {
     // 6. Treatment: root canal
     {
       kind: "image",
-      chip: "العلاج · علاج العصب",
+      chip: "العلاج · قتيل العرق",
       images: [{ src: img("4-root-canal"), at: 0 }],
       labels: [
         { text: "Canaux traités", x: 62, y: 55, side: "right", at: 1.0 },
         { text: "Dent conservée", x: 42, y: 26, side: "left", at: 2.4 },
       ],
       camera: { from: { scale: 1.1, x: 50, y: 40 }, to: { scale: 1, x: 50, y: 35 } },
-      ...lines("فهاد الحالة، ممكن تحتاج علاج العصب باش نحافظو على السن."),
+      ...lines("فهاد الحالة، ممكن تحتاج قتيل العرق باش نحافظو على السن."),
       durationInFrames: 210,
     },
     // 7. Advice + end card
