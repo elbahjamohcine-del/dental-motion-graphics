@@ -28,7 +28,7 @@ export const carieDarija: StoryContent = {
   voiceover: clinic.voiceover,
   // Quieter than the other videos, and only starts at 3.5 s so the hook's
   // scary sound plays alone.
-  music: { ...clinic.music, volume: 0.15, duckedVolume: 0.05, fadeInFrames: 30, startFrame: 105 },
+  music: { ...clinic.music, src: "music/clinic-reassuring.mp3", volume: 0.15, duckedVolume: 0.05, fadeInFrames: 30, startFrame: 105 },
   sfx: clinic.sfx,
   theme: clinic.theme,
   transitionDurationInFrames: 15,
