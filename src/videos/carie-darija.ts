@@ -67,7 +67,7 @@ export const carieDarija: StoryContent = {
         { text: "Nerfs et vaisseaux", x: 62, y: 55, side: "right", at: 4.2 },
       ],
       camera: { from: { scale: 1, x: 50, y: 40 }, to: { scale: 1.08, x: 50, y: 35 } },
-      ...lines("السنة فيها تلاتة د الطبقات:", "المينا، العاج، واللب فين كاين العصب والأوعية الدموية."),
+      ...lines("السنة فيها تلاتة د الطبقات:", "المينا، العاج، والعرق فين كاين العصب والأوعية الدموية."),
       durationInFrames: 210,
     },
     // 3. Stage 1: enamel
@@ -110,7 +110,7 @@ export const carieDarija: StoryContent = {
       ],
       camera: { from: { scale: 1.28, x: 50, y: 30 }, to: { scale: 1.1, x: 50, y: 38 } },
       ...lines(
-        "إلا وصل للب ديال السن، فين كاين العصب والأوعية الدموية،",
+        "إلا وصل للعرق ديال السن، فين كاين العصب والأوعية الدموية،",
         "يقدر يسبب التهاب وألم قوي.",
       ),
       durationInFrames: 240,
