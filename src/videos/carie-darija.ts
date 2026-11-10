@@ -54,7 +54,7 @@ export const carieDarija: StoryContent = {
       ],
       labels: [{ text: "Carie", x: 50, y: 22, side: "left", at: 3.2 }],
       camera: { from: { scale: 1, x: 60, y: 45 }, to: { scale: 1.5, x: 50, y: 26 } },
-      ...lines("وجه منفوخ وألم ما كيتحملش… وكلشي بدا بنقطة كحلة صغيرة فالسنة!"),
+      ...lines("وجه منفوخ ودولور ما تصبرش عليها… وكلشي بدا بنقطة كحلة صغيرة فالسنة!"),
       durationInFrames: 150,
     },
     // 2. Anatomy of a healthy tooth
