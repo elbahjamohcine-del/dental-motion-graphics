@@ -41,19 +41,19 @@ export const carieDarija: StoryContent = {
   },
 
   scenes: [
-    // 1. Hook: extreme close-up on the small black spot… then the inflamed pulp.
+    // 1. Hook: a swollen face (abscess) with a stinger… then the small black spot.
     {
       kind: "image",
-      headline: { text: "خد منفوخ… من نقطة صغيرة!", highlight: "خد منفوخ", at: 0.15 },
+      headline: { text: "خد منفوخ… من نقطة صغيرة!", highlight: "خد منفوخ", at: 0.15, until: 2.5 },
       sound: { name: "hook-stinger", at: 0, volume: 0.9 },
       images: [
-        { src: img("1-enamel"), at: 0 },
-        { src: img("3-pulp"), at: 2.2 },
+        { src: img("hook-abscess"), at: 0 },
+        { src: img("1-enamel"), at: 2.6 },
       ],
-      labels: [],
-      camera: { from: { scale: 2.1, x: 50, y: 22 }, to: { scale: 1.25, x: 50, y: 32 } },
+      labels: [{ text: "Carie", x: 50, y: 22, side: "left", at: 3.2 }],
+      camera: { from: { scale: 1, x: 60, y: 45 }, to: { scale: 1.5, x: 50, y: 26 } },
       ...lines("وجه منفوخ وألم ما كيتحملش… وكلشي بدا بنقطة كحلة صغيرة فالسنة!"),
-      durationInFrames: 135,
+      durationInFrames: 150,
     },
     // 2. Title
     {

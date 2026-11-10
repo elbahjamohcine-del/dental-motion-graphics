@@ -19,7 +19,12 @@ export const storySceneSchema = z.object({
   chip: z.string().optional().describe("Small title at the top, e.g. « Stade 1 · Émail »"),
   // Big punchy text over the image (used for the hook).
   headline: z
-    .object({ text: z.string(), highlight: z.string().optional(), at: z.number().min(0) })
+    .object({
+      text: z.string(),
+      highlight: z.string().optional(),
+      at: z.number().min(0),
+      until: z.number().min(0).optional().describe("Seconds: the headline leaves (default: stays)"),
+    })
     .optional(),
   // A sound effect played at `at` seconds (file in public/sfx/, without .mp3).
   sound: z.object({ name: z.string(), at: z.number().min(0), volume: z.number().min(0).max(1) }).optional(),

@@ -164,6 +164,7 @@ const ImageScene: React.FC<{ scene: StoryScene }> = ({ scene }) => {
       {scene.labels.map((label, i) => (
         <Label key={i} label={label} camera={camera} />
       ))}
+      {scene.sound ? <ShockFlash at={Math.round(scene.sound.at * fps)} /> : null}
       {scene.headline ? <Headline headline={scene.headline} /> : null}
       {scene.chip ? (
         <div style={{ position: "absolute", top: 205, left: 0, right: 0, display: "flex", justifyContent: "center" }}>
@@ -174,6 +175,26 @@ const ImageScene: React.FC<{ scene: StoryScene }> = ({ scene }) => {
   );
 };
 
+// Red vignette pulsing with the hook's stinger (a hit, then a heartbeat).
+const ShockFlash: React.FC<{ at: number }> = ({ at }) => {
+  const frame = useCurrentFrame() - at;
+  const pulse = (start: number, peak: number) =>
+    interpolate(frame, [start, start + 3, start + 22], [0, peak, 0], {
+      extrapolateLeft: "clamp",
+      extrapolateRight: "clamp",
+    });
+  const strength = Math.max(pulse(0, 0.85), pulse(50, 0.45));
+  return (
+    <AbsoluteFill
+      style={{
+        pointerEvents: "none",
+        opacity: strength,
+        background: "radial-gradient(ellipse at center, rgba(180,0,0,0) 35%, rgba(150,0,0,0.85) 100%)",
+      }}
+    />
+  );
+};
+
 // Big headline popping in at the top of the image (hook).
 const Headline: React.FC<{ headline: NonNullable<StoryScene["headline"]> }> = ({ headline }) => {
   const frame = useCurrentFrame();
@@ -181,6 +202,13 @@ const Headline: React.FC<{ headline: NonNullable<StoryScene["headline"]> }> = ({
   const c = useColors();
   const pop = spring({ frame: frame - Math.round(headline.at * fps), fps, config: { damping: 10, stiffness: 160 } });
   const { text, highlight } = headline;
+  const out =
+    headline.until === undefined
+      ? 1
+      : interpolate(frame, [headline.until * fps - 8, headline.until * fps], [1, 0], {
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+        });
   const cut = highlight ? text.indexOf(highlight) : -1;
   return (
     <div style={{ position: "absolute", top: 230, left: 60, right: 60, display: "flex", justifyContent: "center" }}>
@@ -196,7 +224,7 @@ const Headline: React.FC<{ headline: NonNullable<StoryScene["headline"]> }> = ({
           lineHeight: 1.3,
           color: c.white,
           textAlign: "center",
-          opacity: Math.min(1, pop * 1.5),
+          opacity: Math.min(1, pop * 1.5) * out,
           transform: `scale(${interpolate(pop, [0, 1], [0.6, 1])})`,
         }}
       >
