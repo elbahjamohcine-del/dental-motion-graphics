@@ -4,6 +4,7 @@
 // Then run `npm run voiceover` to use them (recordings replace the AI voice).
 //
 //   npm run voiceover:split -- path/to/recording.m4a [--video=ExtractionDarija]
+//   … [--pauses=6.9-8.3,9.5-10.25,…]   (pauses between lines, by hand)
 //
 // Read the lines in order with a clear pause (about 1–2 s) between them.
 // Each clip is cleaned: low rumble filtered, silences trimmed, level evened.
@@ -72,18 +73,31 @@ const analyse = () => {
 };
 
 // The pauses between lines are the longest ones: keep the (lines - 1) longest.
+// If a pause between lines is shorter than one inside a line, give the pauses
+// between lines by hand (seconds): --pauses=6.9-8.3,9.5-10.25,…
+const manual = args
+  .find((a) => a.startsWith("--pauses="))
+  ?.split("=")[1]
+  .split(",")
+  .map((p) => {
+    const [start, end] = p.split("-").map(Number);
+    return { start, end };
+  });
 const { speechStart, speechEnd, inner } = analyse();
-if (inner.length < lines.length - 1) {
+if (manual && manual.length !== lines.length - 1) {
+  fail(`--pauses needs ${lines.length - 1} pauses for ${lines.length} lines (got ${manual.length}).`);
+}
+if (!manual && inner.length < lines.length - 1) {
   fail(
     `Only ${inner.length + 1} spoken parts found for ${lines.length} lines. ` +
       "Leave a clear pause (1–2 s) between lines, then retry.",
   );
 }
 const byLength = [...inner].sort((a, b) => b.end - b.start - (a.end - a.start));
-const boundaries = byLength.slice(0, lines.length - 1).sort((a, b) => a.start - b.start);
+const boundaries = manual ?? byLength.slice(0, lines.length - 1).sort((a, b) => a.start - b.start);
 const shortestBetween = Math.min(...boundaries.map((p) => p.end - p.start));
 const longestInside = Math.max(0, ...byLength.slice(lines.length - 1).map((p) => p.end - p.start));
-if (shortestBetween < 0.45 || shortestBetween < longestInside * 1.3) {
+if (!manual && (shortestBetween < 0.45 || shortestBetween < longestInside * 1.3)) {
   console.warn(
     `⚠ The pauses between lines (${shortestBetween.toFixed(2)} s) are not much longer than ` +
       `pauses inside lines (${longestInside.toFixed(2)} s): check the result.`,

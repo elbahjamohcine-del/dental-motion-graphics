@@ -70,5 +70,84 @@
       "durationInSeconds": 2.142041,
       "provider": "recording"
     }
+  },
+  "CarieDarija": {
+    "s1-0": {
+      "file": "voiceover/CarieDarija/recordings/s1-0.mp3",
+      "text": "وجه منفوخ و ⁨douleur⁩ ما تصبرش عليها… وكلشي بدا بنقطة كحلة صغيرة فالسنة!",
+      "spoken": "وجه منفوخ و ⁨douleur⁩ ما تصبرش عليها… وكلشي بدا بنقطة كحلة صغيرة فالسنة!",
+      "durationInSeconds": 5.511837,
+      "provider": "recording"
+    },
+    "s2-0": {
+      "file": "voiceover/CarieDarija/recordings/s2-0.mp3",
+      "text": "السنة فيها تلاتة د الطبقات:",
+      "spoken": "السنة فيها تلاتة د الطبقات:",
+      "durationInSeconds": 1.410612,
+      "provider": "recording"
+    },
+    "s2-1": {
+      "file": "voiceover/CarieDarija/recordings/s2-1.mp3",
+      "text": "المينا، العاج، والعرق فين كاين العصب والأوعية الدموية.",
+      "spoken": "المينا، العاج، والعرق فين كاين العصب والأوعية الدموية.",
+      "durationInSeconds": 3.892245,
+      "provider": "recording"
+    },
+    "s3-0": {
+      "file": "voiceover/CarieDarija/recordings/s3-0.mp3",
+      "text": "فالأول، التسوس كيبدا فالمينا، وغالبا ما كيوجعش.",
+      "spoken": "فالأول، التسوس كيبدا فالمينا، وغالبا ما كيوجعش.",
+      "durationInSeconds": 3.552653,
+      "provider": "recording"
+    },
+    "s4-0": {
+      "file": "voiceover/CarieDarija/recordings/s4-0.mp3",
+      "text": "ومن بعد كيدخل للعاج،",
+      "spoken": "ومن بعد كيدخل للعاج،",
+      "durationInSeconds": 1.306122,
+      "provider": "recording"
+    },
+    "s4-1": {
+      "file": "voiceover/CarieDarija/recordings/s4-1.mp3",
+      "text": "وكتبدا تحس بالحساسية للبارد والحلو.",
+      "spoken": "وكتبدا تحس بالحساسية للبارد والحلو.",
+      "durationInSeconds": 2.011429,
+      "provider": "recording"
+    },
+    "s5-0": {
+      "file": "voiceover/CarieDarija/recordings/s5-0.mp3",
+      "text": "إلا وصل للعرق ديال السن، فين كاين العصب والأوعية الدموية،",
+      "spoken": "إلا وصل للعرق ديال السن، فين كاين العصب والأوعية الدموية،",
+      "durationInSeconds": 3.291429,
+      "provider": "recording"
+    },
+    "s5-1": {
+      "file": "voiceover/CarieDarija/recordings/s5-1.mp3",
+      "text": "يقدر يسبب التهاب وألم قوي.",
+      "spoken": "يقدر يسبب التهاب وألم قوي.",
+      "durationInSeconds": 2.037551,
+      "provider": "recording"
+    },
+    "s6-0": {
+      "file": "voiceover/CarieDarija/recordings/s6-0.mp3",
+      "text": "فهاد الحالة، ممكن تحتاج قتيل العرق باش نحافظو على السن.",
+      "spoken": "فهاد الحالة، ممكن تحتاج قتيل العرق باش نحافظو على السن.",
+      "durationInSeconds": 3.160816,
+      "provider": "recording"
+    },
+    "s7-0": {
+      "file": "voiceover/CarieDarija/recordings/s7-0.mp3",
+      "text": "النصيحة ديالي: ما تستناش حتى يوجعك سنك،",
+      "spoken": "النصيحة ديالي: ما تستناش حتى يوجعك سنك،",
+      "durationInSeconds": 2.35102,
+      "provider": "recording"
+    },
+    "s7-1": {
+      "file": "voiceover/CarieDarija/recordings/s7-1.mp3",
+      "text": "الكشف المبكر كيقدر ينقذ ليك سنانك!",
+      "spoken": "الكشف المبكر كيقدر ينقذ ليك سنانك!",
+      "durationInSeconds": 1.906939,
+      "provider": "recording"
+    }
   }
 }

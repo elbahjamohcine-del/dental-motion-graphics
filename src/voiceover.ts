@@ -94,10 +94,12 @@ export const layoutVoice = (
   voice: VoiceSettings,
   entries: Record<string, ManifestEntry>,
   fps: number,
+  // Optional per-scene minimum lead-in (frames), e.g. to let a hook sound play first.
+  minLeadIns: number[] = [],
 ) => {
   const clips: (Omit<VoiceClip, "from"> & { offset: number })[] = [];
   const durations = configured.map((duration, sceneIndex) => {
-    let cursor = leadIn(sceneIndex, transition);
+    let cursor = Math.max(leadIn(sceneIndex, transition), minLeadIns[sceneIndex] ?? 0);
     let hasClip = false;
     for (const line of lines.filter((l) => l.sceneIndex === sceneIndex)) {
       const entry = entries[line.key];

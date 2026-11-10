@@ -59,6 +59,8 @@ export const applyStoryVoiceover = (
     story.voiceover,
     entries,
     fps,
+    // The voice waits ~1 s after a scene sound (the hook's stinger hit).
+    story.scenes.map((s) => (s.sound ? Math.round((s.sound.at + 1) * fps) : 0)),
   );
   const adjusted = {
     ...story,
