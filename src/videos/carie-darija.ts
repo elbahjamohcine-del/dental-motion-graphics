@@ -26,7 +26,9 @@ export const carieDarija: StoryContent = {
   presenter: clinic.presenter,
   brand: clinic.brand,
   voiceover: clinic.voiceover,
-  music: clinic.music,
+  // Quieter than the other videos, and silent under the hook's stinger
+  // (it fades in over ~3.5 s) so the scary sound hits first.
+  music: { ...clinic.music, volume: 0.15, duckedVolume: 0.05, fadeInFrames: 110 },
   sfx: clinic.sfx,
   theme: clinic.theme,
   transitionDurationInFrames: 15,
@@ -45,7 +47,7 @@ export const carieDarija: StoryContent = {
     {
       kind: "image",
       headline: { text: "خد منفوخ… من نقطة صغيرة!", highlight: "خد منفوخ", at: 0.15, until: 2.5 },
-      sound: { name: "hook-stinger", at: 0, volume: 0.9 },
+      sound: { name: "hook-stinger", at: 0, volume: 1 },
       images: [
         { src: img("hook-abscess"), at: 0 },
         { src: img("1-enamel"), at: 2.6 },
