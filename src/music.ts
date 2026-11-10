@@ -22,9 +22,11 @@ export const musicVolumeAt = (
     );
     return Math.max(max, amount);
   }, 0);
+  const start = music.startFrame ?? 0;
   const level = interpolate(duck, [0, 1], [music.volume, music.duckedVolume]);
   const fade = Math.min(
-    interpolate(frame, [0, Math.max(1, music.fadeInFrames)], [0, 1], {
+    interpolate(frame, [start, start + Math.max(1, music.fadeInFrames)], [0, 1], {
+      extrapolateLeft: "clamp",
       extrapolateRight: "clamp",
     }),
     interpolate(frame, [total - Math.max(1, music.fadeOutFrames), total], [1, 0], {

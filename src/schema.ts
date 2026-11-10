@@ -140,6 +140,7 @@ export const musicSchema = z.object({
   duckedVolume: z.number().min(0).max(1).describe("Volume under the voice-over"),
   fadeInFrames: z.number().int().min(0),
   fadeOutFrames: z.number().int().min(0),
+  startFrame: z.number().int().min(0).optional().describe("Music starts here (e.g. after a hook sound)"),
 });
 
 export const sfxSchema = z.object({

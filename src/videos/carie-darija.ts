@@ -26,9 +26,9 @@ export const carieDarija: StoryContent = {
   presenter: clinic.presenter,
   brand: clinic.brand,
   voiceover: clinic.voiceover,
-  // Quieter than the other videos, and silent under the hook's stinger
-  // (it fades in over ~3.5 s) so the scary sound hits first.
-  music: { ...clinic.music, volume: 0.15, duckedVolume: 0.05, fadeInFrames: 110 },
+  // Quieter than the other videos, and only starts at 3.5 s so the hook's
+  // scary sound plays alone.
+  music: { ...clinic.music, volume: 0.15, duckedVolume: 0.05, fadeInFrames: 30, startFrame: 105 },
   sfx: clinic.sfx,
   theme: clinic.theme,
   transitionDurationInFrames: 15,

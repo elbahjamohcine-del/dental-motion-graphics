@@ -425,11 +425,13 @@ export const StoryReel: React.FC<StoryContent> = (story) => {
         <ProgressBar timeline={timeline} totalDuration={total} />
         {story.showSubtitles ? <Subtitles cues={cues} /> : null}
         {story.music.src ? (
-          <Html5Audio
-            src={staticFile(story.music.src)}
-            loop
-            volume={(f) => musicVolumeAt(f, total, story.music, voiceClips)}
-          />
+          <Sequence from={story.music.startFrame ?? 0} layout="none">
+            <Html5Audio
+              src={staticFile(story.music.src)}
+              loop
+              volume={(f) => musicVolumeAt(f + (story.music.startFrame ?? 0), total, story.music, voiceClips)}
+            />
+          </Sequence>
         ) : null}
         {sfx.map((cue, i) => (
           <Sequence key={`sfx-${i}`} from={cue.from} durationInFrames={cue.length ?? 40} layout="none">
