@@ -55,16 +55,7 @@ export const carieDarija: StoryContent = {
       ...lines("وجه منفوخ وألم ما كيتحملش… وكلشي بدا بنقطة كحلة صغيرة فالسنة!"),
       durationInFrames: 150,
     },
-    // 2. Title
-    {
-      kind: "intro",
-      images: [],
-      labels: [],
-      camera: { from: { scale: 1, x: 50, y: 50 }, to: { scale: 1, x: 50, y: 50 } },
-      ...lines("واش عارف أن تسوس صغير يقدر يوصل حتى للعصب ديال السن؟"),
-      durationInFrames: 120,
-    },
-    // 3. Anatomy of a healthy tooth
+    // 2. Anatomy of a healthy tooth
     {
       kind: "image",
       chip: "السنة من الداخل",
@@ -77,9 +68,9 @@ export const carieDarija: StoryContent = {
       ],
       camera: { from: { scale: 1, x: 50, y: 40 }, to: { scale: 1.08, x: 50, y: 35 } },
       ...lines("السنة فيها تلاتة د الطبقات:", "المينا، العاج، واللب فين كاين العصب والأوعية الدموية."),
-      durationInFrames: 195,
+      durationInFrames: 210,
     },
-    // 4. Stage 1: enamel
+    // 3. Stage 1: enamel
     {
       kind: "image",
       chip: `المرحلة 1 · ${fr("Émail")}`,
@@ -93,9 +84,9 @@ export const carieDarija: StoryContent = {
       ],
       camera: { from: { scale: 1.08, x: 50, y: 35 }, to: { scale: 1.2, x: 50, y: 25 } },
       ...lines("فالأول، التسوس كيبدا فالمينا، وغالبا ما كيوجعش."),
-      durationInFrames: 165,
+      durationInFrames: 180,
     },
-    // 5. Stage 2: dentin
+    // 4. Stage 2: dentin
     {
       kind: "image",
       chip: `المرحلة 2 · ${fr("Dentine")}`,
@@ -106,9 +97,9 @@ export const carieDarija: StoryContent = {
       ],
       camera: { from: { scale: 1.2, x: 50, y: 25 }, to: { scale: 1.28, x: 50, y: 28 } },
       ...lines("ومن بعد كيدخل للعاج،", "وكتبدا تحس بالحساسية للبارد والحلو."),
-      durationInFrames: 195,
+      durationInFrames: 210,
     },
-    // 6. Stage 3: pulp
+    // 5. Stage 3: pulp
     {
       kind: "image",
       chip: `المرحلة 3 · ${fr("Pulpe")}`,
@@ -122,9 +113,9 @@ export const carieDarija: StoryContent = {
         "إلا وصل للب ديال السن، فين كاين العصب والأوعية الدموية،",
         "يقدر يسبب التهاب وألم قوي.",
       ),
-      durationInFrames: 225,
+      durationInFrames: 240,
     },
-    // 7. Treatment: root canal
+    // 6. Treatment: root canal
     {
       kind: "image",
       chip: "العلاج · علاج العصب",
@@ -135,16 +126,16 @@ export const carieDarija: StoryContent = {
       ],
       camera: { from: { scale: 1.1, x: 50, y: 40 }, to: { scale: 1, x: 50, y: 35 } },
       ...lines("فهاد الحالة، ممكن تحتاج علاج العصب باش نحافظو على السن."),
-      durationInFrames: 195,
+      durationInFrames: 210,
     },
-    // 8. Advice + end card
+    // 7. Advice + end card
     {
       kind: "end",
       images: [],
       labels: [],
       camera: { from: { scale: 1, x: 50, y: 50 }, to: { scale: 1, x: 50, y: 50 } },
       ...lines("النصيحة ديالي: ما تستناش حتى يوجعك سنك،", "الكشف المبكر كيقدر ينقذ ليك سنانك!"),
-      durationInFrames: 225,
+      durationInFrames: 240,
     },
   ],
 };
