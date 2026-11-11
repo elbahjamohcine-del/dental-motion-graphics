@@ -22,6 +22,9 @@ export const iconNames = [
   "pillow",
   "thermometer",
   "warning",
+  "syringe",
+  "endoFile",
+  "canalFill",
 ] as const;
 
 export const iconSchema = z.enum(iconNames);

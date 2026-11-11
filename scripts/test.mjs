@@ -80,7 +80,7 @@ for (const composition of compositions) {
 // with the voice-over.
 for (const c of compositions.filter((c) => !isStill(c))) {
   const seconds = c.durationInFrames / c.fps;
-  const max = c.id === "CarieDarija" ? 50 : 35;
+  const max = ["CarieDarija", "RootCanalDarija"].includes(c.id) ? 50 : 35;
   if (seconds > max) {
     errors.push(new Error(`${c.id} is ${seconds.toFixed(1)} s: shorten the narration (max ${max} s)`));
   }

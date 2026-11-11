@@ -18,6 +18,7 @@ import "../fonts";
 import { AnimatedTitle } from "../components/AnimatedTitle";
 import { Background } from "../components/Background";
 import { CornerPresenter } from "../components/CornerPresenter";
+import { IconBadge } from "../components/IconBadge";
 import { Pill } from "../components/Pill";
 import { PresenterBadge } from "../components/PresenterBadge";
 import { ProgressBar } from "../components/ProgressBar";
@@ -242,6 +243,110 @@ const Headline: React.FC<{ headline: NonNullable<StoryScene["headline"]> }> = ({
   );
 };
 
+// The presenter full screen, speaking (placeholder: the full portrait with a
+// slow push-in; the presenter's own video takes its place once recorded).
+const TalkScene: React.FC<{ story: StoryContent; scene: StoryScene }> = ({ story, scene }) => {
+  const frame = useCurrentFrame();
+  const { fps, durationInFrames } = useVideoConfig();
+  const c = useColors();
+  const zoom = interpolate(frame, [0, durationInFrames], [1.04, 1.14]);
+  const tagIn = spring({ frame: frame - 10, fps, config: { damping: 14 } });
+  return (
+    <AbsoluteFill style={{ backgroundColor: c.navyDeep }}>
+      <Img
+        src={staticFile(story.presenter.fullImage)}
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          objectPosition: "50% 20%",
+          transform: `scale(${zoom})`,
+          transformOrigin: "50% 30%",
+        }}
+      />
+      {/* Darker bottom so the subtitles stay readable. */}
+      <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(6,22,43,0) 55%, rgba(6,22,43,0.55) 100%)" }} />
+      {scene.headline ? <Headline headline={scene.headline} /> : null}
+      {/* Name tag (lower third), above the subtitles. */}
+      <div style={{ position: "absolute", top: 1150, left: 0, right: 0, display: "flex", justifyContent: "center" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 18,
+            padding: "14px 30px",
+            borderRadius: 999,
+            background: c.navy,
+            boxShadow: "0 14px 34px rgba(0,0,0,0.3)",
+            opacity: tagIn,
+            transform: `translateY(${(1 - tagIn) * 24}px)`,
+          }}
+        >
+          <div style={{ width: 16, height: 16, borderRadius: "50%", background: c.turquoise }} />
+          <DirectionOverride direction="ltr">
+            <div style={{ fontFamily: FONTS.title, fontWeight: 800, fontSize: 32, color: c.white }}>
+              {story.presenter.name}
+            </div>
+          </DirectionOverride>
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+// Numbered steps with self-drawing icons, each one appearing with its line.
+const StepsScene: React.FC<{ scene: StoryScene; lineStarts: (number | undefined)[] }> = ({ scene, lineStarts }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const c = useColors();
+  const steps = scene.steps ?? [];
+  return (
+    <AbsoluteFill>
+      <Background variant="light" />
+      {scene.chip ? (
+        <div style={{ position: "absolute", top: 205, left: 0, right: 0, display: "flex", justifyContent: "center" }}>
+          <Pill text={scene.chip} color={c.white} background={c.navy} dotColor={c.turquoise} delay={4} fontSize={36} />
+        </div>
+      ) : null}
+      <AbsoluteFill style={{ paddingTop: 380, paddingInline: 70, gap: 44, display: "flex", flexDirection: "column" }}>
+        {steps.map((step, i) => {
+          const start = lineStarts[step.line] ?? Math.round(step.at * fps);
+          const enter = spring({ frame: frame - start, fps, config: { damping: 13 } });
+          const active =
+            frame >= start && (i === steps.length - 1 || frame < (lineStarts[steps[i + 1].line] ?? Math.round(steps[i + 1].at * fps)));
+          return (
+            <div
+              key={i}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 34,
+                padding: "26px 34px",
+                borderRadius: 36,
+                background: c.white,
+                border: `4px solid ${active ? c.turquoise : "transparent"}`,
+                boxShadow: active ? "0 22px 50px rgba(20,184,166,0.28)" : "0 14px 34px rgba(11,37,69,0.12)",
+                opacity: enter,
+                transform: `translateX(${interpolate(enter, [0, 1], [80, 0])}px) scale(${active ? 1.03 : 1})`,
+              }}
+            >
+              <IconBadge icon={step.icon} size={170} delay={start} />
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                <div style={{ fontFamily: FONTS.title, fontWeight: 800, fontSize: 40, color: c.turquoise }}>
+                  {i + 1}
+                </div>
+                <div style={{ fontFamily: FONTS.title, fontWeight: 800, fontSize: 52, color: c.navy, lineHeight: 1.25 }}>
+                  {step.text}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </AbsoluteFill>
+    </AbsoluteFill>
+  );
+};
+
 // Hook: the presenter's portrait and the title.
 export const IntroScene: React.FC<{ story: StoryContent }> = ({ story }) => {
   const frame = useCurrentFrame();
@@ -366,16 +471,17 @@ export const StoryReel: React.FC<StoryContent> = (story) => {
     return list.map((s) => ({ ...s, volume: s.volume * story.sfx.volume }));
   }, [story, timeline]);
 
-  // Corner portrait during each run of image scenes (not over a headline).
+  // Corner portrait during each run of image / steps scenes (not over a headline).
+  const withBubble = (scene: StoryScene) => (scene.kind === "image" || scene.kind === "steps") && !scene.headline;
   const cornerRuns = useMemo(() => {
     const runs: { from: number; to: number }[] = [];
     story.scenes.forEach((scene, i) => {
       const t = timeline[i];
-      if (scene.kind !== "image" || scene.headline) return;
+      if (!withBubble(scene)) return;
       const from = t.from + Math.floor(T / 2);
       const to = t.from + t.durationInFrames - Math.floor(T / 2);
       const last = runs.at(-1);
-      if (last && story.scenes[i - 1]?.kind === "image" && !story.scenes[i - 1].headline) last.to = to;
+      if (last && i > 0 && withBubble(story.scenes[i - 1])) last.to = to;
       else runs.push({ from, to });
     });
     return runs;
@@ -384,6 +490,7 @@ export const StoryReel: React.FC<StoryContent> = (story) => {
   const transitionFor = (from: StoryScene, to: StoryScene): AnyPresentation => {
     if (to.kind === "end") return iris({ width: W, height: H });
     if (from.kind === "intro") return slide({ direction: "from-bottom" });
+    if (from.kind === "talk" || to.kind === "talk") return slide({ direction: "from-right" });
     return fade(); // same tooth, next stage: a smooth dissolve
   };
 
@@ -398,6 +505,16 @@ export const StoryReel: React.FC<StoryContent> = (story) => {
                   <IntroScene story={story} />
                 ) : scene.kind === "end" ? (
                   <EndScene story={story} />
+                ) : scene.kind === "talk" ? (
+                  <TalkScene story={story} scene={scene} />
+                ) : scene.kind === "steps" ? (
+                  <StepsScene
+                    scene={scene}
+                    lineStarts={scene.voice.map((_, j) => {
+                      const clip = voiceClips.find((v) => v.sceneIndex === i && v.lineIndex === j);
+                      return clip ? clip.from - timeline[i].from : undefined;
+                    })}
+                  />
                 ) : (
                   <ImageScene scene={scene} />
                 )}

@@ -2,7 +2,15 @@
 // camera move and labels, or the presenter), a voice-over in one language and
 // subtitles in another (e.g. Darija voice, French subtitles), and an end card.
 import { z } from "zod";
-import { musicSchema, presenterSchema, sfxSchema, themeSchema, voiceClipSchema, voiceoverSchema } from "../schema";
+import {
+  iconSchema,
+  musicSchema,
+  presenterSchema,
+  sfxSchema,
+  themeSchema,
+  voiceClipSchema,
+  voiceoverSchema,
+} from "../schema";
 
 // A point of the 9:16 frame, in % of its width (x) and height (y).
 const point = { x: z.number().min(0).max(100), y: z.number().min(0).max(100) };
@@ -15,7 +23,14 @@ export const storyLabelSchema = z.object({
 });
 
 export const storySceneSchema = z.object({
-  kind: z.enum(["intro", "image", "end"]),
+  // intro: title card · image: anatomy image(s) · talk: the presenter full
+  // screen · steps: numbered steps with icons · end: end card.
+  kind: z.enum(["intro", "image", "talk", "steps", "end"]),
+  // For `steps`: each one appears when narration line `line` of the scene
+  // starts (or at `at` seconds when there is no voice-over yet).
+  steps: z
+    .array(z.object({ icon: iconSchema, text: z.string(), line: z.number().int().min(0), at: z.number().min(0) }))
+    .optional(),
   chip: z.string().optional().describe("Small title at the top, e.g. « Stade 1 · Émail »"),
   // Big punchy text over the image (used for the hook).
   headline: z
